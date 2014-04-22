@@ -1,9 +1,11 @@
 mins=10;
 
-tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 17), 'enum', datenum(2013, 5, 18), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
-tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 16), 'enum', datenum(2013, 5, 17), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
-tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 15), 'enum', datenum(2013, 5, 16), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
-tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 14), 'enum', datenum(2013, 5, 15), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
+%tremor_loadwaveformdata('thissubnet', 'Montserrat', 'snum', datenum(1997, 6, 25), 'enum', datenum(1997, 6, 26), 'delaymins', 0, 'matfile', 'pf/MV.mat', 'nummins', mins, 'mode', 'archive');
+tremor_loadwaveformdata('thissubnet', 'Montserrat', 'snum', datenum(2001,7,29), 'enum', datenum(2001,7,30), 'delaymins', 0, 'matfile', 'pf/MN20010729.mat', 'nummins', mins, 'mode', 'archive');
+%tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 17), 'enum', datenum(2013, 5, 18), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
+%tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 16), 'enum', datenum(2013, 5, 17), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
+%tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 15), 'enum', datenum(2013, 5, 16), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
+%tremor_loadwaveformdata('thissubnet', 'Pavlof', 'snum', datenum(2013, 5, 14), 'enum', datenum(2013, 5, 15), 'delaymins', 0, 'matfile', 'pf/tremor_runtime.mat', 'nummins', mins, 'mode', 'archive');
 
 %tremor_loadwaveformdata('thisubnet', 'Redoubt', 'snum', datenum(2009, 3, 23, 0, 0, 0), 'enum', datenum(2009, 4, 5), 'nummins', mins, 'mode', 'archive');
 %tremor_loadwaveformdata('thisubnet', 'Redoubt', 'snum', datenum(2009, 3, 19), 'enum', datenum(2009, 3, 23), 'nummins', mins, 'mode', 'archive');

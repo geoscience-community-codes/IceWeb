@@ -6,17 +6,17 @@ Processes &Tbl{
 # Removed rtrun_matlab on 20130123 as it was crashing
 rtrun_loadwaveformdata	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_loadwaveforms('delaymins', 10)"
 rtrun_loadmissingdata	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_loadwaveforms('snum', utnow-1/24, 'delaymins', 30)"
-rtrun_dealwaveformfiles	rtrun  matlab -display :0 -nodesktop -nosplash -r rtrun_dealwaveformfiles
-rtrun_tremorwrapper1	rtrun matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(1)"
-rtrun_tremorwrapper2	rtrun matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(2)"
-rtrun_tremorwrapper3	rtrun matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(3)"
-rtrun_tremorwrapper4	rtrun matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(4)"
+rtrun_dealwaveformfiles	rtrun matlab -display :0 -nodesktop -nosplash -r rtrun_dealwaveformfiles
+rtrun_tremorwrapper1	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(1)"
+rtrun_tremorwrapper2	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(2)"
+rtrun_tremorwrapper3	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(3)"
+rtrun_tremorwrapper4	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(4)"
 rtrun_tremorwrapper5	rtrun  matlab -display :0 -nodesktop -nosplash -r "rtrun_tremorwrapper(5)"
 }
 
 Run     &Arr{
-rtrun_loadwaveformdata	yes
-rtrun_loadmissingdata	yes
+rtrun_loadwaveformdata	no
+rtrun_loadmissingdata	no
 rtrun_dealwaveformfiles	yes
 rtrun_tremorwrapper1	yes
 rtrun_tremorwrapper2	yes
@@ -40,8 +40,9 @@ Defines &Arr{
 ANTELOPE	PRESERVE
 SITE_DB	dbmaster/master_stations
 ELOG_MAXMSG 	0
-MATFILE	pf/tremor_runtime.mat
-#MATFILE	pf/tremor_test_colorbar.mat
+#RUNTIMEMATFILE	pf/tremor_runtime.mat
+#RUNTIMEMATFILE	pf/tremor_test_colorbar.mat
+RUNTIMEMATFILE	/home/t/thompsong/run_tremor/pf/MN20010729.mat
 }
 
 Env     &Arr{
@@ -60,8 +61,8 @@ SHELL			PRESERVE
 PERL5LIB		PRESERVE
 # needed by spectrograms
 SITE_DB	$SITE_DB
-MATLAB_ANTELOPE	$ANTELOPE/local/data/matlab/2010a/antelope
-MATFILE	$MATFILE
+MATLAB_ANTELOPE	$ANTELOPE/local/data/matlab/antelope
+RUNTIMEMATFILE	$RUNTIMEMATFILE
 }
 
 # Start/restart parameters

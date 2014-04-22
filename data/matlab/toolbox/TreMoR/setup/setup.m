@@ -1,22 +1,22 @@
 function setup(varargin)
-[runmode] = matlab_extensions.process_options(varargin, 'runmode', 'manual');
+[runmode, checklivedata, snum, enum, RUNTIMEMATFILE, dbpath] = matlab_extensions.process_options(varargin, 'runmode', 'manual', 'checklivedata', true, 'snum', utnow-1.0, 'enum', utnow-0.1, 'RUNTIMEMATFILE', 'pf/tremor_runtime.mat', 'dbpath', '');
 if strcmp(runmode, 'manual')
-	disp('Use this function to generate a MATLAB workspace for running the spectrograms from an Antelope-style parameter file (default: setup.pf). The MATLAB workspace, stored in a matfile, will contain a structures describing filesystem paths, spectrogram parameters, and a list of subnets and their coordinates, and for each subnet a list of station and channels, coordinates and calibration values. Since all of these variables change relatively infrequently, it is efficient to store them in a .mat file, rather than generate them from parameter/configuration files each time spectrograms are generated.')
+	disp('Use this function to generate a MATLAB workspace for running the spectrograms from an Antelope-style parameter file (default: setup.pf). The MATLAB workspace, stored in a RUNTIMEMATFILE, will contain a structures describing filesystem paths, spectrogram parameters, and a list of subnets and their coordinates, and for each subnet a list of station and channels, coordinates and calibration values. Since all of these variables change relatively infrequently, it is efficient to store them in a .mat file, rather than generate them from parameter/configuration files each time spectrograms are generated.')
 	disp('There are two ways to generate the subnet and associated station-channel metadata. The first is to use the list of subnets in the setup parameter file, and then use the Antelope master stations database to choose the best station-channels using a channel mask and an exclude file listing bad station-channels. The second is to hand-create a configuration file containing these metadata (default: subnets.d).')
 	choice = menu('Source for subnet definitions:', 'Generate from setup parameter file', 'Generate from existing (hand-edited) configuration file', 'Quit');
 	switch choice
-		case 1, pf2matfile();
-		case 2, configurationfile2matfile();
+		case 1, pf2RUNTIMEMATFILE('checklivedata', checklivedata, 'snum', snum, 'enum', enum, 'dbpath', dbpath);
+		case 2, configurationfile2RUNTIMEMATFILE();
 		case 3, return;
 		otherwise return;
 	end
 else
 	if strcmp(runmode, 'auto')
-		pf2matfile('runmode','auto');
+		pf2RUNTIMEMATFILE('runmode','auto','snum',snum,'enum',enum,'RUNTIMEMATFILE',RUNTIMEMATFILE, 'dbpath', dbpath);
 	end
 end
 
-function pf2matfile(varargin)
+function pf2RUNTIMEMATFILE(varargin)
 % PF2MATFILE
 % Create a subnets.d and tremor_runtime.mat file from the subnets list in the setup.pf
 % 
@@ -27,13 +27,13 @@ function pf2matfile(varargin)
 
 MAX_CHANNELS_TO_FIND = 40;
 
-[runmode, setupfile, excludefile, subnetsdfile, matfile] = matlab_extensions.process_options(varargin, 'runmode', 'manual', 'setupfile', 'pf/setup.pf', 'excludefile', 'pf/exclude_scnl.d', 'subnetsdfile', 'pf/subnets.d', 'matfile', 'pf/tremor_runtime.mat');
+[runmode, setupfile, excludefile, subnetsdfile, RUNTIMEMATFILE, checklivedata, snum, enum, dbpath] = matlab_extensions.process_options(varargin, 'runmode', 'manual', 'setupfile', 'pf/setup.pf', 'excludefile', 'pf/exclude_scnl.d', 'subnetsdfile', 'pf/subnets.d', 'RUNTIMEMATFILE', 'pf/tremor_runtime.mat','checklivedata',true, 'snum', utnow-1.0, 'enum', utnow-0.1, 'dbpath', '');
 if strcmp(runmode, 'manual')
 	% Get user verification of filenames
 	setupfile = dinput('Path of setup parameter file: ', setupfile);
 	excludefile = dinput('Path of file containing station-channel-network combinations to exclude from spectrograms: ', excludefile);
 	subnetsdfile = dinput('Path of Earthworm-style configuration file to create: ', subnetsdfile);
-	matfile = dinput('Path of Matlab workspace (.mat) file to create: ', matfile);
+	RUNTIMEMATFILE = dinput('Path of Matlab workspace (.mat) file to create: ', RUNTIMEMATFILE);
 end
 if ~exist(setupfile, 'file')
 	error(sprintf('%s does not exist. Please create it first', setupfile));
@@ -51,21 +51,25 @@ if exist(subnetsdfile, 'file')
 	warning(sprintf('%s already exists. The current version will be renamed to %s', subnetsdfile, oldsubnetsdfile));
 end
 
-if exist(matfile, 'file')
+if exist(RUNTIMEMATFILE, 'file')
 	% archive current version of file with a timestamp reflecting last modification date
-	filemetadata = dir(matfile);
-    	oldmatfile = sprintf('%s.%s',matfile,datestr(filemetadata.datenum, 30));
-    	system(sprintf('mv %s %s',matfile,oldmatfile));
-	warning(sprintf('%s already exists. The current version will be renamed to %s', matfile, oldmatfile));
+	filemetadata = dir(RUNTIMEMATFILE);
+    	oldRUNTIMEMATFILE = sprintf('%s.%s',RUNTIMEMATFILE,datestr(filemetadata.datenum, 30));
+    	system(sprintf('mv %s %s',RUNTIMEMATFILE,oldRUNTIMEMATFILE));
+	warning(sprintf('%s already exists. The current version will be renamed to %s', RUNTIMEMATFILE, oldRUNTIMEMATFILE));
 end
 
 [paths,PARAMS,subnets]=pf2PARAMS(setupfile);
-for c=1:numel(PARAMS.datasource)
+if isempty(dbpath)
+    for c=1:numel(PARAMS.datasource)
         if strcmp(PARAMS.datasource(c).type, 'antelope')
                 gismo_datasource(c) = datasource(PARAMS.datasource(c).type, PARAMS.datasource(c).path);
         else
                 gismo_datasource(c) = datasource(PARAMS.datasource(c).type, PARAMS.datasource(c).path, str2num(PARAMS.datasource(c).port));
         end
+    end
+else
+    gismo_datasource = datasource('antelope', dbpath)
 end
 
 subnetnames = {subnets.name};
@@ -94,7 +98,10 @@ for c=1:length(subnetnames)
     thissubnet = subnets(c);
 
     % Find up to MAX_CHANNELS_TO_FIND scnls matching the channel mask within radius(km) of subnet latitude/longitude
-    thissubnet.stations = getStationsWithinDist(thissubnet.source.longitude, thissubnet.source.latitude, thissubnet.radius, paths.DBMASTER, MAX_CHANNELS_TO_FIND);
+    thissubnet.stations = getStationsWithinDist(thissubnet.source.longitude, thissubnet.source.latitude, thissubnet.radius, paths.DBMASTER, MAX_CHANNELS_TO_FIND, snum, enum);
+    if isempty(thissubnet.stations)
+        continue;
+    end
 
     % Add response data (calib only?) for each scnl
     for k=1:length(thissubnet.stations)
@@ -122,20 +129,23 @@ for c=1:length(subnetnames)
 	end
 
 	% If there are no waveform data within past 24 hours, don't even allow as an option
-	snum = utnow-1.1;
-	enum = utnow-0.1;
-	w = waveform_wrapper(thissubnet.stations(k).scnl, snum, enum, gismo_datasource);
-	if isempty(w)
+        if checklivedata
+	    w = waveform_wrapper(thissubnet.stations(k).scnl, snum, enum, gismo_datasource);
+	    if isempty(w)
 		percentagegot(k)=0.0;
 		outstr{k} = '#fail';
-	else
+	    else
 		percentagegot(k) = waveform_soh(w, snum, enum);
 		if (percentagegot(k) == 0.0)
 			outstr{k} = '#nodata';
 		else
 			outstr{k} = 'scn';
 		end
-	end
+	    end
+        else
+            percentagegot(k)=100.0
+            outstr{k} = 'scn';
+        end
 
 	% compute priority based on channel type, distance, and percentage of good data retrieved
 	switch thissubnet.stations(k).channel
@@ -187,6 +197,7 @@ for c=1:length(subnetnames)
 	thissubnet.use = 0;
     end
 
+
     % Now we have a successfully fleshed-out metadata for this subnet, let's reset subnets accordingly
     if thissubnet.use
 	newsubnet_num = newsubnet_num + 1;
@@ -206,17 +217,18 @@ for c=1:length(subnetnames)
     fprintf(fout, '\n\n'); % end of subnet
 
 end 
+if exist('newsubnets', 'var') 
+    save2mat(RUNTIMEMATFILE, newsubnets, paths, PARAMS);
 
-save2mat(matfile, newsubnets, paths, PARAMS);
-
-% update the subnets list for the spectrograms menu
-%choice = dinput('Update the list of subnets used for the web interface menus? (y/n) ', 'n');
-%if strcmp(choice, 'y')
+    % update the subnets list for the spectrograms menu
+    %choice = dinput('Update the list of subnets used for the web interface menus? (y/n) ', 'n');
+    %if strcmp(choice, 'y')
 	update_web_subnets(newsubnets, paths);
-%end
+    %end
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function configurationfile2matfile();
+function configurationfile2RUNTIMEMATFILE();
 % reads subnets.d file (which has probably been hand-edited) and write tremor_runtime.mat
 
 % Get user verification of filenames
@@ -228,13 +240,13 @@ subnetsdfile = dinput('Path of Earthworm-style configuration file: ', 'pf/subnet
 if ~exist(subnetsdfile, 'file')
 	error(sprintf('%s does not exist. Please create it first', subnetsdfile));
 end
-matfile = dinput('Path of Matlab workspace (.mat) file to create: ', 'pf/tremor_runtime.mat');
-if exist(matfile, 'file')
+RUNTIMEMATFILE = dinput('Path of Matlab workspace (.mat) file to create: ', 'pf/tremor_runtime.mat');
+if exist(RUNTIMEMATFILE, 'file')
 	% archive current version of file with a timestamp reflecting last modification date
-	filemetadata = dir(matfile);
-    	oldmatfile = sprintf('%s.%s',matfile,datestr(filemetadata.datenum, 30));
-    	system(sprintf('mv %s %s',matfile,oldmatfile));
-	warning(sprintf('%s already exists. The current version will be renamed to %s', matfile, oldmatfile));
+	filemetadata = dir(RUNTIMEMATFILE);
+    	oldRUNTIMEMATFILE = sprintf('%s.%s',RUNTIMEMATFILE,datestr(filemetadata.datenum, 30));
+    	system(sprintf('mv %s %s',RUNTIMEMATFILE,oldRUNTIMEMATFILE));
+	warning(sprintf('%s already exists. The current version will be renamed to %s', RUNTIMEMATFILE, oldRUNTIMEMATFILE));
 end
 
 [paths,PARAMS,subnets]=pf2PARAMS(setupfile);
@@ -288,7 +300,7 @@ while 1,
 end
 fclose(fin)
 
-save2mat(matfile, subnets, paths, PARAMS);
+save2mat(RUNTIMEMATFILE, subnets, paths, PARAMS);
 
 % update the subnets list for the spectrograms menu
 choice = dinput('Update the list of subnets used for the web interface menus? (y/n) ', 'n');
@@ -298,13 +310,13 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function save2mat(matfile, subnets, paths, PARAMS)
+function save2mat(RUNTIMEMATFILE, subnets, paths, PARAMS)
 % write pf/tremor_runtime.mat, preserve current version if it already exists
-if exist(matfile, 'file')
-    system(sprintf('mv %s %s.%s',matfile,matfile,datestr(now,30)));
+if exist(RUNTIMEMATFILE, 'file')
+    system(sprintf('mv %s %s.%s',RUNTIMEMATFILE,RUNTIMEMATFILE,datestr(now,30)));
 end
 
-save(matfile, 'subnets', 'paths', 'PARAMS');
+save(RUNTIMEMATFILE, 'subnets', 'paths', 'PARAMS');
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

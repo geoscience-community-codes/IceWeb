@@ -11,7 +11,7 @@ removelabels;
 tmpfile = sprintf('%s/%s_labelless%s',tmppath,tmpbase,tmpext);
 
 % print large labelless PNG
-saveImagefile(tmpfile, 72);
+saveImageFile(tmpfile, 72);
 
 % load then delete temporary file 
 I = imread(tmpfile);

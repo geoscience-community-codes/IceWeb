@@ -1,13 +1,14 @@
-function tremor_wrapper(waveformdir, matfile)
+function tremor_wrapper(waveformdir, runtimematfile)
 global paths PARAMS
 debug.printfunctionstack('>');
 %print_debug(sprintf('> %s at %s',mfilename, datestr(utnow,31)),1)
-if exist(matfile, 'file')
-    feval('load',matfile);
-else
-    disp('matfile not found')
-    return
-end
+%try
+    load(runtimematfile)
+%catch
+%    disp(sprintf('failed to load runtimematfile %s',runtimematfile))
+%    pwd
+%    return
+%end
 highpassfilterobject = filterobject('h', 0.5, 2);
 makeSamFiles = false;
 makeSoundFiles = false; 
@@ -29,7 +30,7 @@ while 1,
 	%%%%%%%%%%%%%%% ADD RESPONSE FROM SUBNETS TO WAVEFORM OBJECTS %%%%%%%%%
        	% Add response structures to waveform objects
 	tic;
-    [ w ] = waveform_addresponse( w, matfile, subnets, subnet );
+    [ w ] = waveform_addresponse( w, runtimematfile, subnets, subnet );
 	
 	logbenchmark('adding response structures to waveform objects', toc);
 
