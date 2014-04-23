@@ -220,27 +220,27 @@ function stats = waveform2stats(w, newFs)
 stats=[];
 for c=1:length(w)
     oldFs = get(w(c), 'freq');
-    cf = round(oldFs / newFs);
+    compression_factor = round(oldFs / newFs);
     if strcmp(get(w(c), 'units'), 'nm / sec')
-        stats(c).Vmax = makestat(w(c), 'absmax', cf);
-        stats(c).Vmedian = makestat(w(c), 'absmedian', cf);
-        stats(c).Vmean = makestat(w(c), 'absmean', cf);
+        stats(c).Vmax = makestat(w(c), 'absmax', compression_factor);
+        stats(c).Vmedian = makestat(w(c), 'absmedian', compression_factor);
+        stats(c).Vmean = makestat(w(c), 'absmean', compression_factor);
         %e = energy(s); 
-        %stats.Energy = e.resample('absmean', cf);, 
+        %stats.Energy = e.resample('absmean', compression_factor);, 
         w(c) = integrate(w(c));
     end
 
     if strcmp(get(w(c), 'units'), 'nm')
-        stats(c).Dmax = makestat(w(c), 'absmax', cf);
-        stats(c).Dmedian = makestat(w(c), 'absmedian', cf);
-        stats(c).Dmean = makestat(w(c),'absmean', cf);
-        stats(c).Drms = makestat(w(c), 'rms', cf);
+        stats(c).Dmax = makestat(w(c), 'absmax', compression_factor);
+        stats(c).Dmedian = makestat(w(c), 'absmedian', compression_factor);
+        stats(c).Dmean = makestat(w(c),'absmean', compression_factor);
+        stats(c).Drms = makestat(w(c), 'rms', compression_factor);
     end
 end
 
-function s=makestat(w, method, cf)
+function s=makestat(w, method, compression_factor)
 	try % rare error in waveform/resample
-        	wr = resample(w, method, cf);
+        	wr = resample(w, method, compression_factor);
         	s = waveform2sam(wr);
         	s.measure = method;
 	catch
