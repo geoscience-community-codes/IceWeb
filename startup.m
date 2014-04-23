@@ -1,4 +1,6 @@
-startup_universal
+cwd=pwd;
+startup_universal % need to modify this to use absolute paths
+cd(cwd);
 %warning off;
 %matlab_antelope=getenv('MATLAB_ANTELOPE');
 %addpath(genpath(matlab_antelope));
