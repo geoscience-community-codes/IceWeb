@@ -15,13 +15,40 @@ classdef sam
 % of a 4 byte floating number for each minute of the year, for a 
 % single station-channel.
 %
-% S = SAM() creates an empty SAM object.
+% s = sam() creates an empty SAM object.
 %
-% S = SAM(dnum, data) creates a SAM object from a vector of datenum's
+% s = sam('file', ) creates a SAM object from a vector of datenum's
 % and a corresponding vector of data.
 %
-% S = SAM(sta, chan, snum, enum, measure, datadir) can be used
+% s = sam(sta, chan, snum, enum, measure, datadir) can be used
 % to read BOB files and create a SAM object directly.
+%
+% s = sam('file', file, 'snum', snum, 'enum', enum, 'sta', sta, 'chan', chan, 'measure', measure, 'seismogram_type', seismogram_type, 'units', units)
+%
+% s = sam('file', file, 'snum', snum, 'enum', enum) can be used
+% to read BOB files and create a SAM object directly.
+%
+%     file        % the path to the file. Substitutions enabled
+%                 'SSSS' replaced with sta
+%                 'CCC' replaced with chan
+%                 'MMMM' replaced with measure
+%                 'YYYY' replaced with year (from snum:enum)
+%                 These allow looping over many year files
+%     snum        % the start datenum
+%     enum        % the end   datenum
+%     sta         % station
+%     chan        % channel
+%     measure     % statistical measure, default is 'mean'
+%     seismogram_type % e.g. 'velocity' or 'displacement', default is 'raw'
+%     units       % units to label y-axis, e.g. 'nm/s' or 'nm' or 'cm2', default is 'counts'
+%
+% Examples:
+%     s = sam('file', fullfile(MVO_DATA, 'RSAM_1', 'SSSSYYYY.DAT'), datenum(1996,1,1), datenum(1996, 2, 1), 'sta', 'MGHZ')
+% This is the same as:
+%     s = sam('file', fullfile(MVO_DATA, 'RSAM_1', 'MGHZ1996.DAT'), datenum(1996,1,1), datenum(1996, 2, 1))
+% But the first can load over multiple years, e.g.:
+%     s = sam('file', fullfile(MVO_DATA, 'RSAM_1', 'SSSSYYYY.DAT'), datenum(1996,1,1), datenum(2000, 6, 13), 'sta', 'MGHZ')
+            
 %
 % METHODS:
 % --------
@@ -39,16 +66,12 @@ classdef sam
 %   PLOTYY:
 %
 % Input & output files:
-%   TOTEXTFILE:
-%   MAKEBOBFILE:
-%   LOADBOBFILE:
-%   LOADWFMEASTABLE:
-%   SAVE2WFMEASTABLE:
+%   toTextFile:
+%   save:
+%   load:
 %
 % To other types of object:
 %   SAM2ENERGY:
-%   SAM2WAVEFORM: Convert SAM object into a WAVEFORM object (be careful!)
-%   
 %
 % % ------- DESCRIPTION OF FIELDS IN SAM OBJECT ------------------
 %   DNUM:   a vector of MATLAB datenum's
@@ -100,37 +123,6 @@ classdef sam
     methods(Access = public)
 
         function self=sam(varargin)
-            % sam_object = sam('file', file, 'snum', snum, 'enum', enum, 'sta', sta, 'chan', chan, 'measure', measure, 'seismogram_type', seismogram_type, 'units', units)
-            % 
-            % s = sam_object('file', file, 'snum', snum, 'enum', enum) will
-            %     load data from file from snum to enum
-            % 
-            %     file        % the path to the file. Substitutions enabled
-            %                 'SSSS' replaced with sta
-            %                 'CCC' replaced with chan
-            %                 'MMMM' replaced with measure
-            %                 'YYYY' replaced with year (from snum:enum)
-            %                 These allow looping over many year files
-            %     snum        % the start datenum
-            %     enum        % the end datenum
-            %
-            % waveform2rsam calls sam without a file argument, and then
-            %     gets the dnum and data arrays by downsampling the
-            %     waveform object
-            %
-            % Optional:
-            %     sta         % station
-            %     chan        % channel
-            %     measure     % statistical measure, default is 'mean'
-            %     seismogram_type % e.g. 'velocity' or 'displacement', default is 'raw'
-            %     units       % units to label y-axis, e.g. 'nm/s' or 'nm' or 'cm2', default is 'counts'
-            %                 
-            % Examples:
-            %     s = sam('file', fullfile(MVO_DATA, 'RSAM_1', 'SSSSYYYY.DAT'), datenum(1996,1,1), datenum(1996, 2, 1), 'sta', 'MGHZ')
-            % This is the same as:
-            %     s = sam('file', fullfile(MVO_DATA, 'RSAM_1', 'MGHZ1996.DAT'), datenum(1996,1,1), datenum(1996, 2, 1))
-            % But the first can load over multiple years, e.g.:
-            %     s = sam('file', fullfile(MVO_DATA, 'RSAM_1', 'SSSSYYYY.DAT'), datenum(1996,1,1), datenum(2000, 6, 13), 'sta', 'MGHZ')
             
             
             [file, self.snum, self.enum, self.sta, self.chan, self.measure, self.seismogram_type, self.units] = ...
@@ -202,10 +194,13 @@ classdef sam
    
                 % Substitute for year        
                 files(filenum).file = regexprep(files(filenum).file, 'YYYY', sprintf('%04d',yyyy) );
-                fprintf('Looking for file: %s\n',files(filenum).file);
+                fprintf('Looking for file: %s',files(filenum).file);
   
                 if exist(files(filenum).file, 'file')
-                    files(filenum).found = true
+                    files(filenum).found = true;
+                    fprintf(' - found\n');
+                else
+                    fprintf(' - not found\n');
                 end
             end
             self.files = files;
@@ -235,13 +230,19 @@ classdef sam
             end
 
             datapointsperday = 1440;
-            startsample = ceil( (f.snum-datenum(yyyy,1,1))*datapointsperday);
-            endsample   = (f.enum-datenum(yyyy,1,1)) *datapointsperday;
+            headersamples = 0;
+            tz=0;
+            if strfind(f.file,'RSAM')
+                headersamples=datapointsperday;
+                tz=-4;
+            end
+            startsample = ceil( (f.snum-datenum(yyyy,1,1))*datapointsperday)+headersamples;
+            endsample   = (f.enum-datenum(yyyy,1,1)) *datapointsperday + headersamples;
             %endsample   = floor( max([ datenum(yyyy,12,31,23,59,59) f.enum-datenum(yyyy,1,1) ]) *datapointsperday);
-            nsamples    = endsample - startsample;
+            nsamples    = endsample - startsample + 1;
 
             % create dnum & blank data vector
-            dnum = matlab_extensions.ceilminute(f.snum)+(0:nsamples-1)/datapointsperday;
+            dnum = matlab_extensions.ceilminute(f.snum)+(0:nsamples-1)/datapointsperday - tz/24;
             data(1:length(dnum))=NaN;
             
             if f.found    
@@ -279,35 +280,18 @@ classdef sam
 
             % eliminate any data outside range asked for - MAKE THIS A
             % SEPARATE FN IF AT ALL
-            %i = find(self.dnum >= self.snum & self.dnum <= self.enum);
-            %self.dnum = self.dnum(i);
-            %self.data = self.data(i);
+            i = find(self.dnum >= self.snum & self.dnum <= self.enum);
+            self.dnum = self.dnum(i);
+            self.data = self.data(i);
+            
+            % Fill NULL values with NaN
+            i = find(self.data == -998);
+            self.data(i) = NaN;
+            i = find(self.data == 0);
+            self.data(i) = NaN;
+            
         end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-        function self = downsample(self, minutes)
-            % Deprecated? use resample instead?
-            % downsample to screen resolution, or given number of minutes
-            t = self.dnum;
-            y = self.data;
-            fs = self.Fs();
-            samplingIntervalMinutes = 1.0 / (60 * fs)
-            if ~exist('minutes', 'var')
-                choices = [1 2 5 10 30 60 120 240 360 ];
-                days = max(t) - min(t)
-                choice=max(find(days > choices));
-                minutes=choices(choice);
-            end
-            crunchfactor = round(minutes / samplingIntervalMinutes)
-            if isempty(self.measure)
-                self.measure = 'mean';
-            end
-            if crunchfactor > 1
-                self = resample(self, self.measure, crunchfactor);
-                %[t, y]=downsamplegt(t, y, minutes / samplingIntervalMinutes);
-                debug.print_debug(sprintf('Downsampling data by %d', minutes),3)
-            end
-        end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
         function fs = Fs(self)
             l = length(self.dnum);
@@ -315,7 +299,7 @@ classdef sam
             fs = 1.0/(median(s)*86400);
         end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-        function toTextFile(self, filepath);
+        function toTextFile(self, filepath)
            % toTextFile(filepath);
             %
             fout=fopen(filepath, 'w');
@@ -390,9 +374,10 @@ classdef sam
                     ytl = yt';
                     ylim = get(gca, 'YLim');
                     set(gca, 'YLim', [0 ylim(2)],'YTick',yt);
-                    ylabelstr = sprintf('%s.%s %s (%s)', self.sta, self.chan, self.measure, self.units)
+                    %ylabelstr = sprintf('%s.%s %s (%s)', self.sta, self.chan, self.measure, self.units);
+                    ylabelstr = sprintf('%s', self.sta);
                     ylabel(ylabelstr)
-                    datetick('x')
+                    datetick('x','keeplimits')
                 end
 
                 if addgrid
@@ -406,9 +391,51 @@ classdef sam
 
             end
         end
+        function scrollplot(s)
+
+            % Created by Steven Lord, slord@mathworks.com
+            % Uploaded to MATLAB Central
+            % http://www.mathworks.com/matlabcentral
+            % 7 May 2002
+            %
+            % Permission is granted to adapt this code for your own use.
+            % However, if it is reposted this message must be intact.
+
+            % Generate and plot data
+            x=s.dnum();
+            y=s.data();
+            dx=1;
+            %% dx is the width of the axis 'window'
+            a=gca;
+            p=plot(x,y);
+
+            % Set appropriate axis limits and settings
+            set(gcf,'doublebuffer','on');
+            %% This avoids flickering when updating the axis
+            set(a,'xlim',[min(x) min(x)+dx]);
+            set(a,'ylim',[min(y) max(y)]);
+
+            % Generate constants for use in uicontrol initialization
+            pos=get(a,'position');
+            Newpos=[pos(1) pos(2)-0.1 pos(3) 0.05];
+            %% This will create a slider which is just underneath the axis
+            %% but still leaves room for the axis labels above the slider
+            xmax=max(x);
+            xmin=min(x);
+            xmin=0;
+            %gs = get(gcbo,'value')+[min(x) min(x)+dx]
+            S=sprintf('set(gca,''xlim'',get(gcbo,''value'')+[%f %f])',[xmin xmin+dx])
+            %% Setting up callback string to modify XLim of axis (gca)
+            %% based on the position of the slider (gcbo)
+            % Creating Uicontrol
+            h=uicontrol('style','slider',...
+                'units','normalized','position',Newpos,...
+                'callback',S,'min',xmin,'max',xmax-dx);
+                %'callback',S,'min',0,'max',xmax-dx);
+        end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
         function plotyy(obj1, obj2, varargin)   
-            [snum, enum, fun1, fun2] = process_options(varargin, 'snum', max([obj1.dnum(1) obj2.dnum(1)]), 'enum', min([obj1.dnum(end) obj2.dnum(end)]), 'fun1', 'plot', 'fun2', 'plot');
+            [snum, enum, fun1, fun2] = matlab_extensions.process_options(varargin, 'snum', max([obj1.dnum(1) obj2.dnum(1)]), 'enum', min([obj1.dnum(end) obj2.dnum(end)]), 'fun1', 'plot', 'fun2', 'plot');
             [ax, h1, h2] = plotyy(obj1.dnum, obj1.data, obj2.dnum, obj2.data, fun1, fun2);
             datetick('x');
             set(ax(2), 'XTick', [], 'XTickLabel', {});
@@ -420,7 +447,7 @@ classdef sam
             % s.distance and waveSpeed assumed to be in metres (m)
             % (INPUT) s.data assumed to be in nm or Pa
             % (OUTPUT) s.data in cm^2 or Pa.m
-            [self.reduced.waveSpeed, f] = process_options(varargin, 'waveSpeed', 2000, 'f', 2.0);
+            [self.reduced.waveSpeed, f] = matlab_extensions.process_options(varargin, 'waveSpeed', 2000, 'f', 2.0);
             if self.reduced.isReduced == true
                 disp('Data are already reduced');
                 return;
@@ -467,8 +494,15 @@ classdef sam
             self.reduced.stationlon = stationlon;
             
         end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%         
-         function detect(self, stalen, ltalen, stepsize, ratio_on, ratio_off )
+        function [dnumarray, staarray, ltaarray, ratioarray] = detect(self, varargin)
+            % detect(self, 'stalen', stalen, 'ltalen', ltalen, 'stepsize', stepsize, ...
+            %     'ratio_on', ratio_on, 'ratio_off', ratio_off, 'boolplot', boolplot, 'boollist', boollist )
+            [stalen, ltalen, stepsize, ratio_on, ratio_off, boolplot, boollist] = matlab_extensions.process_options(varargin, ...
+                'stalen', 10, 'ltalen', 120, 'stepsize', 10, 'ratio_on', 1.5, 'ratio_off', 1.1, ...
+                'boolplot', false, 'boollist', true);
+          
             % Run an STA/LTA detector and plot results
             i=0;
             trigger_on=false;
@@ -531,71 +565,48 @@ classdef sam
                 offindex = cc;
                 offY(event) = self.data(end);
             end
+           
+            if boolplot
+                figure;
+                ha(1)=subplot(1,3,1),area(dnumarray, staarray,'FaceColor','b');
+                datetick('x')
+                hold on;
+                for j=1:length(ontime)
+                    i =(dnumarray >= ontime(j) & dnumarray <= offtime(j));
+                    area(dnumarray(i), staarray(i),'FaceColor', 'r')
+                end
+                hold off
+                title('STA')
 
-           % figure
-           % subplot(1,3,1), area(dnumarray, staarray, 'FaceColor', 'b')
-           % datetick('x');
-           % title('STA')
-           % subplot(1,3,2), area(dnumarray, ltaarray, 'FaceColor', 'g'); 
-           % datetick('x');
-           % title('LTA')
-           % subplot(1,3,3), area(dnumarray, ratioarray, 'FaceColor', 'r');  
-           % datetick('x');
-           % title('STA:LTA')
+                ha(2)=subplot(1,3,2), area(dnumarray, ltaarray,'FaceColor','b');
+                datetick('x')
+                hold on;
+                for j=1:length(ontime)
+                    i =(dnumarray >= ontime(j) & dnumarray <= offtime(j));
+                    area(dnumarray(i), ltaarray(i),'FaceColor', 'r')
+                end
+                hold off
+                title('LTA')
 
-            figure;
-            subplot(1,3,1),area(dnumarray, staarray,'FaceColor','b');
-            datetick('x')
-            hold on;
-            for j=1:length(ontime)
-                i =(dnumarray >= ontime(j) & dnumarray <= offtime(j));
-                area(dnumarray(i), staarray(i),'FaceColor', 'r')
+                ha(3)=subplot(1,3,3), area(dnumarray, ratioarray,'FaceColor','b');
+                datetick('x')
+                hold on;
+                for j=1:length(ontime)
+                    i =(dnumarray >= ontime(j) & dnumarray <= offtime(j));
+                    area(dnumarray(i), ratioarray(i),'FaceColor', 'r')
+                end
+                hold off
+                title('RATIO')
+                linkaxes(ha,'x');
             end
-            hold off
-            title('STA')
-
-            subplot(1,3,2), area(dnumarray, ltaarray,'FaceColor','b');
-            datetick('x')
-            hold on;
-            for j=1:length(ontime)
-                i =(dnumarray >= ontime(j) & dnumarray <= offtime(j));
-                area(dnumarray(i), ltaarray(i),'FaceColor', 'r')
+            if boollist
+                for i=1:length(ontime)
+                    disp(sprintf('ON %s\tOFF %s\tDURATION=%7.2f hours',datestr(ontime(i),30),datestr(offtime(i),30),24*(offtime(i)-ontime(i))));
+                end
             end
-            hold off
-            title('LTA')
-
-            subplot(1,3,3), area(dnumarray, ratioarray,'FaceColor','b');
-            datetick('x')
-            hold on;
-            for j=1:length(ontime)
-                i =(dnumarray >= ontime(j) & dnumarray <= offtime(j));
-                area(dnumarray(i), ratioarray(i),'FaceColor', 'r')
-            end
-            hold off
-            title('RATIO')
-
-         end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-        function self=sam2energy(self, r)
-            % should i detrend first?
-            e = energy(self.data, r, get(self.scnl, 'channel'), self.Fs(), self.units);
-                self = set(self, 'energy', e);
-        end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
-        function w=sam2waveform(self)
-            w = waveform;
-            w = set(w, 'station', self.sta);
-            w = set(w, 'channel', self.chan);
-            w = set(w, 'units', self.units);
-            w = set(w, 'data', self.data);
-            w = set(w, 'start', self.snum);
-            %w = set(w, 'end', self.enum);
-            w = set(w, 'freq', 1/ (86400 * (self.dnum(2) - self.dnum(1))));
-            w = addfield(w, 'reduced', self.reduced);
-            w = addfield(w, 'measure', self.measure);
         end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
-        function save(self, file);
+        function save(self, file)
             dnum = self.dnum;
             data = self.data;
             
@@ -684,28 +695,163 @@ classdef sam
                 fclose(fid);
             end
         end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%          
-%        function self = resample(self, varargin)
-%           [resampmethod, rate, newFs] = process_options(varargin, 'resampmethod', 'nanmean', 'newFs', 1.0/60);
-%           oldFs = self.Fs;
-%           l = length(self.data);
-%           samplesPerWindow = oldFs / newFs;
-%           if rate > 1
-%               numWindows = floor(l / samplesPerWindow);
-%               d = reshape(self.data(1:samplesPerWindow*numWindows), samplesPerWindow, numWindows);
-%               eval(sprintf('self.data = %s(abs(d), [], 1);', resampmethod));
-%               self.dnum = self.snum : (1/Fs/86400) : self.enum;
-%               l = length(self.data);
-%               self.dnum = self.dnum(1:l);
-%               self.measure = resampmethod;
-%            end
-%        end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                
+        function self = resample(self, varargin)
+        %RESAMPLE resamples a sam object at over every specified intercrunchfactor
+        %   samobject2 = samobject.resample('method', method, 'factor', crunchfactor)
+        %  or
+        %   samobject2 = samobject.resample(method, 'minutes', minutes)
+        %
+        %   Input Arguments
+        %       samobject: sam object       N-dimensional
+        %
+        %       METHOD: which method of sampling to perform within each sample
+        %                window
+        %           'max' : maximum value
+        %           'min' : minimum value
+        %           'mean': average value
+        %           'median' : mean value
+        %           'rms' : rms value (added 2011/06/01)
+        %           'absmax': absolute maximum value (greatest deviation from zero)
+        %           'absmin': absolute minimum value (smallest deviation from zero)
+        %           'absmean' : mean deviation from zero (added 2011/06/01)
+        %           'absmedian' : median deviation from zero (added 2011/06/01)
+        %           'builtin': Use MATLAB's built in resample routine
+        %
+        %       CRUNCHFACTOR : the number of samples making up the sample window
+        %       MINUTES:       downsample to this sample period
+        %       (CRUNCHFACTOR will be calculated internally)
+        %
+        % Examples:
+        %   samobject.resample('method', 'mean')
+        %       Downsample the sam object with an automatically determined
+        %           sampling period based on timeseries length.
+        %   samobject.resample('method', 'max', 'factor', 5) grab the max value of every 5
+        %       samples and return that in a waveform of adjusted frequency. The output
+        %       sam object will have 1/5th of the samples, e.g. from 1
+        %       minute sampling to 5 minutes.
+        %   samobject.resample('method', 'max', 'minutes', 10) downsample the data at
+        %       10 minute sample period       
+        %
+        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+            [method, crunchfactor, minutes] = matlab_extensions.process_options(varargin, 'method', self.measure, 'factor', 0, 'minutes', 0);
+
         
-        function self = resample(obj, measure, crunchfactor)
-            w = obj.sam2waveform;
-            w = resample(w, measure, crunchfactor);
-            self = waveform2sam(w);
-            self.measure = measure;
+            persistent STATS_INSTALLED;
+
+            if isempty(STATS_INSTALLED)
+              STATS_INSTALLED = ~isempty(ver('stats'));
+            end
+
+            if ~(round(crunchfactor) == crunchfactor) 
+                disp ('crunchfactor needs to be an integer');
+                return;
+            end
+
+            for i=1:numel(self)
+                samplingIntervalMinutes = 1.0 / (60 * self(i).Fs());
+                if crunchfactor==0 & minutes==0 % choose automatically
+                    choices = [1 2 5 10 30 60 120 240 360 ];
+                    days = max(self(i).dnum) - min(self(i).dnum);
+                    choice=max(find(days > choices));
+                    minutes=choices(choice);
+                end
+
+                if minutes > samplingIntervalMinutes
+                    crunchfactor = round(minutes / samplingIntervalMinutes);
+                end
+
+                if isempty(method)
+                    method = 'mean';
+                end
+                
+                if crunchfactor > 1
+                    debug.print_debug(sprintf('Changing sampling interval to %d', minutes),3)
+                
+                    rowcount = ceil(length(self(i).data) / crunchfactor);
+                    maxcount = rowcount * crunchfactor;
+                    if length(self(i).data) < maxcount
+                        self(i).dnum(end+1:maxcount) = mean(self(i).dnum((rowcount-1)*maxcount : end)); %pad it with the avg value
+                        self(i).data(end+1:maxcount) = mean(self(i).data((rowcount-1)*maxcount : end)); %pad it with the avg value 
+                    end
+                    d = reshape(self(i).data,crunchfactor,rowcount); % produces ( crunchfactor x rowcount) matrix
+                    t = reshape(self(i).dnum,crunchfactor,rowcount);
+                    self(i).dnum = mean(t, 1);
+                    switch upper(method)
+
+                        case 'MAX'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmax(d, [], 1);
+                            else
+                                        self(i).data = max(d, [], 1);
+                            end
+
+                        case 'MIN'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmin(d, [], 1);
+                            else
+                                        self(i).data = min(d, [], 1);
+                            end
+
+                        case 'MEAN'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmean(d, 1);
+                            else
+                                        self(i).data = mean(d, 1);
+                            end
+
+                        case 'MEDIAN'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmedian(d, 1);
+                            else
+                                        self(i).data = median(d, 1);
+                            end
+
+                        case 'RMS'
+                            if STATS_INSTALLED
+                                        self(i).data = nanstd(d, [], 1);
+                            else
+                                        self(i).data = std(d, [], 1);
+                            end
+
+                        case 'ABSMAX'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmax(abs(d),[],1);
+                            else
+                                        self(i).data = max(abs(d),[],1);
+                            end
+
+
+                        case 'ABSMIN'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmin(abs(d),[],1);
+                            else	
+                                        self(i).data = min(abs(d),[],1);
+                            end
+
+                        case 'ABSMEAN'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmean(abs(d), 1);
+                            else
+                                        self(i).data = mean(abs(d), 1);
+                            end
+
+                        case 'ABSMEDIAN'
+                            if STATS_INSTALLED
+                                        self(i).data = nanmedian(abs(d), 1);
+                            else
+                                        self(i).data = median(abs(d), 1);
+                            end 
+
+                        otherwise
+                            error('sam:resample:UnknownResampleMethod',...
+                              'Don''t know what you mean by resample via %s', method);
+
+                    end
+                    self(i).measure = method;
+                end
+            end  
         end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -714,7 +860,8 @@ classdef sam
         end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         function self = despike(self, threshold)  
-            
+            % s=s.despike(threshold)
+            % threshold is relative to previous and next samples
             % find spikes lasting 1 sample only
             y= self.data;
             for i=2:length(self.data)-1
@@ -779,7 +926,25 @@ classdef sam
                 end 
              end
         end
-        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+        function self=sam2energy(self, r)
+            % should i detrend first?
+            e = energy(self.data, r, get(self.scnl, 'channel'), self.Fs(), self.units);
+                self = set(self, 'energy', e);
+        end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
+        function w=sam2waveform(self)
+            w = waveform;
+            w = set(w, 'station', self.sta);
+            w = set(w, 'channel', self.chan);
+            w = set(w, 'units', self.units);
+            w = set(w, 'data', self.data);
+            w = set(w, 'start', self.snum);
+            %w = set(w, 'end', self.enum);
+            w = set(w, 'freq', 1/ (86400 * (self.dnum(2) - self.dnum(1))));
+            w = addfield(w, 'reduced', self.reduced);
+            w = addfield(w, 'measure', self.measure);
+        end        
     end % end of methods
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FILE LOAD AND SAVE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%    
