@@ -76,8 +76,7 @@ rawmax = nanmax(abs(get(w(c), 'data')));
 	%%%%%%%%%%%% COMPUTE / PLOT SPECTROGRAMS %%%%%%%%%%%		
 	tic;
 	tenminspfile = getSgram10minName(subnet, enum);
-	%specgram_wrapper(PARAMS.spectralobject, w, 0.75, iceweb_spectrogram_colormap);
-	specgram_wrapper(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
+	specgram_iceweb(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
 	logbenchmark('computing & plotting spectrograms', toc);
 	disp(sprintf('%s %s: computing & plotting spectrograms (%.1f s)', mfilename, datestr(utnow), toc));
 
