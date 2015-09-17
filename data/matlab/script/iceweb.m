@@ -174,8 +174,8 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
             close all
             mulplt(w)
             %s = input('continue?');
-            [dir,base,ext] = fileparts(tenminspfile);
-            tenminmulplt = fullfile(dir, sprintf('mulplt_%s%s',base,ext));
+            [spdir,spbase,spext] = fileparts(tenminspfile);
+            tenminmulplt = fullfile(spdir, sprintf('mulplt_%s%s',spbase,spext));
             orient tall;
             saveImageFile(tenminmulplt, 72);         
             
@@ -189,9 +189,10 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
 
                 %% SAVE SPECTROGRAM PLOT TO IMAGE FILE AND CREATE THUMBNAIL
                 orient tall;
+                tenminspfile
                 if saveImageFile(tenminspfile, 72)
 
-                    fileinfo = dir(tenminspfile);
+                    fileinfo = dir(tenminspfile); % getting a weird Index exceeds matrix dimensions error here.
                     debug.print_debug(0, sprintf('%s %s: spectrogram PNG size is %d',mfilename, datestr(utnow), fileinfo.bytes));	
 
                     % make thumbnails

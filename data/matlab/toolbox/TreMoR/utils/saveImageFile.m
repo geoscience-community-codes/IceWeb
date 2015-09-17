@@ -5,7 +5,7 @@ function result = saveImageFile(arg1, arg2, arg3);
 global paths PARAMS; % we need to knwo the value of PARAMS.mode
 
 debug.printfunctionstack('>');
-%print_debug(sprintf('> %s',mfilename),2);
+
 result = 0;
 switch nargin
 	case 2,
@@ -38,13 +38,13 @@ try
 
 	% Did our image file actually get saved?
 	if exist(outpath, 'file')
-		print_debug(sprintf('%s: Saved image file %s',datestr(utnow),outpath),2);
+		debug.print_debug(2, sprintf('%s: Saved image file %s',datestr(utnow),outpath) );
 		result = 1;
 	else
-		print_debug(sprintf('%s: Image file %s was not created',datestr(utnow),outpath),0);
+		debug.print_debug(1, sprintf('%s: Image file %s was not created',datestr(utnow),outpath));
 	end
 catch
-	disp(sprintf('%s: Could not save the image file %s',datestr(utnow),outpath));
+	debug.print_debug(1, sprintf('%s: Could not save the image file %s',datestr(utnow),outpath));
 end
 
 %print_debug(sprintf('< %s',mfilename),2);
