@@ -17,7 +17,7 @@ ds = datasource('antelope', ...
        '/raid/data/sakurajima/Seismic_Infrasound/SAK_dbs/dbSAK_GT');
 setup_lite('Sakurajima', datenum(2015,5,18), datenum(2015,6,7), 'pf/setup_Sakurajima.pf', chanmatch)
 %iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,5,18), 'enum', datenum(2015,6,7), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
-iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,5,29,18,0,0), 'enum', datenum(2015,5,30), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
+iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,5,18), 'enum', datenum(2015,6, 7), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
 
 %% Others yet to be converted to iceweb
 % NOTE:
