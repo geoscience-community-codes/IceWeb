@@ -3,8 +3,8 @@ function result = saveImageFile(arg1, arg2, arg3);
 % saveImageFile(IMGFULLFILEPATH, res);
 % res=200 for spectrograms
 global paths PARAMS; % we need to knwo the value of PARAMS.mode
-import debug.*
-printfunctionstack('>');
+
+debug.printfunctionstack('>');
 %print_debug(sprintf('> %s',mfilename),2);
 result = 0;
 switch nargin
@@ -16,9 +16,11 @@ switch nargin
 		res = arg2;
 	case 3,	
 		[IMGDIR, fname] = deal(arg1, arg2);
-		outpath = catpath(arg1, sprintf('%s.png',arg2));
+		outpath = fullfile(arg1, sprintf('%s.png',arg2));
 		res = arg3;
- 	otherwise return;
+    otherwise,
+        debug.print_debug(1, 'could not save image file - wrong number of arguments')
+        return;
 end
 
 if ~exist(IMGDIR,'dir')
@@ -46,5 +48,5 @@ catch
 end
 
 %print_debug(sprintf('< %s',mfilename),2);
-printfunctionstack('<');
+debug.printfunctionstack('<');
 

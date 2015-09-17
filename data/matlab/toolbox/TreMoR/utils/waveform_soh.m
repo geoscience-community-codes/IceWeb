@@ -13,8 +13,8 @@ for i=1:numel(w)
         thisnuniquevalues = 0;
         thisreportstring = '';
         thiserrorstring = '';
-	bitrange = NaN;
-	mode_fraction = 1.0;
+        bitrange = NaN;
+        mode_fraction = 1.0;
 	
 
         % set stuff from waveform object
@@ -38,11 +38,11 @@ for i=1:numel(w)
             % CHECK FOR ONE-SIDED DATA
             [thism, thisf] = mode(thisdata); % only returns NaN if all values NaN
             thisreportstring = sprintf('%s MODE:%.1e MODE-FREQUENCY:%d',thisreportstring, thism, thisf);
-	    if isnan(thism)
-		% All data are NaN
+            if isnan(thism)
+            % All data are NaN
                 thisnblanksecs = thisnsecsgot;
                 thiserrorstring = sprintf('%s ALL-NAN',thiserrorstring);
-	    else
+            else
                 mode_fraction = (thisf/thisdl); 
                 thisreportstring = sprintf('%s MODE-FRACTION:%.2f',thisreportstring, mode_fraction);
                 if (mode_fraction > 0.1) % AT LEAST 10% OF DATA AT SAME LEVEL (WORRIED ABOUT CLIPPING)
@@ -63,7 +63,7 @@ for i=1:numel(w)
 
                 % CHECK FOR SMALL DATA RANGE - THINK THIS IS OBSOLETE DUE TO UNIQUE VALUE CHECK
                 thisrange = max(thisdata) - min(thisdata);
-		bitrange = ceil(log(thisrange)/log(2));
+                bitrange = ceil(log(thisrange)/log(2));
                 thisreportstring = sprintf('%s BIT-RANGE:%d',thisreportstring, bitrange);
                 if thisrange<10 % if range < 10, all data must be bad
                        % NOT A MEANINGFUL DATA RANGE - NO SEISMIC SIGNAL?

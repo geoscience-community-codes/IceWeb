@@ -1,7 +1,6 @@
 function tremor_loadwaveformdata(varargin)
-global paths PARAMS
 
-debug.print_debug(sprintf('> %s at %s',mfilename, datestr(now,31)),1)
+debug.print_debug(1, sprintf('> %s at %s',mfilename, datestr(now,31)))
 warning off
 
 
@@ -50,10 +49,10 @@ snum = enum - nummins/1440;
 for count = length(tw.start) : -1 : 1
 	thistw.start = tw.start(count);	
 	thistw.stop = tw.stop(count);	
-	tremor_datasource2mat(subnets, thistw);
+	tremor_datasource2mat(paths, PARAMS, subnets, thistw);
 end
 
-debug.print_debug(sprintf('< %s at %s',mfilename, datestr(now,31)),1)
+debug.print_debug(1, sprintf('< %s at %s',mfilename, datestr(now,31)))
 
 function snew=randomizesubnets(s)
 l = length(s);

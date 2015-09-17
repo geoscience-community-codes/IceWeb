@@ -1,9 +1,12 @@
-function tremor_datasource2mat(subnets, tw)
+function tremor_datasource2mat(paths, PARAMS, subnets, tw)
 debug.printfunctionstack('>');
-global paths PARAMS
+
 for c=1:numel(PARAMS.datasource)
 	if strcmp(PARAMS.datasource(c).type, 'antelope')
-		gismo_datasource(c) = datasource(PARAMS.datasource(c).type, PARAMS.datasource(c).path);
+		%gismo_datasource(c) = datasource(PARAMS.datasource(c).type, PARAMS.datasource(c).path);
+        gismo_datasource(c) = datasource('antelope', ...
+       '/raid/data/MONTSERRAT/antelope/db/db%04d%02d%02d',...
+       'year','month','day');
 	else
 		gismo_datasource(c) = datasource(PARAMS.datasource(c).type, PARAMS.datasource(c).path, str2num(PARAMS.datasource(c).port));
 	end
@@ -16,9 +19,9 @@ for subnet_num=1:length(subnets)
 	% which subnet?
 	subnet = subnets(subnet_num).name;
 
-	% get IceWeb stations
-	station = subnets(subnet_num).stations;
-	if isempty(station)
+	% get IceWeb sites
+	sites = subnets(subnet_num).sites;
+	if isempty(sites)
 		continue;
 	end
 
@@ -38,7 +41,7 @@ for subnet_num=1:length(subnets)
 			% need to check for spectrogram file too
 			if exist(tenminspfile,'file')
 				% go to next timewindow because the spectrogram PNG exists
-				disp(sprintf('%s %s: Data already processed because spectrogram file %s already exists. Skipping',mfilename, datestr(utnow), tenminspfile));
+				disp(sprintf('%s %s: Data already processed because spectrogram fileYYYY-MM-DD %s already exists. Skipping',mfilename, datestr(utnow), tenminspfile));
 				diary off;
 				continue;	
 			else
@@ -50,7 +53,7 @@ for subnet_num=1:length(subnets)
 
 		% Get waveform data
 		disp(sprintf('%s %s: Getting waveforms for %s from %s to %s at %s',mfilename, datestr(utnow), subnet , datestr(snum), datestr(enum)));
-		w = waveform_wrapper([station.scnl], snum, enum, gismo_datasource);
+		w = waveform_wrapper([sites.channeltag], snum, enum, gismo_datasource);
 
 		% Did we get any data - if not, delete spectrogram file so it will try again later, and quit loop.	
 		if isempty(w)

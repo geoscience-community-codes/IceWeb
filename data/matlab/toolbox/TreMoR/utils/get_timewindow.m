@@ -46,7 +46,6 @@ timewindow.start = timewindow.stop - numMins/1440;
 
 if (nargin == 3)
 	snum = boundaryBeforeDnum(utdnum_start, numMins);
-    datestr(snum)
 	snum_array = snum: numMins/1440: timewindow.start;
 	enum_array = snum_array + numMins/1440;
 	timewindow.start = snum_array;
