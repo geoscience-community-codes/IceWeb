@@ -54,9 +54,18 @@ function iceweb(ds, varargin)
         for c=1:numel(subnets)
             sites = subnets(c).sites
             for dnum = floor(snum):ceil(enum)
-                todaysites = get_channeltags_active(sites, snum); % subset to channeltags valid
-                chantag = [todaysites.channeltag];
                 
+                for ccc=1:numel(sites)
+                    disp(sites(ccc).channeltag.string())
+                end
+                
+%                 todaysites = get_channeltags_active(sites, snum); % subset to channeltags valid
+        disp('SCAFFOLD')         
+todaysites = sites;
+chantag = [todaysites.channeltag];
+%                 for ccc=1:numel(todaysites)
+%                     disp(sites(ccc).channeltag.string())
+%                 end             
                 % change channel tag if this is MV network because channels in wfdisc table
                 % are like SHZ_--
                 for cc=1:numel(chantag)
@@ -66,11 +75,17 @@ function iceweb(ds, varargin)
                 end
                 
                 m = listMiniseedFiles(ds, chantag, dnum, dnum+1);
-                todaysites = todaysites([m.exists]==2);
+                {m.filepath}
+                [m.exists]
+                %todaysites = todaysites([m.exists]==2);
                 tw = get_timewindow(min([enum dnum+1]), nummins, max([dnum snum]));
 
                 newsubnets = subnets(c);
                 newsubnets.sites = todaysites;
+                for ccc=1:numel(todaysites)
+                    disp(sites(ccc).channeltag.string())
+                end
+                
                 % loop over timewindows backwards, thereby prioritizing most recent data
                 for count = length(tw.start) : -1 : 1
                     thistw.start = tw.start(count);	
@@ -140,10 +155,10 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
 
             % Have we already process this timewindow?
             tenminspfile = getSgram10minName(paths,subnet,enum);
-            if exist(tenminspfile, 'file')
-                fprintf('%s already exists - skipping\n',tenminspfile);
-                continue
-            end
+%             if exist(tenminspfile, 'file')
+%                 fprintf('%s already exists - skipping\n',tenminspfile);
+%                 continue
+%             end
             
             %% Get waveform data
             debug.print_debug(0, sprintf('%s %s: Getting waveforms for %s from %s to %s at %s',mfilename, datestr(utnow), subnet , datestr(snum), datestr(enum)));
@@ -184,12 +199,12 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
             %try
                 close all
                 debug.print_debug(1, sprintf('Creating %s',tenminspfile))
-                %specgram_iceweb(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
-                specgram_wrapper(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
+                specgram_iceweb(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
+                %specgram_wrapper(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
 
                 %% SAVE SPECTROGRAM PLOT TO IMAGE FILE AND CREATE THUMBNAIL
                 orient tall;
-                tenminspfile
+            
                 if saveImageFile(tenminspfile, 72)
 
                     fileinfo = dir(tenminspfile); % getting a weird Index exceeds matrix dimensions error here.
@@ -274,10 +289,20 @@ end
 
 function goodsites = get_channeltags_active(sites, snum)
     k=0;
+    goodsites = [];
     for c=1:numel(sites)
-        if sites(c).ondnum <= snum && sites(c).offdnum >= snum - 1
+        if sites(c).ondnum <= snum-1 && sites(c).offdnum >= snum
             k = k + 1;
             goodsites(k) = sites(c);
+            disp(sprintf('Keeping %s',sites(c).channeltag.string()));
+%             sites(c).ondnum
+%             sites(c).offdnum
+%             snum
+        else
+            disp(sprintf('Rejecting %s',sites(c).channeltag.string()));
+%             sites(c).ondnum
+%             sites(c).offdnum
+%             snum
         end
     end
 

@@ -1,4 +1,4 @@
-mins=10;
+mins=60;
 
 %% Montserrat
 % chanmatch = 'chan=~/[BESH]H[ENZ]/  || chan=~/BD[FL123]/';

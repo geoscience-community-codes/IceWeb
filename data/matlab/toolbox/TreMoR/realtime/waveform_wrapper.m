@@ -213,7 +213,7 @@ function print_waveform_call(snum, enum, chantag, ds)
 
     disp('Waveform call:')
     for c=1:numel(chantag)
-        fprintf('\tchantag(%d) = %s\n', c, string(chantag(c)));
+        fprintf('\tchantag(%d) = channeltag(''%s'')\n', c, string(chantag(c)));
     end
     if (strcmp(get(ds, 'type'), 'winston'))
         fprintf('\tds = datasource(''winston'', ''%s'', %d);\n', get(ds, 'server'), get(ds, 'port'));
