@@ -1,23 +1,27 @@
 mins=60;
 
-%% Montserrat
-% chanmatch = 'chan=~/[BESH]H[ENZ]/  || chan=~/BD[FL123]/';
-% chanmatch = 'chan=~/[BESH]H[ENZ]/';
-% ds = datasource('antelope', ...
-%        '/raid/data/MONTSERRAT/antelope/db/db%04d%02d%02d',...
-%        'year','month','day');
-% setup_lite('Montserrat', datenum(1995,1,1), datenum(2009,1,1), 'pf/setup_Montserrat.pf', chanmatch)
-% montserrat_remove_analog_sites
-% iceweb(ds, 'thissubnet', 'Montserrat', 'snum', datenum(2002,1,1), 'enum', datenum(2002,1,2), 'delaymins', 0, 'matfile', 'pf/Montserrat.mat', 'nummins', mins, 'mode', 'archive');
+
 
 %% Sakurajima
-%chanmatch = 'chan=~/[BESH]H[ENZ]/  || chan=~/BD[FL123]/';
-chanmatch = 'chan=~/HH[ZNE]/';
+chanmatch = 'chan=~/[BESH]H[ENZ]/  || chan=~/BD[FL123]/';
+%chanmatch = 'chan=~/HH[ZNE]/';
 ds = datasource('antelope', ...
-       '/raid/data/sakurajima/Seismic_Infrasound/SAK_dbs/dbSAK_GT');
+       '/raid/data/sakurajima/Seismic_Infrasound/SAK_dbs/GT/dbSAK_GT');
 setup_lite('Sakurajima', datenum(2015,5,18), datenum(2015,6,7), 'pf/setup_Sakurajima.pf', chanmatch)
-%iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,5,18), 'enum', datenum(2015,6,7), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
-iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,5,18), 'enum', datenum(2015,6, 7), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
+iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,5,18), 'enum', datenum(2015,6,7), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
+%iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,6,3,16,0,0), 'enum', datenum(2015,6, 3,18,0,0), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat', 'nummins', mins, 'mode', 'archive');
+
+%% Montserrat
+% chanmatch = 'chan=~/[BESH]H[ENZ]/  || chan=~/BD[FL123]/';
+%chanmatch = 'chan=~/[BESH]H[ENZ]/';
+chanmatch = 'chan=~/[BESH]HZ/';
+ds = datasource('antelope', ...
+        '/raid/data/MONTSERRAT/antelope/db/db%04d%02d%02d',...
+        'year','month','day');
+setup_lite('Montserrat', datenum(1995,7,1), datenum(2009,1,1), 'pf/setup_Montserrat.pf', chanmatch)
+montserrat_remove_analog_sites
+iceweb(ds, 'thissubnet', 'Montserrat', 'snum', datenum(2000,1,1), 'enum', datenum(2008,1,1), 'delaymins', 0, 'matfile', 'pf/Montserrat.mat', 'nummins', mins, 'mode', 'archive');
+iceweb(ds, 'thissubnet', 'Montserrat', 'snum', datenum(1996,10,1), 'enum', datenum(2000,1,1), 'delaymins', 0, 'matfile', 'pf/Montserrat.mat', 'nummins', mins, 'mode', 'archive');
 
 %% Others yet to be converted to iceweb
 % NOTE:

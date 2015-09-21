@@ -1,5 +1,5 @@
 function iceweb(ds, varargin)
-
+    debug.printfunctionstack('>');
     % Process arguments
     [thismode, snum, enum, nummins, delaymins, thissubnet, matfile] = matlab_extensions.process_options(varargin, 'mode', 'archive', 'snum', 0, 'enum', 0, 'nummins', 10, 'delaymins', 0, 'subnet', '', 'matfile', 'pf/tremor_runtime.mat');
     if exist(matfile, 'file')
@@ -7,7 +7,7 @@ function iceweb(ds, varargin)
         PARAMS.mode = thismode;
         clear thismode;
     else
-        disp('matfile not found')
+        warning(sprintf('matfile %s not found',matfile))
         return
     end
 
@@ -23,7 +23,7 @@ function iceweb(ds, varargin)
             subnets = subnets(index);
             debug.print_debug(0, 'subnet found')
         else
-            debug.print_debug(0, 'subnet not found')
+            warning('subnet not found')
             return;
         end
     end
@@ -52,19 +52,22 @@ function iceweb(ds, varargin)
     if exist('ds','var') & strcmp(get(ds,'type'),'antelope')
 
         for c=1:numel(subnets)
-            sites = subnets(c).sites
+            sites = subnets(c).sites;
             for dnum = floor(snum):ceil(enum)
                 
-                for ccc=1:numel(sites)
-                    disp(sites(ccc).channeltag.string())
-                end
-                
-%                 todaysites = get_channeltags_active(sites, snum); % subset to channeltags valid
-        disp('SCAFFOLD')         
-todaysites = sites;
-chantag = [todaysites.channeltag];
-%                 for ccc=1:numel(todaysites)
+%                 for ccc=1:numel(sites)
 %                     disp(sites(ccc).channeltag.string())
+%                 end
+                   
+                % subset to channels active for today according to
+                % site/sitechan db
+                todaysites = get_channeltags_active(sites, snum); % subset to channeltags valid
+                if isempty(todaysites)
+                    continue;
+                end
+                chantag = [todaysites.channeltag];
+%                 for ccc=1:numel(chantag)
+%                     disp(chantag(ccc).string())
 %                 end             
                 % change channel tag if this is MV network because channels in wfdisc table
                 % are like SHZ_--
@@ -73,19 +76,19 @@ chantag = [todaysites.channeltag];
                         chantag(cc).channel = sprintf('%s_--',chantag(cc).channel);
                     end
                 end
-                
+
+                % subset to sites for which the files pointed to by the
+                % wfdisc table, actually exist
                 m = listMiniseedFiles(ds, chantag, dnum, dnum+1);
-                {m.filepath}
-                [m.exists]
-                %todaysites = todaysites([m.exists]==2);
+                todaysites = todaysites([m.exists]==2);
                 tw = get_timewindow(min([enum dnum+1]), nummins, max([dnum snum]));
 
                 newsubnets = subnets(c);
                 newsubnets.sites = todaysites;
-                for ccc=1:numel(todaysites)
-                    disp(sites(ccc).channeltag.string())
-                end
-                
+%                 for ccc=1:numel(todaysites)
+%                     disp(sites(ccc).channeltag.string())
+%                 end
+
                 % loop over timewindows backwards, thereby prioritizing most recent data
                 for count = length(tw.start) : -1 : 1
                     thistw.start = tw.start(count);	
@@ -111,14 +114,13 @@ chantag = [todaysites.channeltag];
             iceweb_helper(paths, PARAMS, subnets, thistw);
         end
     end
-
+    debug.printfunctionstack('<');
 end
 
 
 function iceweb_helper(paths, PARAMS, subnets, tw, ds)
     debug.printfunctionstack('>');
 
-    highpassfilterobject = filterobject('h', 0.5, 2);
     makeSamFiles = false;
     makeSoundFiles = true; 
 
@@ -154,9 +156,9 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
             enum = tw.stop(twcount);
 
             % Have we already process this timewindow?
-            tenminspfile = getSgram10minName(paths,subnet,enum);
-%             if exist(tenminspfile, 'file')
-%                 fprintf('%s already exists - skipping\n',tenminspfile);
+            spectrogramFilename = get_spectrogram_filename(paths,subnet,enum);
+%             if exist(spectrogramFilename, 'file')
+%                 fprintf('%s already exists - skipping\n',spectrogramFilename);
 %                 continue
 %             end
             
@@ -174,112 +176,181 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
             end
 
             % Clean the waveforms
-            %w = clean(w); % this doesn't work. i don't seem to have access
-            %to w.data and i don't understand what Celso has done with
-            %diff(false, nans) etc., so let us make this easy
+            w = fillgaps(w, 'interp');
             w = detrend(w);
 
-            % Apply calibs
+            % Apply calibs which should be stored within sites structure to
+            % waveform objects to convert from counts to real physical
+            % units
             w = apply_calib(w, sites);
 
-            % Apply high pass filter to broadband signals
-            w = highpass(w);
+            % Apply filter to all signals
+            w = apply_filter(w, PARAMS);
             
-            %% PLOT WAVEFORMS
+            % Pad all waveforms to same start/end
+            [wsnum wenum] = gettimerange(w); % assume gaps already filled, signal
+            w = pad(w, min(wsnum), max(wenum), 0);
+            
+            % Save RSAM data
+            rsamobj = rsam(w);
+            rsamobj.save(fullfile('spectrograms', subnet, 'SSSS.CCC.YYYY.rsam'));
+            
+            %% CREATE & SAVE WAVEFORM PLOT
             close all
             mulplt(w)
             %s = input('continue?');
-            [spdir,spbase,spext] = fileparts(tenminspfile);
-            tenminmulplt = fullfile(spdir, sprintf('mulplt_%s%s',spbase,spext));
+            [spdir,spbase,spext] = fileparts(spectrogramFilename);
+            mulpltFilename = fullfile(spdir, sprintf('mulplt_%s%s',spbase,spext));
             orient tall;
-            saveImageFile(tenminmulplt, 72);         
+            saveImageFile(mulpltFilename, 72);    
+            
+%             %% CREATE & SAVE HELICORDER PLOT
+%             % SCAFFOLD
+%             try % crashing with 
+% %                  Index exceeds matrix dimensions.
+% % 
+% %                 Error in helicorder/build>pad_w (line 339)
+% %                       dat = [pad1; get(w(n),'data')];
+% % 
+% %                 Error in helicorder/build (line 68)
+% %                 h = pad_w(h);          % If front of waveform is missing, fill with NaN
+% % 
+% %                 Error in iceweb>iceweb_helper (line 208)
+% %                             build(heliplot)
+% % 
+% %                 Error in iceweb (line 93)
+% %                                     iceweb_helper(paths, PARAMS, newsubnets, thistw, ds);
+% % 
+% %                 Error in unrest (line 20)
+% %                 iceweb(ds, 'thissubnet', 'Sakurajima', 'snum', datenum(2015,6,3), 'enum', datenum(2015,6, 7), 'delaymins', 0, 'matfile', 'pf/Sakurajima.mat',
+% %                 'nummins', mins, 'mode', 'archive');               
+%                 close all
+%                 heliplot = helicorder(w);
+%                 build(heliplot)
+%                 helicorderFilename = fullfile(spdir, sprintf('heli_%s%s',spbase,spext));
+%                 orient tall;
+%                 saveImageFile(helicorderFilename, 72); 
+%             end
             
 
-            %% PLOT SPECTROGRAM	sometimes spectralobject.specgram fails if data are poor
-            %try
-                close all
-                debug.print_debug(1, sprintf('Creating %s',tenminspfile))
-                specgram_iceweb(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
-                %specgram_wrapper(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
+            %% PLOT SPECTROGRAM	
+            close all
+            debug.print_debug(1, sprintf('Creating %s',spectrogramFilename))
+            %specgram_iceweb(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
+            %specgram_wrapper(PARAMS.spectralobject, w, 0.75, extended_spectralobject_colormap);
+%             try
+                spectrogramFraction = 0.75;
+                [sgresult, Tcell, Fcell, Ycell] = spectrogram_iceweb(PARAMS.spectralobject, w, spectrogramFraction, extended_spectralobject_colormap);
+                if sgresult > 0 % sgresult = number of waveforms for which a spectrogram was successfully plotted
+                    %% SAVE SPECTROGRAM PLOT TO IMAGE FILE AND CREATE THUMBNAIL
+                    orient tall;
 
-                %% SAVE SPECTROGRAM PLOT TO IMAGE FILE AND CREATE THUMBNAIL
-                orient tall;
-            
-                if saveImageFile(tenminspfile, 72)
+                    if saveImageFile(spectrogramFilename, 72)
 
-                    fileinfo = dir(tenminspfile); % getting a weird Index exceeds matrix dimensions error here.
-                    debug.print_debug(0, sprintf('%s %s: spectrogram PNG size is %d',mfilename, datestr(utnow), fileinfo.bytes));	
+                        fileinfo = dir(spectrogramFilename); % getting a weird Index exceeds matrix dimensions error here.
+                        debug.print_debug(0, sprintf('%s %s: spectrogram PNG size is %d',mfilename, datestr(utnow), fileinfo.bytes));	
 
-                    % make thumbnails
-                    makespectrogramthumbnails(tenminspfile);
+                        % make thumbnails
+                        makespectrogramthumbnails(spectrogramFilename, spectrogramFraction);
 
+                    end
+                    close all
+
+                    %% save spectral data
+                    frequency_index_divider = 5.0; % Hz
+                    for spi = 1:numel(Fcell)
+                        thisY = Ycell{spi};
+                        thisF = Fcell{spi};
+                        thisT = Tcell{spi};
+                        sta = get(w(spi),'station');
+                        chan = get(w(spi),'channel');
+
+                        % peakF and meanF for each spectrogram window
+                        [Ymax,imax] = max(thisY);
+                        PEAK_F = thisF(imax);
+                        MEAN_F = (thisF' * thisY)./sum(thisY);
+
+                        % frequency index for each spectrogram window
+                        fUpperIndices = find(thisF > frequency_index_divider);
+                        fLowerIndices = find(thisF < frequency_index_divider);                    
+                        fupper = sum(thisY(fUpperIndices,:));
+                        flower = sum(thisY(fLowerIndices,:));
+                        F_INDEX = log2(fupper ./ flower);
+
+                        % Peak spectral value in each frequency bin - or in
+                        % each minute?
+
+                        % Now downsample to 1 sample per minute
+                        dnum = unique(matlab_extensions.floorminute(thisT));
+                        for k=1:length(dnum)
+                            p = find(matlab_extensions.floorminute(thisT) == dnum(k));
+                            downsampled_peakf(k) = nanmean(PEAK_F(p));
+                            downsampled_meanf(k) = nanmean(MEAN_F(p));  
+                            downsampled_findex(k) = nanmean(F_INDEX(p));
+                            suby = thisY(:,p);
+                            max_in_each_freq_band(:,k) = max(suby');
+                        end
+
+        %                 % Plot for verification
+        %                 close all
+        %                 subplot(2,1,1),plot(dnum,downsampled_peakf,':');datetick('x');
+        %                 hold on
+        %                 plot(dnum,downsampled_meanf);datetick('x');
+        %                 subplot(2,1,2),plot(dnum,downsampled_findex);datetick('x');
+        %                 anykey = input('Press any key to continue');
+
+                        % Save data
+                        r1 = rsam(dnum, downsampled_peakf, 'sta', sta, ...
+                            'chan', chan, 'measure', 'peakf', ...
+                            'units', 'Hz', 'snum', min(dnum), 'enum', max(dnum));
+                        r1.save(fullfile('spectrograms', subnet, 'SSSS.CCC.YYYY.peakf'))
+
+                        r2 = rsam(dnum, downsampled_meanf, 'sta', sta, ...
+                            'chan', chan, 'measure', 'meanf', ...
+                            'units', 'Hz', 'snum', min(dnum), 'enum', max(dnum));
+                        r2.save(fullfile('spectrograms', subnet, 'SSSS.CCC.YYYY.meanf'))
+
+                        r3 = rsam(dnum, downsampled_findex, 'sta', sta, ...
+                            'chan', chan, 'measure', 'findex', ...
+                            'units', 'none', 'snum', min(dnum), 'enum', max(dnum));
+                        r3.save(fullfile('spectrograms', subnet, 'SSSS.CCC.YYYY.findex')) 
+
+                        specdatafilename = fullfile('spectrograms', subnet, datestr(min(dnum),'yyyy/mm/dd'), sprintf( '%s_%s_%s.mat', datestr(min(dnum),30), sta, chan) );
+                        mkdir(fileparts(specdatafilename)); % make the directory in case it does not exist
+                        save(specdatafilename, 'dnum', 'max_in_each_freq_band') 
+                        clear r1 r2 r3 k p   downsampled_peakf downsampled_meanf ...
+                            downsampled_findex fUpperIndices fLowerIndices flower ...
+                            fupper F_INDEX PEAK_F MEAN_F Ymax imax thisY thisF thisT ...
+                            suby max_in_each_freq_band
+
+                    end
                 end
-                close all
 
-            
                 %% SOUND FILES
                 if makeSoundFiles
-                    % 20120221 Added a "sound file" like 201202211259.sound which simply records order of stachans in waveform object so
-                    % php script can match spectrogram panel with appropriate wav file 
-                    % 20121101 GTHO COmment: Could replace use of bnameroot below with strrep, since it is just used to change file extensions
-                    % e.g. strrep(tenminspfile, '.png', sprintf('_%s_%s.wav', sta, chan)) 
-                    [bname, dname, bnameroot, bnameext] = matlab_extensions.basename(tenminspfile);
-                    fsound = fopen(sprintf('%s%s%s.sound', dname, filesep, bnameroot),'a');
-                    for c=1:length(w)
-                        soundfilename = fullfile(dname, sprintf('%s_%s_%s.wav',bnameroot, get(w(c),'station'), get(w(c), 'channel')  ) );
-                        fprintf(fsound,'%s\n', soundfilename);  
-                        debug.print_debug(0, sprintf('Writing to %s',soundfilename)); 
-                        data = get(w(c),'data');
-                        m = max(data);
-                        if m == 0
-                            m = 1;
-                        end 
-                        data = data / m;
-                        wavwrite(data, get(w(c), 'freq') * 120, soundfilename);
-                    end
-                    fclose(fsound);
-                end
-
-                %% COMPUTE SAM DATA
-                if makeSamFiles
-                    tic;
-                    % Calculate and save true ground motion data (at the
-                    % seismometer) to file (no reduced measurements)
                     try
-                        stats = waveform2stats(w, 1/60);  
-                        %stats = waveform2f(w);
-                    catch	
-                        debug.print_debug(0, 'waveform2stats failed');
-                    end
-
-                    for c = 1:length(stats)
-                        samcollection = stats(c);
-                        %measurements = {'Vmax';'Vmedian';'Vmean';'Dmax';'Dmedian';'Dmean';'Drms';'Energy';'peakf';'meanf'};
-                        measurements = {'Vmax';'Vmedian';'Vmean';'Dmax';'Dmedian';'Dmean';'Drms';'Energy';'peakf';'meanf'};
-                        for m = 1:length(measurements)
-                            measure = measurements{m};	 
-                            if isfield(samcollection, measure)
-                                eval(sprintf('s = samcollection.%s;',measure));
-                                if isempty(s)
-                                    debug.print_debug(2, sprintf('SAM object for %s is blank',measure));
-                                else
-                                    debug.print_debug(3, sprintf('Calling save2bob for %s', measure));
-                                    try
-                                        save2bob(s.station, s.channel, s.dnum, s.data, measure);
-                                    catch
-                                        debug.print_debug(0, sprintf('save2bob failed for %s-%s',s.station, s.channel));
-                                    end
-                                end
-                            else
-                                debug.print_debug(2, sprintf('measure %s not found',measure));
-                            end
+                        % 20120221 Added a "sound file" like 201202211259.sound which simply records order of stachans in waveform object so
+                        % php script can match spectrogram panel with appropriate wav file 
+                        % 20121101 GTHO COmment: Could replace use of bnameroot below with strrep, since it is just used to change file extensions
+                        % e.g. strrep(spectrogramFilename, '.png', sprintf('_%s_%s.wav', sta, chan)) 
+                        [bname, dname, bnameroot, bnameext] = matlab_extensions.basename(spectrogramFilename);
+                        fsound = fopen(sprintf('%s%s%s.sound', dname, filesep, bnameroot),'a');
+                        for c=1:length(w)
+                            soundfilename = fullfile(dname, sprintf('%s_%s_%s.wav',bnameroot, get(w(c),'station'), get(w(c), 'channel')  ) );
+                            fprintf(fsound,'%s\n', soundfilename);  
+                            debug.print_debug(0, sprintf('Writing to %s',soundfilename)); 
+                            data = get(w(c),'data');
+                            m = max(data);
+                            if m == 0
+                                m = 1;
+                            end 
+                            data = data / m;
+                            wavwrite(data, get(w(c), 'freq') * 120, soundfilename);
                         end
+                        fclose(fsound);
                     end
-
                 end
-            %end
-            
-            %%
+%             end
         end
     end
 
@@ -288,10 +359,11 @@ end
 
 
 function goodsites = get_channeltags_active(sites, snum)
+    % sites active for this day
     k=0;
-    goodsites = [];
+    %goodsites = [];
     for c=1:numel(sites)
-        if sites(c).ondnum <= snum-1 && sites(c).offdnum >= snum
+        if sites(c).ondnum <= snum+1 && sites(c).offdnum >= snum
             k = k + 1;
             goodsites(k) = sites(c);
             disp(sprintf('Keeping %s',sites(c).channeltag.string()));
@@ -300,12 +372,14 @@ function goodsites = get_channeltags_active(sites, snum)
 %             snum
         else
             disp(sprintf('Rejecting %s',sites(c).channeltag.string()));
-%             sites(c).ondnum
-%             sites(c).offdnum
-%             snum
+            sites(c).ondnum
+            sites(c).offdnum
+            snum
         end
     end
-
+    if k==0
+        goodsites = [];
+    end
 end
 	
 function w = apply_calib(w, sites)
@@ -314,22 +388,26 @@ function w = apply_calib(w, sites)
     % get a cell array like {'MV.MBRY..BHZ';'MV.MBLG..SHZ'; ...} from
     % sites.channeltag
     for c=1:numel(sites)
-        chantagcell{c} = string(sites(c).channeltag);
+        chantagcell{c} = sprintf('.%s..%s',sites(c).channeltag.station, sites(c).channeltag.channel);
     end
     
     for c=1:numel(w)
         % get the channeltag for this waveform
-        wchantag = string(get(w,'channeltag'));
+        wchantag = string(get(w(c),'channeltag'));
         j = strmatch(wchantag, chantagcell); % this is the index of the matching channeltag in sites
         if length(j)==1
             calib = sites(j).calib;
             addfield(w(c), 'calib', calib);
             calibunits = sites(j).units;
-            if strcmp(get(w(c),'Units'), 'Counts')
-                fprintf('%s: Applying calib of %d for %s.%s\n',mfilename, resp.calib, thissta, thischan);
+            if strcmp(get(w(c),'Units'), 'Counts') | strcmp(get(w(c),'Units'), 'null')
+                fprintf('%s: Applying calib of %d for %s\n',mfilename, calib, wchantag);
                 if (calib ~= 0)
+%                     if strcmp(calibunits{1}, 'Pa')
+%                         calibunits = {'mPa'};
+%                         calib = calib * 1000;
+%                     end
                     w(c) = w(c) * calib;
-                    w(c) = set(w(c), 'units', calibunits);
+                    w(c) = set(w(c), 'units', calibunits{1});
                     %w(c) = set(w(c), 'units', 'nm / sec');
                 end
                 %fprintf('%s: Max corrected amplitude for %s.%s = %e nm/s\n',mfilename: thissta, thischan, rawmax);
@@ -338,78 +416,14 @@ function w = apply_calib(w, sites)
     end
 end
 
-function w = highpass(w)
+function w = apply_filter(w, PARAMS)
     for c=1:numel(w)
-        
-        thissta = get(w(c), 'station');
-        thischan = get(w(c), 'channel');
-
-		if strfind(thischan,'BH') | strfind(thischan, 'HH') | strfind(thischan, 'BD')
-			try
-                debug.print_debug(1, sprintf('Applying high pass filter to %s.%s', thissta, thischan));
-				w(c) = filtfilt(highpassfilterobject, w(c));
-			catch
-                debug.print_debug(1, sprintf('Filter failed'));
-			end
-        end
-        
-    end
-end
-
-
-
-function stats = waveform2stats(w, newFs)
-    stats=[];
-    for c=1:length(w)
-        oldFs = get(w(c), 'freq');
-        compression_factor = round(oldFs / newFs);
-        if strcmp(get(w(c), 'units'), 'nm / sec')
-            stats(c).Vmax = makestat(w(c), 'absmax', compression_factor);
-            stats(c).Vmedian = makestat(w(c), 'absmedian', compression_factor);
-            stats(c).Vmean = makestat(w(c), 'absmean', compression_factor);
-            %e = energy(s); 
-            %stats.Energy = e.resample('absmean', compression_factor);, 
-            w(c) = integrate(w(c));
-        end
-
-        if strcmp(get(w(c), 'units'), 'nm')
-            stats(c).Dmax = makestat(w(c), 'absmax', compression_factor);
-            stats(c).Dmedian = makestat(w(c), 'absmedian', compression_factor);
-            stats(c).Dmean = makestat(w(c),'absmean', compression_factor);
-            stats(c).Drms = makestat(w(c), 'rms', compression_factor);
+        try
+            w(c) = filtfilt(PARAMS.filterObj, w(c));
         end
     end
 end
 
-function s=makestat(w, method, compression_factor)
-	try % rare error in waveform/resample
-        	wr = resample(w, method, compression_factor);
-        	s = waveform2sam(wr);
-        	s.measure = method;
-	catch
-		s = [];
-	end
-end
 
 
-function stats = waveform2f(w)
-    w = waveform_addsgram(w);
-    for c=1:length(w)
-        sgram = get(w(c), 'sgram');
-        if isstruct(sgram)
-            % downsample sgram data to 1 minute bins
-            [Smax,i] = max(sgram.S);
-            peakf = sgram.F(i);
-            meanf = (sgram.F' * sgram.S)./sum(sgram.S);
-            dnum = unique(floorminute(sgram.T/86400));
-            for k=1:length(dnum)
-                p = find(floorminute(sgram.T) == dnum(k));
-                stats(c).peakf(k) = nanmean(peakf(p));
-                stats(c).meanf(k) = nanmean(meanf(p));       
-            end
-        else
-            sgram
-        end
-    end
-end
 

@@ -1,13 +1,35 @@
-function makespectrogramthumbnails(tenminspfile)
+function makespectrogramthumbnails(spectrogramFilename, spectrogramFraction)
 import debug.*
 printfunctionstack('>');
 %print_debug('> makespectrogramthumbnails', 2);
 
 % figure 1 should be a large spectrogram with traces, cropped nicely. Now remove labels and maximise panels.
-removelabels;
+
+ax=get(gcf, 'Children');
+
+% Work out number of channels
+pos1 = get(ax(1),'position'); % top trace
+pos2 = get(ax(2),'position'); % top sgram
+height_per_channel = pos1(4) + pos2(4);
+numchannels = 0.95 / height_per_channel;
+numpanels = numchannels * 2;
+
+new_height_per_channel = 1 / numchannels;
+
+% Remove all axes, tickmarks, labels, and axis boxes and title from view
+for c=1:numpanels
+    set(ax(c), 'Visible', 'off')
+end
+
+% Move panels
+for channelNum = 1:numchannels
+    [spectrogramPosition, tracePosition] = calculatePanelPositions2(numchannels, numchannels - channelNum + 1, spectrogramFraction, 0.0, 0.0, 1, 1);
+    set(ax(channelNum*2 - 1), 'position', tracePosition);
+    set(ax(channelNum*2), 'position', spectrogramPosition);
+end
 
 % we need a name for the labelless large spectrogram
-[tmppath, tmpbase, tmpext] = fileparts(tenminspfile);
+[tmppath, tmpbase, tmpext] = fileparts(spectrogramFilename);
 tmpfile = sprintf('%s/%s_labelless%s',tmppath,tmpbase,tmpext);
 
 % print large labelless PNG
@@ -30,97 +52,4 @@ thumbnailfile = sprintf('%s/small_%s%s',tmppath, tmpbase, tmpext);
 imwrite(X,map,thumbnailfile,'PNG'); 
 close;
 
-% figure 1 - the large spoectrogram without labels, should still be open. Now remove traces.
-figure(1);
-removetraces;
-
-% Create traceless thumbnails.
-% Resize the image (aspect ratio 16:21 same as 576:756) and convert it to an indexed image with 256 colors
-% (Note: we were originally creating 150x96, which is far off the aspect ratio of large spectrograms)
-%[X,map] = rgb2ind(imresize(I, [126 96]), 256);
-%thumbnailfile = sprintf('%s/smallest2_%s%s',tmppath, tmpbase, tmpext);
-%imwrite(X,map,thumbnailfile,'PNG'); 
-%[X,map] = rgb2ind(imresize(I, [147 112]), 256);
-%thumbnailfile = sprintf('%s/smaller2_%s%s',tmppath, tmpbase, tmpext);
-%imwrite(X,map,thumbnailfile,'PNG'); 
-
-% 20130412 Commenting out this part because removetraces is not working. If it want to make this work, suggest calling removetraces from within tremor_wrapper right after saving the large labelled spectrogram.
-%[X,map] = rgb2ind(imresize(I, [198 151]), 256);
-%thumbnailfile = sprintf('%s/small2_%s%s',tmppath, tmpbase, tmpext);
-%imwrite(X,map,thumbnailfile,'PNG'); 
-%close;
-
-
-% Create a thumbnail spectrogram
-%thumbfile = sprintf('%s/thumb_%s%s',tmppath, tmpbase, tmpext);
-%makeThumbnail(thumbfile); % traceless, printed
-%makesgramthumbnail(tenminspfile); % traceful, imwritten
-
-%print_debug('< makespectrogramthumbnails', 2);
 printfunctionstack('<');
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function removelabels()
-
-ax=get(gcf, 'Children');
-numpanels = length(ax);
-h = 2/numpanels;
-
-% Remove all axes, tickmarks, labels, and axis boxes and title from view
-for c=1:numpanels
-        set(ax(c), 'Visible', 'off')
-end
-
-% Maximise trace panels
-for c=1:numpanels/2
-	idx = numpanels/2 -c +1;
-        pos = get(ax(idx), 'position');
-        newpos = [0 (c-1)*h+0.75*h 1 h*.25];
-        set(ax(idx), 'position', newpos )
-end
-
-% Maximise the spectrogram panels
-for c=numpanels/2+1:numpanels
-        pos = get(ax(c), 'position');
-        newpos = [0 (c-1/h-1)*h 1 h*.75];
-        set(ax(c), 'position', newpos )
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function removetraces()
-% this does appear to work okay in interactive mode
-ax=get(gcf, 'Children');
-numpanels = length(ax);
-h = 2/numpanels;
-
-% Remove all trace panels from view
-for c=1:numpanels/2
-        grandchildren = get(ax(c), 'Children');
-        set(grandchildren, 'Visible', 'off')
-end
-
-% Maximise the spectrogram panels
-h = 2/numpanels;
-for c=numpanels/2+1:numpanels
-        pos = get(ax(c), 'position');
-	newpos = [0 (c-1/h-1)*h 1 h*.94];
-        set(ax(c), 'position', newpos )
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

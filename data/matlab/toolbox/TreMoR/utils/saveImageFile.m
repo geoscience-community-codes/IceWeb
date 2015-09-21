@@ -19,7 +19,7 @@ switch nargin
 		outpath = fullfile(arg1, sprintf('%s.png',arg2));
 		res = arg3;
     otherwise,
-        debug.print_debug(1, 'could not save image file - wrong number of arguments')
+        debug.print_debug(0, 'could not save image file - wrong number of arguments')
         return;
 end
 
@@ -38,13 +38,13 @@ try
 
 	% Did our image file actually get saved?
 	if exist(outpath, 'file')
-		debug.print_debug(2, sprintf('%s: Saved image file %s',datestr(utnow),outpath) );
+		debug.print_debug(1, sprintf('%s: Saved image file %s',datestr(utnow),outpath) );
 		result = 1;
 	else
 		debug.print_debug(1, sprintf('%s: Image file %s was not created',datestr(utnow),outpath));
 	end
 catch
-	debug.print_debug(1, sprintf('%s: Could not save the image file %s',datestr(utnow),outpath));
+	debug.print_debug(0, sprintf('%s: Could not save the image file %s',datestr(utnow),outpath));
 end
 
 %print_debug(sprintf('< %s',mfilename),2);
