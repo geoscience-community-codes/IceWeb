@@ -169,7 +169,7 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
             %% PRE_PROCESS DATA
             
             % Eliminate empty waveform objects
-            w = removeempty(w);
+            w = waveform_remove_empty(w);
             if numel(w)==0
                 debug.print_debug(0, 'No waveform data returned - skipping');
                 continue
@@ -188,8 +188,9 @@ function iceweb_helper(paths, PARAMS, subnets, tw, ds)
             w = apply_filter(w, PARAMS);
             
             % Pad all waveforms to same start/end
-            [wsnum wenum] = gettimerange(w); % assume gaps already filled, signal
-            w = pad(w, min(wsnum), max(wenum), 0);
+%             [wsnum wenum] = gettimerange(w); % assume gaps already filled, signal
+%             w = pad(w, min(wsnum), max(wenum), 0);
+            w = pad(w, snum, enum, 0);
             
             % Save RSAM data
             rsamobj = rsam(w);
