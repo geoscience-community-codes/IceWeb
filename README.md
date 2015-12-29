@@ -1,5 +1,5 @@
 # IceWeb
-A web-based seismic monitoring system for volcanoes, including a rapid spectrogram browser
+**A web-based seismic monitoring system for volcanoes, including a rapid spectrogram browser**
 
 IceWeb is a near-real-time monitoring tool used at the Alaska Volcano Observatory (AVO) since 1998. Its main product are Spectrograms and Reduced Displacement plots, which are linked to the AVO Internal Page. Digital helicorder plots were also part of the IceWeb system, though this feature has not been utilised since 1999 when an Earthworm helicorder module became available.
 
