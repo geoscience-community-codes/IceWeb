@@ -22,6 +22,6 @@ Upon rejoining AVO in November 2008, I wrote IceWeb version 2. This was a comple
 
 **As of December 2015, IceWeb spectrograms have also become redundant thanks to Tom Parker's <a href="http://volcanoes.usgs.gov/software/pensive/download.php">"Pensive"</a> application, essentially a Java rewrite of the IceWeb spectrograms...I encourage you to use that instead for real-time operations!**
 
-- Glenn Thompson
+-- Glenn Thompson
 
 
