@@ -1,18 +1,26 @@
 # IceWeb
 **A web-based seismic monitoring system for volcanoes, including a rapid spectrogram browser**
 
-IceWeb is a near-real-time monitoring tool used at the Alaska Volcano Observatory (AVO) since 1998. Its main product are Spectrograms and Reduced Displacement plots, which are linked to the AVO Internal Page. Digital helicorder plots were also part of the IceWeb system, though this feature has not been utilised since 1999 when an Earthworm helicorder module became available.
+IceWeb is a near-real-time monitoring tool used at the Alaska Volcano Observatory (AVO) since 1998. Its main product are:
 
-IceWeb was designed primarily as a tool for the AVO Duty Seismologist, to allow facilitate alarm response. Given the bandwidth limitations of dial-up modems that were commonplace at that time, static web content was the only way to go. Yet the data needed to be near-real-time, i.e. a delay of no more than 10 minutes. This would mean that by the time the Duty Seismologist received an alarm and fired up his home computer, the spectrograms and reduced displacement plots related to that alarm would be available. So there needed to be a software system at AVO that regenerated this web content every 10 minutes.
+* mosaics of 10-minute and daily spectrograms, each image file containing spectrograms for multiple stations
+* reduced displacement plots (think of them as calibrated RSAM plots) with a sampling rate of 1 sample per minute
+* hourly and daily pseudo-helicorder plots
 
-IceWeb also includes an Alarm System, based on reduced displacement levels defined for each station. This sends email and pager alerts to the AVO Duty Seismologist. All IceWeb parameters, including the alarm settings for individual stations, can be configured over the web suing the IceWeb Setup Utility. This makes IceWeb a truly web-based system. The design decision behind this was to enable the Duty Seismologist to modify alarm settings over the web in case:
+All these plots are updated every 10 minutes and linked to the AVO Internal Page. 
 
-* seismicity was escalating at a particular volcano, and the Duty Seismologist only wanted to know when a new level had been reached
-* a particular station became noisy (e.g. due to telemetry problems) and was causing false alarms to be sent
+IceWeb was designed primarily as a tool for the AVO Duty Seismologist, to facilitate alarm response. Given the bandwidth limitations of dial-up modems that were commonplace in 1998 in Fairbanks, static web content was the only way to go. Yet the data needed to be near-real-time, i.e. a delay of no more than 10 minutes. This would mean that by the time the Duty Seismologist received an alarm and fired up his home computer, the spectrograms and reduced displacement plots related to that alarm would be available. 
 
-While designed primarily as an alarm response system, IceWeb is also a useful laboratory tool, with many AVO staff favouring the spectrograms over traditional helicorder-style displays. A number of Interactive IceWeb Tools were developed to enable AVO staff to generate spectrograms and reduced displacements plots for any volcano for any time period at will. An archive of daily spectrograms was also made accessible. Web-based graphical user interfaces were added as front-ends to all these tools, to allow AVO staff to run these tools remotely.
+IceWeb also includes a tremor alarm system, based on reduced displacement thresholds manually set for each station/channel. This sends email and pager alerts to the AVO Duty Seismologist when a manually set number of station/channels trigger simultaneously. A web-based GUI allows the Duty Seismologist to alter which volcanoes and which station/channels for each volcano are being monitored, and to adjust the thresholds for each station/channel. In the middle of the night in case, for example:
 
-# History
+* As seismicity continues to escalate at a particular volcano, it is sometimes desirable to raise the threshold from (say) 5cm^2 to (say) 10cm^2, rather than have alarms repeat at the same level.
+* If a particular station became noisy (e.g. due to telemetry problems) and is causing false alarms to be sent, it can be turned off, allowing the Duty Seismologist to sleep.
+
+IceWeb GUIs were developed to enable AVO staff to generate spectrograms and reduced displacements plots for any volcano for any time period at will.
+
+While designed primarily as an alarm response system, IceWeb is also an exceptionally useful laboratory tool, with many AVO staff favouring the spectrograms over traditional helicorder-style displays. Indeed, IceWeb spectrograms quickly became established as the most efficient way to analyze 24-hours of seismicity at up to 30 volcanoes, each with up to 8 displayed stations. 
+
+# Development History
 
 I wrote IceWeb while a postdoc at the Alaska Volcano Observatory beginning in March 1998, motivated by work John Benoit and Kent Lindquist did during the Pavlof eruption in 1996. IceWeb was forked to other observatories, including Montserrat where I moved to in January 2000.
 
