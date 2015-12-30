@@ -27,12 +27,6 @@ I wrote IceWeb while a postdoc at the Alaska Volcano Observatory beginning in Ma
 The IceWeb helicorders were made redundant by Earthworm helicorders in 1999 and then SWARM in 2005. But the spectrogram browser continued to be a core monitoring tool at AVO and other observatories.
 
 Upon rejoining AVO in November 2008, I wrote IceWeb version 2. This was a complete rewrite, replacing the Perl-CGI web interface with PhP, and refactoring the MATLAB code based on <a href="https://geoscience-community-codes.github.io/GISMO">GISMO</a>. This enables IceWeb to read waveform data from IRIS/FDSN web services, EW/WinstonWS, Antelope databases, Miniseed/SAC/Seisan files etc. 
-
-I saw Tom's earliest work at a modern reimplementation in 2006 and I've always been very encouraging of this because that MATLAB part needed to go. 
-
-- Glenn
-
-* In 2008 I rebuilt IceWeb on GISMO - a seismic data analysis toolbox/framework for MATLAB. It is GISMO that provides these data reading capabilities, IceWeb just has access to them via GISMO. GISMO also reads a wide variety of catalog data formats/sources, and reads RSAM binary files and creates RSAM data too. I've also ported some of that functionality to Python to enhance ObsPy for volcano-seismic data analysis/research.
  
 IceWeb's weakest link is it uses MATLAB to generate the image files. While MATLAB is great for rapid prototyping, the license requirement limited IceWeb's wider adoption for the USGS Volcano Disaster Assistance Program. So back as far as 1999 I planned to rewrite it in C (hence my interest in the Earthworm sgram module), but that project never rose to the top of my to-do list. However, **as of December 2015, IceWeb spectrograms have also become redundant thanks to Tom Parker's <a href="http://volcanoes.usgs.gov/software/pensive/index.php">"Pensive"</a> application, essentially a Java rewrite of the IceWeb spectrograms...I encourage you to use that instead for real-time operations!**
 
