@@ -14,12 +14,14 @@ While designed primarily as an alarm response system, IceWeb is also a useful la
 
 # History
 
-IceWeb was written by Glenn Thompson at the Alaska Volcano Observatory beginning in March 1998, motivated by some John Benoit and Kent Lindquist for some concept code which they wrote during the Pavlof eruption in 1996. IceWeb was forked to other observatories, including Montserrat where Glenn moved to in January 2000.
+I wrote IceWeb while a postdoc at the Alaska Volcano Observatory beginning in March 1998, motivated by work John Benoit and Kent Lindquist did during the Pavlof eruption in 1996. IceWeb was forked to other observatories, including Montserrat where I moved to in January 2000.
 
 The IceWeb helicorders were made redundant by Earthworm helicorders in 1999 and then SWARM in 2005. But the spectrogram browser continued to be a core monitoring tool at AVO and other observatories.
 
-Upon rejoining AVO in November 2008, Glenn wrote IceWeb version 2. This was a complete rewrite, replacing the Perl-CGI web interface with PhP, and refactoring the MATLAB code based on GISMO. 
+Upon rejoining AVO in November 2008, I wrote IceWeb version 2. This was a complete rewrite, replacing the Perl-CGI web interface with PhP, and refactoring the MATLAB code based on GISMO. 
 
-**As of December 2015, IceWeb spectrograms have also become redundant thanks to Tom Parker's <a href="http://volcanoes.usgs.gov/software/pensive/download.php">"Pensive"</a> application, essentially a Java rewrite of the IceWeb spectrograms...Glenn thinks you should use that instead!**
+**As of December 2015, IceWeb spectrograms have also become redundant thanks to Tom Parker's <a href="http://volcanoes.usgs.gov/software/pensive/download.php">"Pensive"</a> application, essentially a Java rewrite of the IceWeb spectrograms...I encourage you to use that instead for real-time operations!**
+
+- Glenn Thompson
 
 
