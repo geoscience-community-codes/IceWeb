@@ -1,0 +1,163 @@
+: # use perl
+eval 'exec $ANTELOPE/bin/perl -S $0 "$@"'
+if 0;
+
+use lib "$ENV{ANTELOPE}/data/perl" ;
+use Datascope ;
+use File::Basename;
+
+my $pgm = $0 ;
+$pgm =~ s".*/"" ;
+$usage = <<END_OF_USAGE;
+
+$pgm is intended to be a convenient wrapper to produce an earthquake catalog given a pre-existing wfdisc table
+This wfdisc table can be generated from miniseed files using miniseed2days (if miniseed files are not already in day chunks),
+miniseed2db (to produce the wfdisc table) and dbfix_calib (to insert calib values from a calibration table into the wfdisc
+table).
+
+PREREQUISITES
+1. For running dbdetect, you must have a waveform database with a wfdisc table and a dbdetect parameter file.
+2. For running dbgrassoc, you must have a catalog database with a detection table, and either a ttgrid parameter file or a grid file, and a dbgrassoc parameter file.
+3. For running dbml, you must have a catalog database with arrival, assoc, origin and event, and a dbml parameter file.
+* Note dbevproc not yet supported *
+All parameter files must be placed in a subdirectory called "pf". While $pgm is running, $PFPATH will be modified ONLY to see this directory.
+
+Most of the details herein can be understood by browsing the man pages 
+and the parameter files for the following routines: dbdetect, ttgrid, 
+dbgrassoc and dbml. The dbgenloc man page is also relevant.
+
+Usage:
+
+$pgm [-adr] sdate edate lon lat ttgridpf gridfile wfdb stationdb catalogdb
+
+e.g.
+
+$pgm '2008/6/1' '2008/9/1' -168.16 53.42 pf/ttgrid_OK.pf grid_OK wf/db station/dbstations events/dbquakes_OK_20080601_20080901   
+
+Options:
+    -a  = rerun associations
+    -d  = rerun detections
+    -r distance_in_km = subset stationdb to include only stations within this radius of lat & lon 
+
+The radius argument is useful when the station database contains stations from other regions (e.g. other volcanoes), and you wish
+to omit these. If you want to include all stations in the station database, just set this to some large value.
+
+END_OF_USAGE
+
+require "getopts.pl" ;
+our ($opt_a, $opt_d, $opt_r);
+if ( ! &Getopts('adr:') || $#ARGV < 9) {
+    die("$usage\n");
+}
+#################################################################################################
+# Process input arguments
+($sdate, $edate, $lon, $lat, $radius_in_km, $ttgridpf, $gridfile, $wfdb, $stationdb, $catalogdb) = @ARGV;
+$radius_in_km = $opt_r;
+
+$ENV{PFPATH} = "./pf";
+die("pf directory does not exist\n") unless (-d "./pf"); 
+$dbdetectpf = "pf/dbdetect.pf";
+$ttgridpf = "pf/ttgrid.pf";
+
+$sepoch = str2epoch($sdate);
+$eepoch = str2epoch($edate);
+$timestamp = epoch2str(now(),"%H%M");
+print "timestamp = $timestamp\n";
+
+# Create descriptor file
+dbcreate($catalogdb) unless (-e $catalogdb);
+
+# BACKUP DETECTION TABLE IF EXISTS
+if ($opt_d) {
+	if (-e "$catalogdb.detection") {
+		system("mv $catalogdb.detection ".$catalogdb."_".$timestamp.".detection");
+	}
+}
+
+# ATTEMPT TO RUN DBDETECT: STA/LTA DETECTOR
+if (!(-e "$catalogdb.detection") || $opt_d) {
+	if (-e "$wfdb.wfdisc") {
+		if (-e $dbdetectpf) {
+			print "Creating detection table for $catalogdb\n";
+			$dbdetectpf_base = fileparts($dbdetectpf);
+			system("dbdetect -pf $dbdetectpf_base $wfdb $catalogdb >& $dbdetectpf_base.log");
+		}
+		else
+		{
+			print "Cannot run dbdetect: $dbdetectpf does not exist\n";
+		}
+	}
+	else
+	{
+		print "Cannot run dbdetect: $wfdb.wfdisc does not exist\n";
+	}
+}
+
+# BACKUP ORIGIN-RELATED TABLES IF ANY EXIST
+if ($opt_a) {
+	if (-e "$catalogdb.*") {
+		@tables = qw(assoc arrival emodel event lastid netmag origerr origin predarr stamag);
+		foreach $table (@tables) {
+			system("mv $catalogdb.$table ".$catalogdb."_".$timestamp.".$table");
+		}
+	}
+}
+
+# Create velocity grid to nearby stations
+$stationtmpdb = "station_temp_db";
+unless (-e $gridfile) {
+	if ($radius_in_km) {
+		if (-e "$stationdb.site") {
+			print "Creating velocity grid, step 1/2\n";
+			system("dbsubset $stationdb.site \"deg2km(distance(lat,lon,$lat, $lon))<$radius_in_km\" | dbunjoin -o $station_temp_db -");
+	                $stationdb = $stationtmpdb;
+		}
+		else
+		{
+			print "No station database site table: $stationdb.site\n";
+		}
+	}
+
+	if (-e $ttgridpf) {
+		print "Creating velocity grid, step 2/2\n";
+		$ttgridpf_base = fileparts($ttgridpf);
+		system("ttgrid -pf $ttgridpf_base $stationtmpdb > $gridfile");
+	}
+	else
+	{
+		print "No ttgrid pf file $ttgridpf\n";
+	}
+}
+
+if (-e $gridfile) {
+	# Show travel-time grid 
+	system("ttgrid_show -N $gridfile");                         # list stations
+	#system("displayttgrid -shownames $gridfile $gridname");    # show map of a specific grid
+
+	if (!(-e "$catalogdb.assoc") || $opt_a) {
+	# ASSOCIATE DETECTIONS INTO HYPOCENTERS 
+	if (-e $dbgrassocpf && -e $gridfile) {
+		print "Associating detections to create arrival, assoc, origin and event tables for $catalogdb\n";
+		$dbgrassocpf_base = fileparts($dbgrassocpf);
+		system("dbgrassoc -pf $dbgrassocpf_base $catalogdb $catalogdb $gridfile >& $dbgrassocpf_base.log");
+	}
+	else
+	{
+		print "Cannot run dbgrasssoc: $dbgrassocpf does not exist\n";			
+	}
+
+	# CALCULATE MAGNITUDES WHERE POSSIBLE
+	if (-e $dbmlpf) {
+		print "Calculating magnitudes for $catalogdb\n";
+		$dbml_base = fileparts($dbmlpf);
+		system("dbml -make_magtables -p $dbmlpf_base $catalogdb >& $dbmlpf_base.log");
+		system("dbset $catalogdb ml \'ml == NULL\' -1.000");   # Set NULL magnitudes to default value
+	}
+	else
+	{
+		die("$dbmlpf does not exist: Cannot run dbml for $catalogdb\n");
+	}
+}
+
+
+
