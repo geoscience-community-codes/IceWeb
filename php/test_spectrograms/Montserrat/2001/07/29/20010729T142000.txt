@@ -1,0 +1,80 @@
+tremor_datasource2mat 21-Apr-2014 17:41:30: Started
+tremor_datasource2mat 21-Apr-2014 17:41:30: Getting waveforms for Montserrat from 29-Jul-2001 14:10:00 to 29-Jul-2001 14:20:00 at 
+- Attempting to load waveform data for 6 remaining stations (of 6 total) from 2001-07-29 14:10:00 to 2001-07-29 14:20:00
+Waveform call:
+	scnl(1) = scnlobject('MBLG', 'SHZ', 'MN', '--');
+	scnl(2) = scnlobject('MBRY', 'BHZ', 'MN', '--');
+	scnl(3) = scnlobject('MBSS', 'SHZ', 'MN', '--');
+	scnl(4) = scnlobject('MBGH', 'BHZ', 'MN', '--');
+	scnl(5) = scnlobject('MBWH', 'SHZ', 'MN', '--');
+	scnl(6) = scnlobject('MBGB', 'BHZ', 'MN', '--');
+	ds = datasource('antelope', 'db/mvodb2001');
+	w = waveform(ds, scnl, 731061.590278, 731061.597222)
+21-Apr-2014 17:41:31: Saving to waveform_files/loaded/Montserrat_20010729T142000.mat
+21-Apr-2014 17:41:31: waveform_files/loaded/Montserrat_20010729T142000.mat has size 467837 bytes
+21-Apr-2014 17:41:31: Waveform MAT file created
+tremor_datasource2mat 21-Apr-2014 17:41:32: Finished
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat at 21-Apr-2014 23:43:06
+tremor_wrapper 21-Apr-2014 23:43:06: Started
+tremor_wrapper 21-Apr-2014 23:43:06: Size of waveform_files/queue1/Montserrat_20010729T142000.mat is 467837 bytes
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname at 21-Apr-2014 23:43:06
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname>getSgram10minName at 21-Apr-2014 23:43:06
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname<getSgram10minName at 21-Apr-2014 23:43:06
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname at 21-Apr-2014 23:43:06
+mv waveform_files/queue1/Montserrat_20010729T142000.mat waveform_files/queue1/tmp/Montserrat_20010729T142000.mat
+** Loading...
+load waveform_files/queue1/tmp/Montserrat_20010729T142000.mat
+Starting sanity checks
+*** file looks good - all variables validate
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>summariseWaveformMat at 21-Apr-2014 23:43:08
+** waveform loaded **
+Start time is 29-Jul-2001 14:10:00 UTC
+End time is 29-Jul-2001 14:20:00 UTC
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<summariseWaveformMat at 21-Apr-2014 23:43:08
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat at 21-Apr-2014 23:43:08
+tremor_wrapper 21-Apr-2014 23:43:09: Started
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 23:43:09
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 23:43:09
+tremor_wrapper 21-Apr-2014 23:43:09: loading next waveform and doing prep (3.2 s)
+waveform_addresponse 21-Apr-2014 23:43:09: adding response structures to waveform objects
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 23:43:09
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 23:43:09
+Applying high pass filter to MBRY.BHZ
+Applying high pass filter to MBGH.BHZ
+Applying high pass filter to MBGB.BHZ
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 23:43:10
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 23:43:10
+tremor_wrapper 21-Apr-2014 23:43:10: preparing spectrogram waveforms (0.9 s)
+>rtrun_tremorwrapper>tremor_wrapper>getSgram10minName at 21-Apr-2014 23:43:10
+<rtrun_tremorwrapper<tremor_wrapper<getSgram10minName at 21-Apr-2014 23:43:10
+6 waveform objects
+
+ans =
+
+    55     3
+
+specgram failed on waveform vector. Trying again, using nonempty rather than fillempty
+6 waveform objects after removing empty waveform objects
+specgram_wrapper: MBLG.SHZ: Max amplitude 3.3e+03 nm/s (70 dB)
+specgram_wrapper: MBRY.BHZ: Max amplitude 1.8e+03 nm/s (65 dB)
+specgram_wrapper: MBSS.SHZ: Max amplitude 1.2e+04 nm/s (81 dB)
+specgram_wrapper: MBGH.BHZ: Max amplitude 6.0e+03 nm/s (76 dB)
+specgram_wrapper: MBWH.SHZ: Max amplitude 1.5e+04 nm/s (84 dB)
+specgram_wrapper: MBGB.BHZ: Max amplitude 2.7e+04 nm/s (88 dB)
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 23:43:11
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 23:43:12
+tremor_wrapper 21-Apr-2014 23:43:12: computing & plotting spectrograms (1.8 s)
+{Cannot find an exact (case-sensitive) match for 'saveImagefile'
+
+The closest match is: saveImageFile in
+/raid/home/t/thompsong/run_tremor/matlab/toolbox/TreMoR/utils/saveImageFile.m
+
+
+Error in tremor_wrapper (line 87)
+	if saveImagefile(tenminspfile, 72)
+
+Error in rtrun_tremorwrapper (line 12)
+	tremor_wrapper(sprintf('waveform_files/queue%d',queue_num),
+        runtimematfile);
+} 
+

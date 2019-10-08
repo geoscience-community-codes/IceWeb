@@ -1,0 +1,34 @@
+tremor_datasource2mat 21-Apr-2014 17:41:33: Started
+tremor_datasource2mat 21-Apr-2014 17:41:33: Getting waveforms for Montserrat from 29-Jul-2001 13:50:00 to 29-Jul-2001 14:00:00 at 
+- Attempting to load waveform data for 6 remaining stations (of 6 total) from 2001-07-29 13:50:00 to 2001-07-29 14:00:00
+Waveform call:
+	scnl(1) = scnlobject('MBLG', 'SHZ', 'MN', '--');
+	scnl(2) = scnlobject('MBRY', 'BHZ', 'MN', '--');
+	scnl(3) = scnlobject('MBSS', 'SHZ', 'MN', '--');
+	scnl(4) = scnlobject('MBGH', 'BHZ', 'MN', '--');
+	scnl(5) = scnlobject('MBWH', 'SHZ', 'MN', '--');
+	scnl(6) = scnlobject('MBGB', 'BHZ', 'MN', '--');
+	ds = datasource('antelope', 'db/mvodb2001');
+	w = waveform(ds, scnl, 731061.576389, 731061.583333)
+21-Apr-2014 17:41:34: Saving to waveform_files/loaded/Montserrat_20010729T140000.mat
+21-Apr-2014 17:41:34: waveform_files/loaded/Montserrat_20010729T140000.mat has size 463225 bytes
+21-Apr-2014 17:41:34: Waveform MAT file created
+tremor_datasource2mat 21-Apr-2014 17:41:34: Finished
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat at 21-Apr-2014 23:44:39
+tremor_wrapper 21-Apr-2014 23:44:39: Started
+tremor_wrapper 21-Apr-2014 23:44:39: Size of waveform_files/queue4/Montserrat_20010729T140000.mat is 463225 bytes
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname at 21-Apr-2014 23:44:39
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname>getSgram10minName at 21-Apr-2014 23:44:39
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname<getSgram10minName at 21-Apr-2014 23:44:39
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname at 21-Apr-2014 23:44:39
+mv waveform_files/queue4/Montserrat_20010729T140000.mat waveform_files/queue4/tmp/Montserrat_20010729T140000.mat
+** Loading...
+load waveform_files/queue4/tmp/Montserrat_20010729T140000.mat
+Starting sanity checks
+*** file looks good - all variables validate
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>summariseWaveformMat at 21-Apr-2014 23:44:41
+** waveform loaded **
+Start time is 29-Jul-2001 13:50:00 UTC
+End time is 29-Jul-2001 14:00:00 UTC
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<summariseWaveformMat at 21-Apr-2014 23:44:41
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat at 21-Apr-2014 23:44:41

@@ -1,0 +1,4 @@
+/* Used for the top menu bar */
+div#nav{
+	width:930px; /* 20px more than it needs to be for default view because on zoom out, it needs more space. Based on seimisopochnoi 7.2 em */
+} 

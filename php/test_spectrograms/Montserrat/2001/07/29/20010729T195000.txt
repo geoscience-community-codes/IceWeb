@@ -1,0 +1,811 @@
+tremor_datasource2mat 21-Apr-2014 17:40:42: Started
+tremor_datasource2mat 21-Apr-2014 17:40:42: Getting waveforms for Montserrat from 29-Jul-2001 19:40:00 to 29-Jul-2001 19:50:00 at 
+- Attempting to load waveform data for 6 remaining stations (of 6 total) from 2001-07-29 19:40:00 to 2001-07-29 19:50:00
+Waveform call:
+	scnl(1) = scnlobject('MBLG', 'SHZ', 'MN', '--');
+	scnl(2) = scnlobject('MBRY', 'BHZ', 'MN', '--');
+	scnl(3) = scnlobject('MBSS', 'SHZ', 'MN', '--');
+	scnl(4) = scnlobject('MBGH', 'BHZ', 'MN', '--');
+	scnl(5) = scnlobject('MBWH', 'SHZ', 'MN', '--');
+	scnl(6) = scnlobject('MBGB', 'BHZ', 'MN', '--');
+	ds = datasource('antelope', 'db/mvodb2001');
+	w = waveform(ds, scnl, 731061.819444, 731061.826389)
+21-Apr-2014 17:40:43: Saving to waveform_files/loaded/Montserrat_20010729T195000.mat
+21-Apr-2014 17:40:43: waveform_files/loaded/Montserrat_20010729T195000.mat has size 542340 bytes
+21-Apr-2014 17:40:43: Waveform MAT file created
+tremor_datasource2mat 21-Apr-2014 17:40:43: Finished
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat at 21-Apr-2014 18:26:51
+tremor_wrapper 21-Apr-2014 18:26:51: Started
+tremor_wrapper 21-Apr-2014 18:26:51: Size of waveform_files/queue4/Montserrat_20010729T195000.mat is 542340 bytes
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname at 21-Apr-2014 18:26:51
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname>getSgram10minName at 21-Apr-2014 18:26:51
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname<getSgram10minName at 21-Apr-2014 18:26:51
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname at 21-Apr-2014 18:26:51
+mv waveform_files/queue4/Montserrat_20010729T195000.mat waveform_files/queue4/tmp/Montserrat_20010729T195000.mat
+** Loading...
+load waveform_files/queue4/tmp/Montserrat_20010729T195000.mat
+Starting sanity checks
+*** file looks good - all variables validate
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>summariseWaveformMat at 21-Apr-2014 18:26:54
+** waveform loaded **
+Start time is 29-Jul-2001 19:40:00 UTC
+End time is 29-Jul-2001 19:50:00 UTC
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<summariseWaveformMat at 21-Apr-2014 18:26:54
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat at 21-Apr-2014 18:26:54
+tremor_wrapper 21-Apr-2014 18:26:54: Started
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 18:26:54
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 18:26:54
+tremor_wrapper 21-Apr-2014 18:26:54: loading next waveform and doing prep (3.2 s)
+waveform_addresponse 21-Apr-2014 18:26:54: adding response structures to waveform objects
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 18:26:54
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 18:26:54
+Applying high pass filter to MBRY.BHZ
+Applying high pass filter to MBGH.BHZ
+Applying high pass filter to MBGB.BHZ
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 18:26:55
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 18:26:55
+tremor_wrapper 21-Apr-2014 18:26:55: preparing spectrogram waveforms (0.9 s)
+>rtrun_tremorwrapper>tremor_wrapper>getSgram10minName at 21-Apr-2014 18:26:55
+<rtrun_tremorwrapper<tremor_wrapper<getSgram10minName at 21-Apr-2014 18:26:55
+6 waveform objects
+
+ans =
+
+    55     3
+
+specgram failed on waveform vector. Trying again, using nonempty rather than fillempty
+6 waveform objects after removing empty waveform objects
+specgram_wrapper: MBLG.SHZ: Max amplitude 6.8e+03 nm/s (77 dB)
+specgram_wrapper: MBRY.BHZ: Max amplitude 5.5e+03 nm/s (75 dB)
+specgram_wrapper: MBSS.SHZ: Max amplitude 1.9e+04 nm/s (86 dB)
+specgram_wrapper: MBGH.BHZ: Max amplitude 8.3e+03 nm/s (78 dB)
+specgram_wrapper: MBWH.SHZ: Max amplitude 3.0e+04 nm/s (90 dB)
+specgram_wrapper: MBGB.BHZ: Max amplitude 8.0e+04 nm/s (98 dB)
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 21-Apr-2014 18:26:56
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 21-Apr-2014 18:26:56
+tremor_wrapper 21-Apr-2014 18:26:56: computing & plotting spectrograms (1.4 s)
+>rtrun_tremorwrapper>tremor_wrapper>saveImageFile at 21-Apr-2014 18:26:57
+21-Apr-2014 18:26:58: Saved image file plots/Montserrat/2001/07/29/20010729T195000.png
+<rtrun_tremorwrapper<tremor_wrapper<saveImageFile at 21-Apr-2014 18:26:58
+tremor_wrapper 21-Apr-2014 18:26:58: spectrogram PNG size is 244923
+>rtrun_tremorwrapper>tremor_wrapper>makespectrogramthumbnails at 21-Apr-2014 18:26:58
+{Cannot find an exact (case-sensitive) match for 'saveImagefile'
+
+The closest match is: saveImageFile in
+/raid/home/t/thompsong/run_tremor/matlab/toolbox/TreMoR/utils/saveImageFile.m
+
+
+Error in makespectrogramthumbnails (line 14)
+saveImagefile(tmpfile, 72);
+
+Error in tremor_wrapper (line 92)
+		makespectrogramthumbnails(tenminspfile);
+
+Error in rtrun_tremorwrapper (line 12)
+	tremor_wrapper(sprintf('waveform_files/queue%d',queue_num), matfile);
+} 
+tremor_datasource2mat 14-Sep-2015 12:57:28: Started
+tremor_datasource2mat 14-Sep-2015 12:57:28: Getting waveforms for Montserrat from 29-Jul-2001 19:40:00 to 29-Jul-2001 19:50:00 at 
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+
+chantag = 
+
+  1x32 <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> array with properties:
+
+    network
+    station
+    location
+    channel
+    ENFORCE_SEED_COMPLIANCE
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MLYT'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBLG'
+                   location: ''
+                    channel: 'SHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBLG'
+                   location: ''
+                    channel: 'SHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBLG'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MLGT'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MLGL'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBRY'
+                   location: ''
+                    channel: 'BHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBRY'
+                   location: ''
+                    channel: 'BHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBRY'
+                   location: ''
+                    channel: 'BHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MRYT'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBBY'
+                   location: ''
+                    channel: 'BHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBBY'
+                   location: ''
+                    channel: 'BHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBBY'
+                   location: ''
+                    channel: 'BHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBSS'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBSS'
+                   location: ''
+                    channel: 'SHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBSS'
+                   location: ''
+                    channel: 'SHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MGHZ'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBGH'
+                   location: ''
+                    channel: 'BHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBGH'
+                   location: ''
+                    channel: 'BHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBGH'
+                   location: ''
+                    channel: 'BHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MWHZ'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBWH'
+                   location: ''
+                    channel: 'SHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBWH'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBWH'
+                   location: ''
+                    channel: 'SHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBGB'
+                   location: ''
+                    channel: 'BHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBGB'
+                   location: ''
+                    channel: 'BHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBGB'
+                   location: ''
+                    channel: 'BHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MJHT'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MJHL'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBMH'
+                   location: ''
+                    channel: 'SHE_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBMH'
+                   location: ''
+                    channel: 'SHZ_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+  <a href="matlab:helpPopup channeltag" style="font-weight:bold">channeltag</a> with properties:
+
+                    network: 'MV'
+                    station: 'MBMH'
+                   location: ''
+                    channel: 'SHN_--'
+    ENFORCE_SEED_COMPLIANCE: 0
+
+Waveform call:
+	chantag(1) = MV.MLYT..SHZ_--
+	chantag(2) = MV.MBLG..SHE_--
+	chantag(3) = MV.MBLG..SHN_--
+	chantag(4) = MV.MBLG..SHZ_--
+	chantag(5) = MV.MLGT..SHZ_--
+	chantag(6) = MV.MLGL..SHZ_--
+	chantag(7) = MV.MBRY..BHN_--
+	chantag(8) = MV.MBRY..BHZ_--
+	chantag(9) = MV.MBRY..BHE_--
+	chantag(10) = MV.MRYT..SHZ_--
+	chantag(11) = MV.MBBY..BHE_--
+	chantag(12) = MV.MBBY..BHN_--
+	chantag(13) = MV.MBBY..BHZ_--
+	chantag(14) = MV.MBSS..SHZ_--
+	chantag(15) = MV.MBSS..SHN_--
+	chantag(16) = MV.MBSS..SHE_--
+	chantag(17) = MV.MGHZ..SHZ_--
+	chantag(18) = MV.MBGH..BHE_--
+	chantag(19) = MV.MBGH..BHN_--
+	chantag(20) = MV.MBGH..BHZ_--
+	chantag(21) = MV.MWHZ..SHZ_--
+	chantag(22) = MV.MBWH..SHN_--
+	chantag(23) = MV.MBWH..SHZ_--
+	chantag(24) = MV.MBWH..SHE_--
+	chantag(25) = MV.MBGB..BHE_--
+	chantag(26) = MV.MBGB..BHN_--
+	chantag(27) = MV.MBGB..BHZ_--
+	chantag(28) = MV.MJHT..SHZ_--
+	chantag(29) = MV.MJHL..SHZ_--
+	chantag(30) = MV.MBMH..SHE_--
+	chantag(31) = MV.MBMH..SHZ_--
+	chantag(32) = MV.MBMH..SHN_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+Waveform call:
+	chantag(1) = MV.MLYT..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+Waveform call:
+	chantag(1) = MV.MBLG..SHE_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+Waveform call:
+	chantag(1) = MV.MBLG..SHN_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+Waveform call:
+	chantag(1) = MV.MLGL..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+Waveform call:
+	chantag(1) = MV.MRYT..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+Waveform call:
+	chantag(1) = MV.MBSS..SHN_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+Waveform call:
+	chantag(1) = MV.MBSS..SHE_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+Waveform call:
+	chantag(1) = MV.MGHZ..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+Waveform call:
+	chantag(1) = MV.MWHZ..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+Waveform call:
+	chantag(1) = MV.MBWH..SHE_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+Waveform call:
+	chantag(1) = MV.MJHT..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+Waveform call:
+	chantag(1) = MV.MJHL..SHZ_--
+	ds = datasource('antelope', '/raid/data/MONTSERRAT/antelope/db/db20010729');
+	w = waveform(ds, chantag, 731061.819444, 731061.826389)
+??? Error using dbclose
+
+Usage: DBCLOSE ( DBPTR )
+
+14-Sep-2015 12:57:29: Saving to waveform_files/loaded/Montserrat_20010729T195000.mat
+14-Sep-2015 12:57:29: waveform_files/loaded/Montserrat_20010729T195000.mat has size 1392373 bytes
+14-Sep-2015 12:57:29: Waveform MAT file created
+tremor_datasource2mat 14-Sep-2015 12:57:29: Finished
