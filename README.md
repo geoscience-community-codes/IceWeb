@@ -24,7 +24,7 @@ While designed primarily as an alarm response system, IceWeb is also an exceptio
 
 I wrote IceWeb while a postdoc at the Alaska Volcano Observatory beginning in March 1998, motivated by work John Benoit and Kent Lindquist did during the Pavlof eruption in 1996. IceWeb was forked to other observatories, including CVO, HVO and Montserrat.
 
-The IceWeb helicorders were made redundant by Earthworm helicorders in 1999 and then by SWARM in 2005. But the spectrogram browser continues to be a core monitoring tool and is presently hosted by the Alaska Earthquake Center at http://aeic.alaska.edu/spectrograms.
+The IceWeb helicorders were made redundant by Earthworm helicorders in 1999 and then by SWARM in 2005. But the spectrogram browser continues to be a core monitoring tool and is presently hosted by the Alaska Earthquake Center at http://www.aeic.alaska.edu/spectrograms.
 
 Upon rejoining AVO in November 2008, I wrote IceWeb version 2. This was a complete rewrite, replacing the Perl-CGI web interface with PhP, and refactoring the MATLAB code based on <a href="https://geoscience-community-codes.github.io/GISMO">GISMO</a>. This enables IceWeb to read waveform data from IRIS/FDSN web services, EW/WinstonWS, Antelope databases, Miniseed/SAC/Seisan files etc. 
  
