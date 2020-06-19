@@ -43,12 +43,13 @@ function mosaicMaker($numMins, $subnet, $year, $month, $day, $hour, $minute, $nu
 	$firstRow = 1;
 	$oldhhmm = "";
 
-	for ( $time = $startepoch + ($numMins * 60); $time < $stopepoch; $time += $numMins * 60) {
+	for ( $time = $startepoch + ($numMins * 60); $time < $stopepoch + $numMins * 60; $time += $numMins * 60) {
 
 		# Get the end date and time for the current image
 		list ($year, $month, $day, $hour, $minute) = epoch2YmdHM($time);
 		$floorminute = floorminute($minute);
-		$timestamp = sprintf("%04d%02d%02dT%02d%02d",$year ,$month, $day, $hour, $floorminute) . "00";
+		#$timestamp = sprintf("%04d%02d%02dT%02d%02d",$year ,$month, $day, $hour, $floorminute) . "00";
+		$timestamp = sprintf("%04d%02d%02d-%02d%02d",$year ,$month, $day, $hour, $floorminute);
 
 		# Create labels for end hour/minute
 		$hhmm = sprintf("%02d:%02d", $hour, $floorminute);
@@ -101,8 +102,10 @@ function mosaicMaker($numMins, $subnet, $year, $month, $day, $hour, $minute, $nu
 		}
 
 		# CELL STARTS HERE 			
-		$small_sgram = "$WEBPLOTS/$subnet/$year/$month/$day/$thumbs"."_$timestamp.png";
-		$big_sgram = "$WEBPLOTS/$subnet/$year/$month/$day/$timestamp.png";
+		#$small_sgram = "$WEBPLOTS/$subnet/$year/$month/$day/$thumbs"."_$timestamp.png";
+		#$big_sgram = "$WEBPLOTS/$subnet/$year/$month/$day/$timestamp.png";
+		$big_sgram = "$WEBPLOTS/$subnet/$year-$month-$day/$subnet"."_".$timestamp.".png";
+		$small_sgram = "$WEBPLOTS/$subnet/$year-$month-$day/$subnet"."_".$timestamp."_thumb.png";
 		if (file_exists($small_sgram)) {
 			$latestAge = $ageStr;
 			echo "<td title=\"$oldhhmm$hhmm\" class=\"tdimg\"><a href=$sgramphplink><img src=$small_sgram></a></td>\n";
@@ -111,10 +114,10 @@ function mosaicMaker($numMins, $subnet, $year, $month, $day, $hour, $minute, $nu
 				if (filesize($big_sgram)==0) {
 					echo "<td title=\"An attempt has been made to load data for this timeperiod.\" class=\"tdimg\"><a href=$sgramphplink><img src=\"images/nothumbnail.png\"></a></td>\n";
 				} else {
-					echo "<td title=\"No thumbnail image produced.\" class=\"tdimg\"><a href=$sgramphplink><img src=\"$big_sgram\" width=150 height=198></a></td>\n";
+					echo "<td title=\"No thumbnail image produced $small_sgram\" class=\"tdimg\"><a href=$sgramphplink><img src=\"$big_sgram\" width=150 height=198></a></td>\n";
 				}
 			} else {
-				echo "<td title=\"No spectrogram image file found\" class=\"tdimg\"><a href=$sgramphplink><img src=\"images/nothumbnail.png\"></a></td>\n";
+				echo "<td title=\"No spectrogram image file found $big_sgram $small_sgram\" class=\"tdimg\"><a href=$sgramphplink><img src=\"images/nothumbnail.png\"></a></td>\n";
 			}
 		}
 

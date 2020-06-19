@@ -1,5 +1,8 @@
 <?php
-$WEBPLOTS = "spectrograms"; 
+#$WEBPLOTS = "spectrograms"; 
+#$WEBPLOTS = "/Users/gt/Dropbox/iceweb/NZ"; 
+#$WEBPLOTS = "Dropbox/iceweb/NZ"; 
+$WEBPLOTS = "webplots/NZ"; 
 $subnets = array();
 $subnetslist = "config/subnetslist.txt";
 if (file_exists($subnetslist)) { 
