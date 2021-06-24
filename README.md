@@ -20,22 +20,27 @@ IceWeb GUIs were developed to enable AVO staff to generate spectrograms and redu
 
 While designed primarily as an alarm response system, IceWeb is also an exceptionally useful laboratory tool, with many AVO staff favouring the spectrograms over traditional helicorder-style displays. Indeed, IceWeb spectrograms quickly became established as the most efficient way to analyze 24-hours of seismicity at up to 30 volcanoes, each with up to 8 displayed stations. 
 
-# Development History
+## Development History
 
 I wrote IceWeb while a postdoc at the Alaska Volcano Observatory beginning in March 1998, motivated by work John Benoit and Kent Lindquist did during the Pavlof eruption in 1996. IceWeb was forked to other observatories, including CVO, HVO and Montserrat.
 
 The IceWeb helicorders were made redundant by Earthworm helicorders in 1999 and then by SWARM in 2005. But the spectrogram browser continues to be a core monitoring tool and is presently hosted by the Alaska Earthquake Center at http://www.aeic.alaska.edu/spectrograms.
 
-Upon rejoining AVO in November 2008, I wrote IceWeb version 2. This was a complete rewrite, replacing the Perl-CGI web interface with PhP, and refactoring the MATLAB code based on <a href="https://geoscience-community-codes.github.io/GISMO">GISMO</a>. This enables IceWeb to read waveform data from IRIS/FDSN web services, EW/WinstonWS, Antelope databases, Miniseed/SAC/Seisan files etc. 
+Upon rejoining AVO in November 2008, I wrote IceWeb version 2 (aka "TreMoR"). This was a complete rewrite, replacing the Perl-CGI web interface with PhP, and refactoring the MATLAB code based on <a href="https://geoscience-community-codes.github.io/GISMO">GISMO</a>. This enables IceWeb to read waveform data from IRIS/FDSN web services, EW/WinstonWS, Antelope databases, Miniseed/SAC/Seisan files etc. 
  
-IceWeb's weakest link is it uses MATLAB to generate the image files and this is slow compared to compiled languages. While MATLAB is great for rapid prototyping, the license requirement limited IceWeb's wider adoption for the USGS Volcano Disaster Assistance Program. So back as far as 1999 I planned to rewrite it in C (hence my interest in the Earthworm sgram module), but that project never rose to the top of my to-do list. However, **as of December 2015, IceWeb spectrograms have also become redundant thanks to Tom Parker's <a href="http://volcanoes.usgs.gov/software/pensive/index.php">"Pensive"</a> application, essentially a Java rewrite of the IceWeb spectrograms...I encourage you to use that instead for real-time operations!**
+IceWeb's weakest link is it uses MATLAB to generate the image files and this is slow compared to compiled languages. While MATLAB is great for rapid prototyping, the license requirement limited IceWeb's wider adoption for the USGS Volcano Disaster Assistance Program. So back as far as 1999 I planned to rewrite it in C (hence my interest in the Earthworm sgram module), but that project never rose to the top of my to-do list. However, **as of December 2015, IceWeb spectrograms have also become largely redundant thanks to Tom Parker's <a href="http://volcanoes.usgs.gov/software/pensive/index.php">"Pensive"</a> application. This is essentially a Java rewrite of the IceWeb spectrograms...I encourage you to use that instead for real-time operations! However:**
 
-Note that the IceWeb spectrograms are instrument corrected and properly calibrated, so that the color bar is meaningful allowing stations from the same volcano or from different volcanoes to be directly compared. The Pensive spectrograms do not make these corrections, so you should instrument correct the data before they go into Pensive.
+<it>IceWeb spectrograms are instrument corrected and properly calibrated, so that the color bar is meaningful allowing stations from the same volcano or from different volcanoes to be directly compared. The Pensive spectrograms do not make these corrections, so you should instrument correct the data before they go into Pensive.</it>
 
 -- Glenn Thompson
 
+## Update 2021/06/24:
+- A new Python version of the full IceWeb project is under construction at https://github.com/gthompson/icewebPy. Israel Brewster at UAFGI is tackling a Python version of the spectrogram browser component at https://github.com/ibrewster/seismic_spectrogram. 
 
-# iceweb_uafgi
+
+
+
+## Further background
 Volcanic tremor monitoring system, forked from giseislab
 
 IceWeb has been running at UAFGI since May 1998. The version here is a copy of what I was running at UAFGI in early 2013. 
