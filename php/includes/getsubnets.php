@@ -1,5 +1,6 @@
 <?php
-$WEBPLOTS = "spectrograms"; 
+#$WEBPLOTS = "spectrograms"; 
+$WEBPLOTS = "webplots/NZ"; 
 $subnets = array();
 $subnetslist = "config/subnetslist.txt";
 if (file_exists($subnetslist)) { 

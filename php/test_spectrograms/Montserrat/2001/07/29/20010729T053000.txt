@@ -1,0 +1,80 @@
+tremor_datasource2mat 21-Apr-2014 17:42:48: Started
+tremor_datasource2mat 21-Apr-2014 17:42:49: Getting waveforms for Montserrat from 29-Jul-2001 05:20:00 to 29-Jul-2001 05:30:00 at 
+- Attempting to load waveform data for 6 remaining stations (of 6 total) from 2001-07-29 05:20:00 to 2001-07-29 05:30:00
+Waveform call:
+	scnl(1) = scnlobject('MBLG', 'SHZ', 'MN', '--');
+	scnl(2) = scnlobject('MBRY', 'BHZ', 'MN', '--');
+	scnl(3) = scnlobject('MBSS', 'SHZ', 'MN', '--');
+	scnl(4) = scnlobject('MBGH', 'BHZ', 'MN', '--');
+	scnl(5) = scnlobject('MBWH', 'SHZ', 'MN', '--');
+	scnl(6) = scnlobject('MBGB', 'BHZ', 'MN', '--');
+	ds = datasource('antelope', 'db/mvodb2001');
+	w = waveform(ds, scnl, 731061.222222, 731061.229167)
+21-Apr-2014 17:42:49: Saving to waveform_files/loaded/Montserrat_20010729T053000.mat
+21-Apr-2014 17:42:49: waveform_files/loaded/Montserrat_20010729T053000.mat has size 459045 bytes
+21-Apr-2014 17:42:49: Waveform MAT file created
+tremor_datasource2mat 21-Apr-2014 17:42:50: Finished
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat at 22-Apr-2014 03:50:53
+tremor_wrapper 22-Apr-2014 03:50:53: Started
+tremor_wrapper 22-Apr-2014 03:50:53: Size of waveform_files/queue3/Montserrat_20010729T053000.mat is 459045 bytes
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname at 22-Apr-2014 03:50:53
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>waveformfilename2sgram10minname>getSgram10minName at 22-Apr-2014 03:50:53
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname<getSgram10minName at 22-Apr-2014 03:50:53
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<waveformfilename2sgram10minname at 22-Apr-2014 03:50:53
+mv waveform_files/queue3/Montserrat_20010729T053000.mat waveform_files/queue3/tmp/Montserrat_20010729T053000.mat
+** Loading...
+load waveform_files/queue3/tmp/Montserrat_20010729T053000.mat
+Starting sanity checks
+*** file looks good - all variables validate
+>rtrun_tremorwrapper>tremor_wrapper>loadnextwaveformmat>summariseWaveformMat at 22-Apr-2014 03:50:56
+** waveform loaded **
+Start time is 29-Jul-2001 05:20:00 UTC
+End time is 29-Jul-2001 05:30:00 UTC
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat<summariseWaveformMat at 22-Apr-2014 03:50:56
+<rtrun_tremorwrapper<tremor_wrapper<loadnextwaveformmat at 22-Apr-2014 03:50:56
+tremor_wrapper 22-Apr-2014 03:50:56: Started
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 22-Apr-2014 03:50:56
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 22-Apr-2014 03:50:56
+tremor_wrapper 22-Apr-2014 03:50:56: loading next waveform and doing prep (3.2 s)
+waveform_addresponse 22-Apr-2014 03:50:56: adding response structures to waveform objects
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 22-Apr-2014 03:50:56
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 22-Apr-2014 03:50:56
+Applying high pass filter to MBRY.BHZ
+Applying high pass filter to MBGH.BHZ
+Applying high pass filter to MBGB.BHZ
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 22-Apr-2014 03:50:56
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 22-Apr-2014 03:50:56
+tremor_wrapper 22-Apr-2014 03:50:56: preparing spectrogram waveforms (0.3 s)
+>rtrun_tremorwrapper>tremor_wrapper>getSgram10minName at 22-Apr-2014 03:50:57
+<rtrun_tremorwrapper<tremor_wrapper<getSgram10minName at 22-Apr-2014 03:50:57
+6 waveform objects
+
+ans =
+
+    73     3
+
+specgram failed on waveform vector. Trying again, using nonempty rather than fillempty
+6 waveform objects after removing empty waveform objects
+specgram_wrapper: MBLG.SHZ: Max amplitude 1.2e+03 nm/s (62 dB)
+specgram_wrapper: MBRY.BHZ: Max amplitude 7.0e+06 nm/s (137 dB)
+specgram_wrapper: MBSS.SHZ: Max amplitude 2.9e+03 nm/s (69 dB)
+specgram_wrapper: MBGH.BHZ: Max amplitude 5.8e+03 nm/s (75 dB)
+specgram_wrapper: MBWH.SHZ: Max amplitude 4.5e+03 nm/s (73 dB)
+specgram_wrapper: MBGB.BHZ: Max amplitude 6.5e+03 nm/s (76 dB)
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 22-Apr-2014 03:50:57
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 22-Apr-2014 03:50:57
+tremor_wrapper 22-Apr-2014 03:50:57: computing & plotting spectrograms (1.0 s)
+>rtrun_tremorwrapper>tremor_wrapper>saveImageFile at 22-Apr-2014 03:50:58
+22-Apr-2014 03:50:58: Saved image file plots/Montserrat/2001/07/29/20010729T053000.png
+<rtrun_tremorwrapper<tremor_wrapper<saveImageFile at 22-Apr-2014 03:50:58
+tremor_wrapper 22-Apr-2014 03:50:58: spectrogram PNG size is 245641
+>rtrun_tremorwrapper>tremor_wrapper>makespectrogramthumbnails at 22-Apr-2014 03:50:58
+>rtrun_tremorwrapper>tremor_wrapper>makespectrogramthumbnails>saveImageFile at 22-Apr-2014 03:50:59
+22-Apr-2014 03:50:59: Saved image file plots/Montserrat/2001/07/29/20010729T053000_labelless.png
+<rtrun_tremorwrapper<tremor_wrapper<makespectrogramthumbnails<saveImageFile at 22-Apr-2014 03:50:59
+<rtrun_tremorwrapper<tremor_wrapper<makespectrogramthumbnails at 22-Apr-2014 03:50:59
+touch: cannot touch `spectrograms/lastspectrogram.png': No such file or directory
+>rtrun_tremorwrapper>tremor_wrapper>logbenchmark at 22-Apr-2014 03:50:59
+<rtrun_tremorwrapper<tremor_wrapper<logbenchmark at 22-Apr-2014 03:50:59
+tremor_wrapper 22-Apr-2014 03:50:59: saving spectrogram images (2.0 s)
+tremor_wrapper 22-Apr-2014 03:50:59: Finished

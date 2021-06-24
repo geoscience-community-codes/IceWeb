@@ -1,0 +1,106 @@
+#!/usr/bin/perl
+use Cwd; 
+use File::chdir;
+#use File::Basename qw(filename);
+die unless($#ARGV==1);
+$MINDAYSAGO = $ARGV[0];
+$MINSIZE = $ARGV[1];
+$MAXDAYSAGO = 99999; 
+$topdir = "spectrograms"; 
+$CWD = $topdir;
+@subnetes = glob('*');
+foreach $subnet (@subnetes) {
+	next unless (-d $subnet); # only get directories,  not colorbar.png
+	push @CWD, $subnet;
+	print "\n\n** Processing $subnet **\n";
+	@years = glob("2*");
+	foreach $year (@years) {
+		push @CWD, $year; 
+		#print "dir = $CWD\n";
+		@months = glob("[01]*");
+		foreach $month (@months) {
+			push @CWD, $month; 
+			#print "dir = $CWD\n";
+			@days = glob("[0123]*");
+			foreach $day (@days) {
+				$epochtime = `epoch "$year/$month/$day" | awk '{print $1}'`;
+				$epochnow = `epoch now | awk '{print $1}'`;
+				$daysago = ($epochnow - $epochtime) / 86400; 
+				next if ($daysago < $MINDAYSAGO || $daysago > $MAXDAYSAGO);
+				print "\n\n** Processing $subnet/$year/$month/$day **\n";
+				push @CWD, $day; 
+				#print "dir = $CWD\n";
+				if (-e "lock") {
+					print "This directory is locked - nothing can be deleted, presumably because the data are of value\n";
+				} else {
+					@files = glob("2*.png");
+					$numfiles = $#files + 1;
+					print "There are $numfiles spectrograms in $CWD\n"; 
+					$complete=0;
+					$validpng = 0;
+					foreach $file (@files) {
+						$size = -s $file;
+						if ($size < $MINSIZE) {
+							$base = $file;
+
+							# Remove main spectrogram
+							print "\n* Processing $CWD/$file * : ";
+							&remove($file);
+
+							# Remove thumbnail spectrogram
+							$smallfile = "small_".$file;
+							if (-e $smallfile) {
+								&remove($smallfile);
+							}
+
+							$base =~ s/\.png//; 
+
+							# Remove sound files
+							@soundfiles = glob("$base*.wav");
+							foreach $soundfile (@soundfiles) {
+								&remove($soundfile);
+							}
+
+							# Remove diary file
+							$diaryfile = "$base.txt";
+							if (-e $diaryfile) {
+								&remove($diaryfile);
+							} 
+
+
+						}
+					}
+					if ($numfiles == 0) {
+						@files = glob("*.*");
+						foreach $file (@files) {
+							&remove($file);
+						}
+					}
+
+				}
+				pop @CWD;
+				#print "rmdir = $CWD/$day\n";
+				rmdir($day);
+			}
+			pop @CWD;
+			#print "rmdir = $CWD/$month\n";
+			rmdir($month);
+		}
+		pop @CWD;
+		#print "rmdir = $CWD/$year\n";
+		rmdir($year);
+	}
+	pop @CWD;	
+	#print "rmdir = $CWD/$subnet\n";
+	rmdir($subnet);
+	print "\n";
+}
+
+	
+sub remove {
+	$file = $_[0];
+	print "$file";	
+	#print " <any key to continue>";	
+	#<STDIN>;
+	unlink($file);
+}	

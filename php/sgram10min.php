@@ -25,8 +25,7 @@ include('./includes/sgramfilename2parts.php');
 
 <?php
 
-	$debugging = 1;
-
+	$debugging = 0; error_reporting(E_ERROR | E_PARSE);
 
 	# Set subnet
 	$subnet = !isset($_REQUEST['subnet'])? $subnets[0] : $_REQUEST['subnet'];	
@@ -42,7 +41,7 @@ include('./includes/sgramfilename2parts.php');
 		$second = !isset($_REQUEST['second'])? 0 : $_REQUEST['second'];
 
 		# set the number of minutes between spectrograms, i.e. minutes of data in a spectrogram (assuming no time overlap)	
-		$numMins = !isset($_REQUEST['numMins'])? 60 : $_REQUEST['numMins'];	
+		$numMins = !isset($_REQUEST['numMins'])? 10 : $_REQUEST['numMins'];	
 
 		if ($minute != $_REQUEST['minute'] || $second > 0) { # rounded down
 			list ($year, $month, $day, $hour, $minute, $secs) = addSeconds($year, $month, $day, $hour, $minute, 0, 600);
@@ -56,7 +55,8 @@ include('./includes/sgramfilename2parts.php');
 		$hour = mkNdigits($hour, 2);
 		$minute = mkNdigits($minute, 2); 
 
-		$sgram =  "$WEBPLOTS/$subnet/$year/$month/$day/".$year.$month.$day."T".$hour.$minute."00.png";	
+		#$sgram =  "$WEBPLOTS/$subnet/$year/$month/$day/".$year.$month.$day."T".$hour.$minute."00.png";	
+		$sgram =  "$WEBPLOTS/$subnet/$year-$month-$day/".$subnet."_".$year.$month.$day."-".$hour.$minute.".png";	
 
 	}
 	else
@@ -100,13 +100,15 @@ include('./includes/sgramfilename2parts.php');
 		# Time parameters of previous spectrogram and its path
 		list ($pyear, $pmonth, $pday, $phour, $pminute, $psecs) = addSeconds($year, $month, $day, $hour, $minute, 0, -60*$numMins);
 		$pminute=floorminute($pminute);
-		$previous_sgram = "$WEBPLOTS/$subnet/$pyear/$pmonth/$pday/".$pyear.$pmonth.$pday."T".$phour.$pminute."00.png";
+		#$previous_sgram = "$WEBPLOTS/$subnet/$pyear/$pmonth/$pday/".$pyear.$pmonth.$pday."T".$phour.$pminute."00.png";
+		$previous_sgram = "$WEBPLOTS/$subnet/$pyear-$pmonth-$pday/".$subnet."_".$pyear.$pmonth.$pday."-".$hour.$minute.".png";	
 		$previous_sgram_url = "$scriptname?subnet=$subnet&year=$pyear&month=$pmonth&day=$pday&hour=$phour&minute=$pminute&mosaicurl=$mosaicurl";
 
 		# Time parameters of next spectrogram & its path
 		list ($nyear, $nmonth, $nday, $nhour, $nminute, $nsecs) = addSeconds($year, $month, $day, $hour, $minute, 0, 60*$numMins);
 		$nminute=floorminute($nminute);
-		$next_sgram = "$WEBPLOTS/$subnet/$nyear/$nmonth/$nday/".$nyear.$nmonth.$nday."T".$nhour.$nminute."00.png";
+		#$next_sgram = "$WEBPLOTS/$subnet/$nyear/$nmonth/$nday/".$nyear.$nmonth.$nday."T".$nhour.$nminute."00.png";
+		$next_sgram = "$WEBPLOTS/$subnet/$nyear-$nmonth-$nday/".$subnet."_".$nyear.$nmonth.$nday."-".$hour.$minute.".png";	
 		$next_sgram_url = "$scriptname?subnet=$subnet&year=$nyear&month=$nmonth&day=$nday&hour=$nhour&minute=$nminute&mosaicurl=$mosaicurl";
 
 		######################### THINGS THAT DEPEND ON KISKA TIME, WHICH MAY NOT BE CURRENT TIME ####################### 	

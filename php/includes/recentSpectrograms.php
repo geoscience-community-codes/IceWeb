@@ -8,7 +8,8 @@ function recentSpectrograms($subnet, $WEBPLOTS, $MINFILES, $MAXDAYS)
 	do {
 		list ($year, $month, $day, $hour, $minute) = epoch2YmdHM($time);
 		$minute = floorminute($minute);
-		$filepath = "$WEBPLOTS/$subnet/$year/$month/$day/2*.png";
+		#$filepath = "$WEBPLOTS/$subnet/$year/$month/$day/2*.png";
+		$filepath = "$WEBPLOTS/$subnet/$year-$month-$day/$subnet"."_2*.png";
 		$thisarray = glob($filepath);
 		rsort($thisarray);
 		if (count($thisarray) > 0) {

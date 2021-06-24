@@ -4,7 +4,8 @@
 include('./includes/getsubnets.php');
 $MAXSUBNETLENGTH=10;
 $subnet = !isset($_REQUEST['subnet'])? $subnets[0] : $_REQUEST['subnet'];
-$thumbs = !isset($_REQUEST['thumbs'])? "small" : $_REQUEST['thumbs'];
+#$thumbs = !isset($_REQUEST['thumbs'])? "small" : $_REQUEST['thumbs'];
+$thumbs = !isset($_REQUEST['thumbs'])? "thumb" : $_REQUEST['thumbs'];
 $page_title = "$subnet Spectrogram Mosaic";
 include('./includes/header.php');
 include('./includes/daysPerMonth.php');
@@ -44,7 +45,7 @@ include('./includes/factorize.php');
 	# Set convenience variables from CGI parameters
 	#$subnet = !isset($_REQUEST['subnet'])? "Spurr" : $_REQUEST['subnet'];
 	$plotsPerRow = !isset($_REQUEST['plotsPerRow'])? 6 : $_REQUEST['plotsPerRow'];
-	$numMins = !isset($_REQUEST['numMins'])? 60 : $_REQUEST['numMins'];
+	$numMins = !isset($_REQUEST['numMins'])? 10 : $_REQUEST['numMins'];
         if (   (isset($_REQUEST['starthour'])) && (isset($_REQUEST['endhour'])) ) {
 
 		# Called with starthour, endhour
