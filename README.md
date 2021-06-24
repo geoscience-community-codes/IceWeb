@@ -33,13 +33,12 @@ IceWeb's weakest link is it uses MATLAB to generate the image files and this is 
 -- Glenn Thompson
 
 ## Update 2021/06/24:
-- A new Python version of the full IceWeb project is under construction at https://github.com/gthompson/icewebPy. Israel Brewster at UAFGI is tackling a Python version of the spectrogram browser component at https://github.com/ibrewster/seismic_spectrogram. 
+A new Python version of the full IceWeb project is under construction at https://github.com/gthompson/icewebPy. Israel Brewster at UAFGI is tackling a Python version of the spectrogram browser component at https://github.com/ibrewster/seismic_spectrogram. 
 
 
 
 
 ## Further background
-Volcanic tremor monitoring system, forked from giseislab
 
 IceWeb has been running at UAFGI since May 1998. The version here is a copy of what I was running at UAFGI in early 2013. 
 This used the Antelope rtexec framework to run, monitor and autorestart various modules and thereby improve overall robustness.
