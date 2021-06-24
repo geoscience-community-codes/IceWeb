@@ -51,8 +51,5 @@ If run, these prevent blank data channels appearing on spectrograms.
 
 Various data quality checks are also done to eliminate poor waveform data.
 
-The PhP interface was implemented because back in the late-1990s, AVO had relatively powerful Sun workstation servers but the Duty Seismologist at home
-would have only a low power desktop computer, so it was important to keep as much processing as possible on the server-side. 
-Today, the Javascript approach employed in Pensive is better.
+The original Perl-CGI interface was implemented because back in the late-1990s, AVO had relatively powerful Sun workstation servers but the Duty Seismologist at home would have only a low power desktop computer, so it was important to keep as much processing as possible on the server-side. In 2008, PhP was chosen for the same reason. Today, it is much better to use client-side processing (e.g. Java, Javascript).
 
-Pensive is essentially a clone of IceWeb from MATLAB/PhP to Java.
