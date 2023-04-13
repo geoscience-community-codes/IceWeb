@@ -36,7 +36,7 @@ IceWeb's weakest link is it uses MATLAB to generate the image files and this is 
 A new Python version of the full IceWeb project is under construction at https://github.com/gthompson/icewebPy. Israel Brewster at UAFGI is tackling a Python version of the spectrogram browser component at https://github.com/ibrewster/seismic_spectrogram. 
 
 ## Update 2023/04/13
-For completeness, the legacy version of the code that I created during my 1998-2000 postdoc is included under the "legacy_code" directory. This is prompted by a request from Sylvie Vergniolle to be able to cite the code for a new JGR paper on the Shishaldin 1999 eruption.
+For completeness, the legacy version of the code that I created during my 1998-2000 postdoc is included under the "legacy_iceweb" directory. This is prompted by a request from Sylvie Vergniolle to be able to cite the code for a new JGR paper on the Shishaldin 1999 eruption. This also contains instrument response data (not in a modern format), computed reduced displacement data (see Appendix in https://link.springer.com/article/10.1007/s00445-002-0228-z for a detailed explanation of the reduced displacement algorithm used), wind data, log files, and a snapshot of all the files on the webserver (when I left in early January 2000 to take up position as Seismic Network Manager in Montserrat).
 
 
 ## Further background
