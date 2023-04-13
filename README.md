@@ -35,7 +35,8 @@ IceWeb's weakest link is it uses MATLAB to generate the image files and this is 
 ## Update 2021/06/24:
 A new Python version of the full IceWeb project is under construction at https://github.com/gthompson/icewebPy. Israel Brewster at UAFGI is tackling a Python version of the spectrogram browser component at https://github.com/ibrewster/seismic_spectrogram. 
 
-
+## Update 2023/04/13
+For completeness, the legacy version of the code that I created during my 1998-2000 postdoc is included under the "legacy_code" directory. This is prompted by a request from Sylvie Vergniolle to be able to cite the code for a new JGR paper on the Shishaldin 1999 eruption.
 
 
 ## Further background
@@ -53,4 +54,3 @@ Various data quality checks are also done to eliminate poor waveform data.
 
 The original Perl-CGI interface was implemented because back in the late-1990s, AVO had relatively powerful Sun workstation servers but the Duty Seismologist at home would have only a low power desktop computer, so it was important to keep as much processing as possible on the server-side. In 2008, PhP was chosen for the same reason. Today, it is much better to use client-side processing (e.g. Java, Javascript).
 
-# Update 2023/04/13: For completeness, the legacy version of the code that I created during my 1998-2000 postdoc is included under the "legacy_code" directory. This is prompted by a request from Sylvie Vergniolle to be able to cite the code for a new JGR paper on the Shishaldin 1999 eruption.
