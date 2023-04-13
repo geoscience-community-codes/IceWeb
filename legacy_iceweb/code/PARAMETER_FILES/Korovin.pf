@@ -1,0 +1,36 @@
+stations &Arr{
+KOFP &Arr{
+chan            EHZ
+threshold	10
+use		1
+}
+KOKL &Arr{
+chan            EHZ
+threshold	10
+use		1
+}
+KOKV &Arr{
+chan            EHZ
+threshold	10
+use		1
+}
+KONW &Arr{
+chan            EHZ
+threshold	30
+use		1
+}
+KOSE &Arr{
+chan            EHZ
+threshold	30
+use		1
+}
+KOWE &Arr{
+chan            EHZ
+threshold	30
+use		1
+}
+}
+windstation	kswind
+dr_plots &Tbl{
+3
+}

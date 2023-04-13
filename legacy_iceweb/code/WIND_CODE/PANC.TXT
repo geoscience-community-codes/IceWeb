@@ -1,0 +1,115 @@
+ABAK32 PANC 151831 AAB
+SWRAK 
+Alaska Regional Weather Roundup Update
+National Weather Service, Anchorage AK
+1000 AM ADT Thu Jun 15 2000
+                                                                 Wind
+ID   City            Weather         Temp  Rh   Wind      Press  Chill  Vis
+
+N.SLOPE/NORTHWEST
+PAKP Anaktuvuk       MostlyClear       61  39   NE7       29.96    57    10
+PABR Barrow          MostlyClear       32  89   W8        30.02    22    10
+PABA Barter Island   Not Available  
+PASC Deadhorse       No Report         49  66   N3        30.02    49    10
+PAGM Gambell         No Report         39  89   S10       30.00    26    10
+PAVL Kivalina        No Report         39  85   S5        30.01    37    10
+PAOT Kotzebue        MostlyClear       40  70   S8        30.03    31     7
+PAOM Nome            MostlyClear       48  86   SW5       30.05    47    10
+PAQT Nuiqsut         No Report         53  61   NE6       30.02    50    10
+PAPO Point Hope      No Report         37  82   SE10      30.00    24    10
+PPIZ Point Lay       Not Available  
+PARD Red Dog Mine    Not Available  
+PASA Savoonga        No Report         48  65   Calm      30.05    48     8
+PASK Selawik         No Report         48  71   W7        30.08    42    10
+PASH Shishmaref      No Report         45  79   Calm      30.03    45    10
+PATC Tin City        Not Available  
+PAUN Unalakleet      Rain              52  77   S14G17    30.13    39    20
+PAWI Wainwright      No Report         35  89   SE5       30.00    33    10
+PAGL Golovin         No Report         48  83   S13       30.10    35    10
+PAKK Koyuk           MostlyCldy        46  96   S8        30.08    38    10
+
+INTERIOR
+PARC Arctic Village  Not Available  
+PABT Bettles         MostlyClear       62  50   SW9       30.03    56    10
+PATW Cantwell        Cloudy            48  71   SW10      30.36    38    10
+PABI Delta Junction  Cloudy            56  55   W9        30.25    49    10
+PAIN Denali Park     MostlyCldy        52  50   SE9       30.32    44    10
+PAEG Eagle           Cloudy            55  86   SE6       30.11    52    10
+PAEI Eielson AFB     Cloudy            57  77   N2        30.21    57    35
+PFYU Fort Yukon      Not Available  
+PAFA Fairbanks       Cloudy            55  80   N3        30.23    55    10
+PAFB Ft. Wainwright  Rain              54  86   W5        30.22    53    60
+PAGA Galena          Cloudy            57  64   SW20G30   30.16    43    25
+PAHV Healy           MostlyCldy        54  57   SE12G28   30.28    44    35
+PAHS Huslia          No Report         63  58   SW7G17    30.06    59    10
+PAKV Kaltag          Rain/Fog          50  89   N6        30.21    47     5
+PAMH Lake Minchumina Not Available  
+PAMC McGrath         Cloudy            52  61   N6        30.26    49    10
+PABN Nabesna         Cloudy            48  71   NW12      30.34    36    15
+PANN Nenana          PartlyCldy        58  62   W9G17     30.22    51    10
+PAOR Northway        Rain              50  83   N3        30.25    50    10
+PADT Slana           Not Available  
+PATA Tanana          MostlyCldy        59  64   SW13      30.16    49    10
+
+WESTERN/ALEUTIANS
+PANI Aniak           No Report         52  56   SE15G18   30.21    39    10
+PANV Anvik           No Report         52  56   S7        30.19    47    10
+PABE Bethel          Cloudy            52  63   S16       30.17    38    10
+PACZ Cape Romanzof   Cloudy            48  86   S3        30.11    48    10
+PACD Cold Bay        Rain              44  96   SE15      30.09    28    10
+PADL Dillingham      Cloudy            46  83   E14       30.23    32    20
+PADU Dutch Harbor    Cloudy            43  79   Calm      30.05    43    10
+PAHP Hooper Bay      Cloudy            46  89   W7        30.13    40     7
+PAIL Iliamna         Cloudy            48  80   E14       30.31    34    10
+PAKN King Salmon     MostlyCldy        52  61   SE16      30.21    38    10
+PAMY Mekoryuk        PartlyCldy        46  76   Calm      30.13    46    10
+PASM Saint Marys     Cloudy            52  86   E8        30.15    45    10
+PASN Saint Paul      Cloudy            40  96   E7        30.06    33    10
+PASD Sand Point      Rain Showers      45  79   SE9G16    30.14    35     3
+PASL Sleetmute       No Report         52  50   SE5       30.26    51    10
+PATG Togiak          Cloudy            45  86   E14       30.17    30     8
+PAEM Emmonak         Cloudy            54  80   SW8       30.06    48    10
+
+SOUTHCENTRAL
+PANC Anchorage       PartlyCldy        55  59   SE10      30.36    46    10
+PABV Birchwood       No Report         54  52   NE3       30.38    54    10
+PAED Elmendorf AFB   PartlyCldy        57  45   NW8       30.37    51    80
+PAGK Glennallen      PartlyCldy        54  52   SE9       30.32    46    10
+PAHO Homer           Cloudy            50  71   W5        30.38    49    10
+PAEN Kenai           MostlyCldy        52  61   Calm      30.38    52    10
+PADQ Kodiak          Rain              47  86   Calm      30.34    47     9
+PALH Lake Hood       No Report         57  57   NW3       30.39    57    10
+PAMR Merrill Field   MostlyCldy        56  62   W6        30.37    53    10
+PAMD Middleton Isl.  MostlyCldy        50  77   S6        30.45    47    10
+PASO Seldovia        MostlyCldy        49  80   Calm      30.36    49    10
+PAWD Seward          Not Available  
+PASX Soldotna        MostlyClear       52  54   Calm      30.39    52    10
+PAWS Wasilla         Not Available  
+PAWR Whittier        Cloudy            52  77   SE9       30.46    44    20
+PAVW Valdez          MostlyCldy        51  77   SW3       30.46    51    15
+
+SOUTHEAST
+CSP  Cape Spencer    No Report         51  MM   Calm      30.49    51    MM
+PACV Cordova         Cloudy            52  71   Calm      30.45    52    10
+PAJN Juneau          Cloudy            51  89   E7        30.50    46    10
+PAKT Ketchikan       MostlyCldy        57  62   N9        30.54    50    10
+PAMM Metlakatla      PartlyCldy        52  66   W3        30.56    52    10
+PAPG Petersburg      Fog               52  80   E6        30.52    49    10
+KSEA Seattle         Cloudy            55  83   W3        30.34    55    10
+PASI Sitka           Cloudy            52  80   SW7       30.55    47    10
+PAGY Skagway         Cloudy            53  66   SW23G29   30.43    35    10
+PAYA Yakutat         Not Available  
+
+CANADA - YUKON AND NORTHWEST TERRITORIES
+CYDB Burwash Landing No Report         52  56   MM        30.32    MM    MM
+CYDA Dawson City     Rain              54  93   SW5       30.20    53    20
+CYYE Fort Nelson     MostlyCldy        61  39   NW12G17   30.05    53    30
+CYEV Inuvik          MostlyClear       59  60   NW8       30.02    53    50
+CYMA Mayo            Rain              57  64   SW9       30.20    50    20
+CYQH Watson Lake     MostlyClear       59  47   NW12      30.22    50    40
+CYXY Whitehorse      MostlyCldy        52  50   N9        30.35    44    40
+
+RUSSIA - FAR EAST
+UHMM Magadan         Cloudy            41  93   E3        29.66    41    6+
+
+

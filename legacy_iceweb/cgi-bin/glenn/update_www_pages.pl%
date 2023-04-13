@@ -1,0 +1,148 @@
+#!/usr/bin/perl
+# Glenn Thompson, September 1999
+# This perl script should be run after every change to parameter file -
+# it updates dr and spectrogram html pages on the AVO internal page
+
+# Setup stuff
+use lib "$ENV{ANTELOPE}/data/perl";
+use Datascope;
+use read_parameters qw(read_volcanoes read_stations read_drplots);
+$PARAMETER_FILES="/home/glenn/NEWICEWEB/PARAMETER_FILES";
+
+# Read http paths from parameter file
+$INTERNAL=pfget("$PARAMETER_FILES/paths.pf","INTERNAL");
+$internalpath=pfget("$PARAMETER_FILES/paths.pf","INTERNAL_HTTP");
+$drpath=pfget("$PARAMETER_FILES/paths.pf","DR_HTTP");
+$specpath=pfget("$PARAMETER_FILES/paths.pf","SPEC_HTTP");
+$countspath=pfget("$PARAMETER_FILES/paths.pf","COUNTS_HTTP");
+$online_docs=pfget("$PARAMETER_FILES/paths.pf","ONLINE_DOCS");
+
+# Other paths
+$DR_GIFS=pfget("$PARAMETER_FILES/paths.pf","DR_GIFS");
+
+# short cut to menus
+$specmenu="$internalpath/seismenu_spec.html";
+$drmenu="$internalpath/seismenu_dr.html";
+$countsmenu="$internalpath/seismenu_counts.html";
+
+$num_mins=pfget("$PARAMETER_FILES/parameters.pf","minutes_to_get");
+
+# make fluff for dr plots
+$fluff = "<p>Each point is the maximum Dr in a $num_mins minute window.<br>This plot is computed by <A HREF=\"http://giseis.alaska.edu/Input/glenn/IceWeb.html\">IceWeb</A> using near-real-time data from the <A HREF=\"http://giseis.alaska.edu/Input/kent/Iceworm.html\">Iceworm system</A> at the University of Alaska <A HREF=\"http://www.gi.alaska.edu/\">Geophysical Institute</A>.<p><center><A HREF=\"$online_docs/dr.html\">More about reduced displacment</A></center><p>\n";
+
+# Read list of volcanoes
+@volcanoes=&read_volcanoes();
+
+for ($volcano_num=0;$volcano_num<=$#volcanoes;$volcano_num++) {
+	$volcano=$volcanoes[$volcano_num];
+	@drplots=&read_drplots($volcano);
+	foreach $days (@drplots) {
+		&produce_dr_html($days,$volcano);
+	};
+};
+
+&produce_seismenu_spec_html(@volcanoes);
+&produce_seismenu_dr_html(@volcanoes);
+&remove_alarm_data();
+
+##############################################################################################
+
+sub produce_dr_html {
+	($days,$volcano)=@_;
+	print("Producing last $days day dr html\n");
+	@colors=qw(#3333FF #FF0000 #33CC00 #CC33CC #66FFFF #FFFF10);
+	$html_name = "$volcano" . "_$days.html";
+	open(OUT,">$DR_GIFS/$html_name");
+	print OUT "<html><head><title>$volcano Volcano Near-Real-Time Reduced Displacement Plots</title>\n";
+	print OUT "<META HTTP-EQUIV=\"Refresh\" CONTENT=600; URL=\"$html_name\">\n";
+	print OUT "</head>\n";
+	print OUT "<body bgcolor = \"#FFFFFF\">\n";
+	print OUT "<font size=4><strong><center>Near-Real Time Reduced Displacement 
+Plots - Last $days days</strong></font><p>\n";
+	$giffile="dr" . "$days" . "_$volcano" . ".gif";
+	print OUT "<img src=\"$giffile\">\n";
+	@stations=&read_stations($volcano);
+	for ($station_num=0; $station_num<=$#stations; $station_num++) {
+		$station=$stations[$station_num];
+		$color=$colors[$station_num];
+		print OUT "<br><font color=\"$color\">....     Dr at $station</font>\n";
+	};
+	print OUT "$fluff<br></body></html>\n";
+	close(OUT);
+}; 
+
+sub produce_seismenu_spec_html {
+	@volcanoes=@_;
+	print("Producing seismenu_spec.html\n");
+	open(OUT,">$INTERNAL/seismenu_spec.html");
+	print OUT "<HTML><HEAD><TITLE>AVO Menu</TITLE></HEAD>\n";
+	print OUT "<BODY BGCOLOR=\"#000000\" TEXT=\"#FFFFFF\" LINK=\"#00FFFF\" VLINK=\"#00FF00\" ALINK=\"#FF0000\">\n";
+	print OUT "<TABLE BORDER=0 CELLPADDING=0>\n";
+	print OUT "<P><I><B><FONT size=+1 COLOR=\"#CC0000\">Volcano Seismology</FONT></B></I><HR>\n";
+	print OUT "<I><a href=\"/internal/seismenu_guy.html\" target=\"specmenu\">Seismicity </I><BR></a><FONT SIZE=\"-1\">(Guy's short-term plots)</font><P>\n";
+	print OUT "<I><a href=\"/internal/seismenu_seth.html\" target=\"specmenu\">Seismicity </I><BR></a><FONT SIZE=\"-1\">(Seth's long-term plots)</font><P>\n";
+	print OUT "<I><a href=\"/internal/seismenu_rsam.html\" target=\"specmenu\">RSAM</I><BR></a>\n";
+	print OUT "<FONT SIZE= \"-1\"></font><P>\n";
+	print OUT "<I><a href= \"$specmenu \" target=\"specmenu\"><FONT COLOR=\"#FFFF00\">Spectrograms</FONT></I><BR></a>\n";
+	print OUT "<FONT SIZE=\"-1\">\n";
+	for ($volcano_num=0;$volcano_num<=$#volcanoes;$volcano_num++) {
+		$volcano=$volcanoes[$volcano_num];
+		print "spectrograms will be plotted for $volcano\n";
+		print OUT "$volcano<BR>\n";
+		print OUT "<a href=\"$specpath/$volcano/l10m.html\" target=\"avo\"> 10m</a>\n";
+		print OUT "<a href=\"$specpath/$volcano/l2h.html\" target=\"avo\"> 2hr</a>\n";
+		print OUT "<a href=\"$specpath/$volcano/currentday.gif\" target=\"avo\"> today</a><BR>\n";
+		print OUT "<a href=\"$specpath/$volcano/lastday.gif\" target=\"avo\"> yesterday</a><BR>\n";
+	};
+	print OUT "</FONT>\n";
+	print OUT "<p><a href=\"$specpath/archive.html\" target=\"avo\"> archive</A>\n";
+	# link to /spec/archive/archive.html has been removed - archive needs updating
+	print OUT "<p><a href=\"$specpath/MosaicMaker.html\" target=\"avo\"> mosaics</A>\n";
+	print OUT "<P><font size=-2>Problems? Mail <a href=\"mailto:glenn\@giseis.alaska.edu\">Glenn Thompson</a><font><P>\n";
+	print OUT "<I><a href=\"$drmenu \" target=\"specmenu\">Reduced Displacement</I><BR></a>\n";
+	print OUT "<I><p><a href= \"$countsmenu \" target=\"specmenu\">Counts</I><BR></a>\n";
+	print OUT "<P></BODY></HTML>\n";
+	close(OUT);
+};
+
+sub produce_seismenu_dr_html {
+	@volcanoes=@_;
+	print("Producing seismenu_dr.html\n");	
+	open(OUT,">$INTERNAL/seismenu_dr.html");
+	print OUT "<HTML><HEAD><TITLE>AVO Menu</TITLE></HEAD>\n";
+	print OUT "<BODY BGCOLOR=\"#000000\" TEXT=\"#FFFFFF\" LINK=\"#00FFFF\" VLINK=\"#00FF00\" ALINK=\"#FF0000\">\n";
+	print OUT "<TABLE BORDER=0 CELLPADDING=0>\n";
+	print OUT "<P><I><B><FONT size=+1 COLOR=\"#CC0000\">Volcano Seismology</FONT></B></I><HR>\n";
+	print OUT "<I><a href=\"/internal/seismenu_guy.html\" target=\"specmenu\">Seismicity </I><BR></a><FONT SIZE=\"-1\">(Guy's short-term plots)</font><P>\n";
+	print OUT "<I><a href=\"/internal/seismenu_seth.html\" target=\"specmenu\">Seismicity </I><BR></a><FONT SIZE=\"-1\">(Seth's long-term plots)</font><P>\n";
+	print OUT "<I><a href=\"/internal/seismenu_rsam.html\" target=\"specmenu\">RSAM</I><BR></a>\n";
+	print OUT "<FONT SIZE= \"-1\"></font><P>\n";
+	print "$specmenu\n";
+	print OUT "<I><a href= \"$specmenu \" target=\"specmenu\">Spectrograms</I><P></a>\n";
+	print OUT "<I><a href=\"$drmenu \" target=\"specmenu\"><FONT COLOR=\"#FFFF00\">Reduced Displacement</font></I><BR></a>\n";
+	for ($volcano_num=0;$volcano_num<=$#volcanoes;$volcano_num++) {
+		$volcano=$volcanoes[$volcano_num];
+		@drplots=&read_drplots($volcano);
+		if (@drplots == "") {
+			print "no drplots for $volcano\n";
+		} else {
+			print "drplots @drplots for $volcano\n";	
+			print OUT "$volcano<br>\n";
+			foreach $days (@drplots) {
+				print OUT "<A HREF=\"$drpath/$volcano" . "_$days.html\" target=\"avo\"> last $days days</A><br>\n";
+			};
+			print OUT "<br>\n";
+		};
+	}
+	print OUT "<P>\n";			
+	print OUT "<font size=-2>Problems? Mail <a href=\"mailto:glenn\@giseis.alaska.edu\">Glenn Thompson</a><font>\n";
+	print OUT "<I><p><a href= \"$countsmenu \" target=\"specmenu\">Counts</I><BR></a>\n";
+	print OUT "<P></BODY></HTML>\n";
+	close(OUT);	
+};
+
+sub remove_alarm_data {
+	$ALARM_DATA=pfget("$PARAMETER_FILES/parameters.pf","ALARM_DATA");
+	system("rm $ALARM_DATA/*.mat");
+};
+

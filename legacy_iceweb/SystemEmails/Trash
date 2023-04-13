@@ -1,0 +1,272 @@
+From - Thu Sep  6 13:26:53 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JCjZ06514
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:12:45 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA06891; Thu, 6 Sep 2001 11:12:44 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:12:44 -0800 (AKDT)
+Message-Id: <200109061912.LAA06891@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 8001
+X-Mozilla-Status2: 00000000
+X-UIDL: ]ON!!'Jo!!p,M"!3D2!!
+
+No instrument response data for UNV in /home/iceweb/DATA/RESPONSE. Dr cannot be computed.
+
+From - Thu Sep  6 13:26:53 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JCjZ06518
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:12:45 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA06907; Thu, 6 Sep 2001 11:12:44 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:12:44 -0800 (AKDT)
+Message-Id: <200109061912.LAA06907@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: gjT"!nYG!!!P>"!?eP!!
+
+No dr computed for UNV
+
+From - Thu Sep  6 13:26:53 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JCrZ06523
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:12:53 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA06931; Thu, 6 Sep 2001 11:12:52 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:12:52 -0800 (AKDT)
+Message-Id: <200109061912.LAA06931@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: Y0b"!8cn"!hWO"!"ee!!
+
+No dr data found for UNV between 03-Sep-2001 and 06-Sep-2001
+
+From - Thu Sep  6 13:26:53 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JCrZ06527
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:12:53 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA06947; Thu, 6 Sep 2001 11:12:52 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:12:52 -0800 (AKDT)
+Message-Id: <200109061912.LAA06947@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: Vc=!!iY'!!/T:"!A7U"!
+
+No dr data to plot for UNV
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JDRZ06537
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:13:27 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA07011; Thu, 6 Sep 2001 11:13:26 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:13:26 -0800 (AKDT)
+Message-Id: <200109061913.LAA07011@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: ped"!:"X"!nph!!d14"!
+
+No distance data for PressureSensor in /home/iceweb/DATA/DISTANCE : Dr cannot be computed
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JDUZ06541
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:13:30 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA07031; Thu, 6 Sep 2001 11:13:29 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:13:29 -0800 (AKDT)
+Message-Id: <200109061913.LAA07031@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: ~ke!!BU-!!;l~"!W&U"!
+
+No dr data found for PN7A between 03-Sep-2001 and 06-Sep-2001
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JDUZ06545
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:13:30 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA07047; Thu, 6 Sep 2001 11:13:29 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:13:29 -0800 (AKDT)
+Message-Id: <200109061913.LAA07047@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: H8J"!(Ki"!Wj@"!EIY!!
+
+No dr data found for SSLN between 03-Sep-2001 and 06-Sep-2001
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JDVZ06549
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:13:31 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA07063; Thu, 6 Sep 2001 11:13:29 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:13:29 -0800 (AKDT)
+Message-Id: <200109061913.LAA07063@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: 'RQ!!CFP"!(%F"!ZY*!!
+
+No dr plots produced for PressureSensor since no dr data found
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JMYZ06603
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:22:34 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08193; Thu, 6 Sep 2001 11:22:32 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:22:32 -0800 (AKDT)
+Message-Id: <200109061922.LAA08193@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: p&p"!*O$#!7c/!!#c+#!
+
+No instrument response data for UNV in /home/iceweb/DATA/RESPONSE. Dr cannot be computed.
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JMYZ06606
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:22:34 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08209; Thu, 6 Sep 2001 11:22:33 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:22:33 -0800 (AKDT)
+Message-Id: <200109061922.LAA08209@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: 7-X!!Gb;!!h!0"!)P~!!
+
+No dr computed for UNV
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JMgZ06611
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:22:42 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08242; Thu, 6 Sep 2001 11:22:41 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:22:41 -0800 (AKDT)
+Message-Id: <200109061922.LAA08242@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: Wpo!!%UX"!\6O"!4gg"!
+
+No dr data found for UNV between 03-Sep-2001 and 06-Sep-2001
+
+From - Thu Sep  6 13:26:54 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JMgZ06615
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:22:42 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08258; Thu, 6 Sep 2001 11:22:41 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:22:41 -0800 (AKDT)
+Message-Id: <200109061922.LAA08258@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: 2FW"!<Sp!!mi6!!"I;"!
+
+No dr data to plot for UNV
+
+From - Thu Sep  6 13:26:55 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JNGZ06621
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:23:16 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08330; Thu, 6 Sep 2001 11:23:15 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:23:15 -0800 (AKDT)
+Message-Id: <200109061923.LAA08330@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: 8C+"!7#""!h+c"!p)+#!
+
+No distance data for PressureSensor in /home/iceweb/DATA/DISTANCE : Dr cannot be computed
+
+From - Thu Sep  6 13:26:55 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JNJZ06625
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:23:19 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08350; Thu, 6 Sep 2001 11:23:18 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:23:18 -0800 (AKDT)
+Message-Id: <200109061923.LAA08350@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: ]_A!!kaH!!EFZ"!c!Z!!
+
+No dr data found for PN7A between 03-Sep-2001 and 06-Sep-2001
+
+From - Thu Sep  6 13:26:55 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JNKZ06629
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:23:20 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08370; Thu, 6 Sep 2001 11:23:18 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:23:18 -0800 (AKDT)
+Message-Id: <200109061923.LAA08370@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: ^~*"!^=4"!k64!!HGY!!
+
+No dr data found for SSLN between 03-Sep-2001 and 06-Sep-2001
+
+From - Thu Sep  6 13:26:55 2001
+Received: from westdahl (westdahl.giseis.alaska.edu [137.229.32.12])
+	by kiska.giseis.alaska.edu (8.11.2/8.11.2) with ESMTP id f86JNKZ06634
+	for <iceweb@kiska>; Thu, 6 Sep 2001 11:23:20 -0800 (AKDT)
+Received: by westdahl (8.9.3+Sun/SMI-SVR4)
+	id LAA08386; Thu, 6 Sep 2001 11:23:19 -0800 (AKDT)
+Date: Thu, 6 Sep 2001 11:23:19 -0800 (AKDT)
+Message-Id: <200109061923.LAA08386@westdahl>
+From: iceweb@giseis.alaska.edu
+To: iceweb@westdahl.giseis.alaska.edu
+Subject: IceWeb error
+X-Mozilla-Status: 0000
+X-Mozilla-Status2: 00000000
+X-UIDL: 7$R"!Dna"!BC%#!0\i!!
+
+No dr plots produced for PressureSensor since no dr data found
+

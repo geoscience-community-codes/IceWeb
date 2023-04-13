@@ -1,0 +1,23 @@
+### Install this cronjob on Ukinrek ###
+# These cronjobs run less important aspects of the IceWeb system
+# It is best to run these on Ukinrek, rather than on the new machine, so 
+# the 10 minute spectrograms & dr plots aren't affected
+#
+# The most important cronjob here runs the daily spectrograms - other cronjobs
+# are niced so they have little impact on this more important cronjob
+#
+# Glenn Thompson, Jan 2000
+########################################################
+## update current UT day spectrograms every hour
+55 * * * * /home/iceweb/DAILY_SPECTROGRAMS/today.csh
+# produce UT day spectrograms for last day at 1635 Alaskan time each day - this is 0035 or 0135 UT
+35 16 * * * nice /home/iceweb/DAILY_SPECTROGRAMS/yesterday.csh
+#
+# delete any 10-minute spectrograms older than 7 days - do this at 0005 Alaskan time
+5 0 * * * nice /home/iceweb/REMOVE_OLD_SPECTROGRAMS/remove_old_spectrograms.csh
+#
+# grab wind data at 45 minutes past each hour - this gives it time to get on ftp server
+45 * * * * nice /home/iceweb/WIND_CODE/getwind.csh  > /dev/null 2>&1
+#
+# check iceweb is running - ideal this should be on a different machine to rest of cronjob
+0 * * * * nice /home/iceweb/TESTING/checker.csh

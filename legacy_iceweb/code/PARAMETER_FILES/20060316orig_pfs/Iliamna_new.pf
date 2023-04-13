@@ -1,0 +1,26 @@
+stations &Arr{
+IVS_SHZ &Arr{
+threshold	0.22
+use		1
+}
+IVE_SHZ &Arr{
+threshold	0.35
+use		1
+}
+INE_SHZ &Arr{
+threshold	0.25
+use		1
+}
+ILS_SHZ &Arr{
+threshold	5.3
+use		1
+}
+ILW_SHZ &Arr{
+threshold	5.3
+use		1
+}
+}
+windstation	ilwind
+dr_plots &Tbl{
+3
+}

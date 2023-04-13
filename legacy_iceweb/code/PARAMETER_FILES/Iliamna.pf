@@ -1,0 +1,36 @@
+stations &Arr{
+IVS &Arr{
+chan            EHZ
+threshold	0.22
+use		1
+}
+IVE &Arr{
+chan            EHZ
+threshold	0.35
+use		1
+}
+INE &Arr{
+chan            EHZ
+threshold	0.25
+use		1
+}
+ILS &Arr{
+chan            EHZ
+threshold	5.3
+use		1
+}
+ILW &Arr{
+chan            EHZ
+threshold	5.3
+use		1
+}
+ILI &Arr{
+chan            EHZ
+threshold	5.3
+use		1
+}
+}
+windstation	ilwind
+dr_plots &Tbl{
+3
+}

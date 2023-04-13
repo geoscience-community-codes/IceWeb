@@ -1,0 +1,27 @@
+stations &Arr {
+MNAT &Arr{
+threshold 99
+useinav 1
+}
+MSOM &Arr{
+threshold 99
+useinav 1
+}
+MTBL &Arr{
+threshold 99
+useinav 1
+}
+MSW &Arr{
+threshold 99
+useinav 1
+}
+MGOD &Arr{
+threshold 99
+useinav 1
+}
+}
+drplots &Tbl {
+
+1
+}
+windstation dhwind

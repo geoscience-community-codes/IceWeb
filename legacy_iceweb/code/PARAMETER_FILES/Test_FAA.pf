@@ -1,0 +1,31 @@
+stations &Arr{
+TST1 &Arr{
+chan		EHZ
+threshold 	99
+use 		0
+}
+TST2 &Arr{
+chan		EHZ
+threshold 	99
+use 		0
+}
+TST4 &Arr{
+chan		EHZ
+threshold 	99
+use 		0
+}
+TST6 &Arr{
+chan		EHZ
+threshold 	99
+use 		0
+}
+TST8 &Arr{
+chan		EHZ
+threshold 	99
+use 		0
+}
+}
+windstation	nowind
+dr_plots &Tbl{
+3
+}

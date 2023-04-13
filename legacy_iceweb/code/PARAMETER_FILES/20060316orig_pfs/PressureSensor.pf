@@ -1,0 +1,11 @@
+stations &Arr{
+SSLN &Arr{
+chan		BDF
+threshold 	2.6
+use 		1
+}
+}
+windstation	cbwind
+dr_plots &Tbl{
+3
+}

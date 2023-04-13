@@ -1,0 +1,58 @@
+.MAKE_VERSION:	VERSION-1.0
+0@all:
+	DIRS="" ;\
+	for i in $DIRS ; do \
+	    printf "+    %-40s  %s\n" $i "`date`" ; \
+	    if [ -f $i/Makefile -o -f $i/makefile -o -f $i/GNUmakefile ] ; then ( cd $i && make -e all ; ) ; else if [ -d $i ] ; then echo Error: no Makefile in `pwd`/$i ; fi ; fi ; \
+	        done
+BIN:	0@BIN 
+BUNDLE:	0@BUNDLE 
+DATA:	0@DATA 
+DEMO:	0@DEMO 
+DLIB:	0@DLIB 
+DOC:	0@DOC 
+DOCS:	0@DOCS 
+EXAMPLE:	0@EXAMPLE 
+EXAMPLES:	0@EXAMPLES 
+INCLUDE:	0@INCLUDE 
+Include:	0@Include 1@Include 
+LIB:	0@LIB 
+MAN:	0@MAN 1@MAN 
+PF:	0@PF 
+SLIB:	0@SLIB 
+all:	0@all 1@all 
+clean:	0@clean 1@clean 
+depends:	0@depends 1@depends 
+export:	0@export 
+install:	0@install 1@install 
+installMAN:	0@installMAN 1@installMAN 
+installman:	0@installman 1@installman 
+localInclude:	0@localInclude 
+localpf:	0@localpf 
+pf:	0@pf 1@pf 
+purge:	0@purge 1@purge 
+relink:	0@relink 1@relink 
+start_matlab_engine:	/usr/lib/libkstat.so /usr/lib/libdl.so /usr/lib/libposix4.so /usr/lib/libnsl.so /usr/lib/libsocket.so /usr/lib/libthread.so /usr/lib/libc.so /usr/lib/libdl.so.1 /usr/lib/libc.so.1 /usr/lib/libnsl.so.1 /usr/lib/libmp.so.2 /usr/lib/libaio.so.1 /usr/lib/libsocket.so.1 /usr/lib/librt.so.1 /usr/lib/libkstat.so.1 /usr/lib/libthread.so.1 /usr/lib/libCrun.so.1 /usr/lib/libw.so.1 
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine.o:	/usr/include/stdlib.h /usr/include/iso/stdlib_iso.h /usr/include/sys/feature_tests.h /usr/include/sys/isa_defs.h /usr/include/stdio.h /usr/include/iso/stdio_iso.h /usr/include/sys/va_list.h /usr/include/stdio_tag.h /usr/include/stdio_impl.h /usr/include/string.h /usr/include/iso/string_iso.h /usr/local/matlab/extern/include/engine.h /usr/local/matlab/extern/include/matrix.h /usr/include/assert.h /usr/include/stddef.h /usr/include/iso/stddef_iso.h
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine.o:	/usr/local/matlab/extern/include/tmwtypes.h /usr/include/limits.h /usr/include/iso/limits_iso.h /usr/include/sys/int_limits.h /usr/include/float.h /usr/include/math.h /usr/include/iso/math_iso.h /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h /usr/include/malloc.h /usr/include/sys/types.h /usr/include/sys/machtypes.h /usr/include/sys/int_types.h /usr/include/sys/select.h /usr/include/sys/time.h /usr/include/time.h /usr/include/iso/time_iso.h
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine.o:	/usr/include/sys/time_impl.h /usr/include/sys/stat.h /usr/include/sys/stat_impl.h /usr/include/sys/statvfs.h /usr/include/netdb.h /usr/include/netinet/in.h /usr/include/sys/stream.h /usr/include/sys/vnode.h /usr/include/sys/t_lock.h /usr/include/sys/machlock.h /usr/include/sys/param.h /usr/include/sys/unistd.h /usr/include/sys/mutex.h /usr/include/sys/rwlock.h /usr/include/sys/semaphore.h /usr/include/sys/condvar.h /usr/include/sys/cred.h /usr/include/sys/uio.h
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine.o:	/usr/include/sys/resource.h /usr/include/vm/seg_enum.h /usr/include/sys/poll.h /usr/include/sys/strmdep.h /usr/include/sys/model.h /usr/include/sys/strft.h /usr/include/sys/byteorder.h /usr/include/sys/socket.h /usr/include/sys/netconfig.h /usr/include/sys/un.h /usr/include/net/if_dl.h /usr/include/inttypes.h /usr/include/sys/inttypes.h /usr/include/sys/int_const.h /usr/include/sys/int_fmtio.h /usr/include/regex.h /usr/include/signal.h /usr/include/iso/signal_iso.h
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine.o:	/usr/include/sys/iso/signal_iso.h /usr/include/sys/signal.h /usr/include/sys/siginfo.h /usr/include/sys/machsig.h /usr/include/sys/procset.h /usr/include/pwd.h /usr/include/arpa/inet.h /usr/include/stdarg.h /usr/include/iso/stdarg_iso.h /usr/include/sys/ccompile.h /usr/include/iso/stdlib_c99.h /usr/include/iso/stdio_c99.h /usr/include/unistd.h /usr/include/iso/math_c99.h /usr/include/sys/rwstlock.h /usr/include/sys/ksynch.h /usr/include/sys/stdint.h
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine.o:	/usr/include/sys/va_impl.h /usr/include/iso/stdarg_c99.h /opt/antelope/4.8/include/stock.h /opt/antelope/4.8/include/deviants_include.h /opt/antelope/4.8/include/deviants.h /opt/antelope/4.8/include/stocktime.h /opt/antelope/4.8/include/arrays.h /opt/antelope/4.8/include/redblack.h /opt/antelope/4.8/include/elog.h /opt/antelope/4.8/include/pf.h /opt/antelope/4.8/include/bury.h 
+	compile -i -D_REENTRANT -g -mt -I/usr/local/matlab/extern/include -D_SPARC -D_SOLARIS -I/opt/antelope/4.8/contrib/include  -I/opt/antelope/4.8/local/include -I/opt/antelope/4.8/include -I/usr/openwin/include -KPIC  -c  start_matlab_engine.c
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine_sol10:	/lib/libuutil.so.1 /lib/libdoor.so.1 /lib/libscf.so.1 /lib/libmp.so.2 /lib/libmd5.so.1 /lib/libaio.so.1 /usr/local/matlab/bin/sol2/libMTwister.so /usr/local/matlab/bin/sol2/libz.so /usr/local/matlab/bin/sol2/libicuio.so.32 /usr/local/matlab/bin/sol2/libicui18n.so.32 /usr/local/matlab/bin/sol2/libicuuc.so.32 /usr/local/matlab/bin/sol2/libicudata.so.32 /usr/lib/libpthread.so.1 /usr/lib/libw.so.1 /usr/lib/libm.so.1 /usr/lib/libCrun.so.1 /usr/lib/libCstd.so.1
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine_sol10:	/lib/libc.so /lib/libthread.so /lib/libm.so /lib/libsocket.so /lib/libnsl.so /lib/libposix4.so /lib/libdl.so /lib/libkstat.so /usr/local/matlab/bin/sol2/libut.so /usr/local/matlab/bin/sol2/libeng.so /usr/local/matlab/bin/sol2/libmx.so /usr/local/matlab/bin/sol2/libmat.so /opt/antelope/4.8/lib/libdeviants.so /opt/antelope/4.8/lib/libstock.so /opt/antelope/4.8/lib/libbanner.a /opt/antelope/4.8/lib/libcoords.so /opt/antelope/4.8/lib/libresponse.so /opt/antelope/4.8/lib/libtrvltm.so
+.BUILT_LAST_MAKE_RUN:
+start_matlab_engine_sol10:	/opt/antelope/4.8/lib/libds.so /opt/antelope/4.8/lib/libtr.so /opt/antelope/4.8/lib/libwormutil.so /opt/antelope/4.8/lib/libwormsol.so /opt/antelope/4.8/lib/libwormds.so 
+	compile -i -D_REENTRANT -g -mt -I/usr/local/matlab/extern/include -D_SPARC -D_SOLARIS -I/opt/antelope/4.8/contrib/include  -I/opt/antelope/4.8/local/include -I/opt/antelope/4.8/include -I/usr/openwin/include -KPIC -o start_matlab_engine_sol10 start_matlab_engine.o -L/usr/local/matlab/bin/sol2 -R/usr/local/matlab/bin/sol2 -L/usr/local/matlab/extern/lib/sol2 -R/usr/local/matlab/extern/lib/sol2 -L/opt/antelope/4.8/contrib/lib -R/opt/antelope/4.8/contrib/lib  -L/opt/antelope/4.8/local/lib -L/opt/antelope/4.8/local/static -L/opt/antelope/4.8/lib -L/opt/antelope/4.8/static -R/opt/antelope/4.8/local/lib -R/opt/antelope/4.8/lib -lmat -lmx -leng -lut -lwormds -lwormsol -lwormutil -ltr -lds -ltrvltm -lresponse -lcoords -lbanner -lstock -ldeviants -lkstat -ldl -lposix4 -lnsl -lsocket -lm  -lm
+static:	0@static 
+tags:	0@tags 1@tags 
+uninstall:	0@uninstall 1@uninstall 

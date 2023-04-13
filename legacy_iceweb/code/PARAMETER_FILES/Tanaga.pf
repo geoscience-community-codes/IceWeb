@@ -1,0 +1,36 @@
+stations &Arr{
+TACS &Arr{
+chan            EHZ
+threshold 	+2
+use 		1
+}
+TAFL &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+TAFP &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+TANO &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+TAPA &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+TASE &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+}
+windstation 	dhwind
+dr_plots &Tbl{
+3
+}

@@ -1,0 +1,26 @@
+stations &Arr{
+ACH_SHZ &Arr{
+threshold	0.45
+use		1
+}
+KCE_SHZ &Arr{
+threshold	0.83
+use		1
+}
+MGLS_SHZ &Arr{
+threshold	0.44
+use		1
+}
+ANCK_SHZ &Arr{
+threshold	0.62
+use		1
+}
+KJL_SHZ &Arr{
+threshold	2.3
+use		1
+}
+}
+windstation	kswind
+dr_plots &Tbl{
+3
+}

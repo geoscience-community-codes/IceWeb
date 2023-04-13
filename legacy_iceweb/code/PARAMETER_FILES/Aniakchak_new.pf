@@ -1,0 +1,26 @@
+stations &Arr{
+ANPB_EHZ &Arr{
+threshold 	8.7
+use 		1
+}
+AJAX_EHZ &Arr{
+threshold 	1.2
+use 		1
+}
+ANPK_EHZ &Arr{
+threshold 	0.1
+use 		1
+}
+ANNE_EHZ &Arr{
+threshold 	0.7
+use 		1
+}
+ANNW_EHZ &Arr{
+threshold 	1.5
+use 		1
+}
+}
+windstation 	nowind
+dr_plots &Tbl{
+3
+}

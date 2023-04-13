@@ -1,0 +1,31 @@
+stations &Arr{
+GSMY &Arr{
+chan            SHZ
+threshold	7.
+use		1
+}
+GSTR &Arr{
+chan            SHZ
+threshold	15.
+use		1
+}
+GSTD &Arr{
+chan            SHZ
+threshold	10.
+use		1
+}
+GSSP &Arr{
+chan            SHZ
+threshold	9.
+use		1
+}
+GSCK &Arr{
+chan            SHZ
+threshold	8.
+use		1
+}
+}
+windstation	nowind
+dr_plots &Tbl{
+3
+}

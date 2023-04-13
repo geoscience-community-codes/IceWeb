@@ -1,0 +1,21 @@
+function disp_menu(volname,snum,enum)
+disp(' ');
+disp(' ');
+disp(' ');
+disp('************************');
+disp(' ');
+disp(['Volcano    = ',volname]);
+disp(['Start date = ',datestr(snum,0)]);
+disp(['End date   = ',datestr(enum,0)]);
+disp(' ');
+disp(['***** MENU *****']);
+disp(['(1)  Standard Reduced Displacement Plot']);
+disp(['(2)  Spectrograms']);
+disp(['(3)  High resolution Dr plot - Not currently available']);
+disp(['(4)  Spectral bands plot']);
+disp(['(5)  Spectral ratios plot']);
+disp(['(6)  Enter new date range']);
+disp(['(7)  Enter new volcano']);
+disp(['(8)  Close all figure windows']);
+disp(['(9)  Save figure to postscript file']);
+disp(['(0)  EXIT']);

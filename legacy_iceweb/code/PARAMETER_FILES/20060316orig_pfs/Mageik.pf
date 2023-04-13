@@ -1,0 +1,31 @@
+stations &Arr{
+ACH &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+KCE &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+MGLS &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+ANCK &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+KJL &Arr{
+chan            SHZ
+threshold	30
+use		1
+}
+}
+windstation	kswind
+dr_plots &Tbl{
+3
+}

@@ -1,0 +1,243 @@
+function iceweb();
+% Glenn Thompson, September 1999
+% Author notes:
+% use datevec(dnum) to get y,m,d,h,m,s etc.
+% Check with Gordon on removing dropouts - useful?
+% Check with Gordon if mean-sqaure data is useful. Different time scale?
+% Create dr plots directly from C program? Different cron?
+% alarms should be a separate C or Perl script. Such a script
+% could also check when last each station was updated. Another
+% routine could see when last gifs were made or last wind data
+% saved.
+% RESPONSE and DISTANCE data - from Iceworm?
+% think about reimplementation of web-stations. do i want SSAM for all stations?
+% samp_freq is a return vector, not scalar - need to find how to get this
+% also return data as cells (array of vectors) rather than 2-d array? Can
+% then be different lengths
+% figure out how to read parameter files from perl. then rewrite all perl scripts.
+%
+% Future:
+% separate dr calculation & alarms from calculating spectrograms & creating gifs
+% perform dr calculation once per minute
+
+% add Antelope extensions
+use_antelope;
+
+% global variables
+global pathspf parameterspf ICEWEB PFS TRUE FALSE;
+
+% set iceweb home
+ICEWEB='/home/iceweb';
+
+% path for parameter files
+PFS=[ICEWEB,'/PARAMETER_FILES'];
+
+% create pointer to main parameter file
+parameterspf=dbpf([PFS,'/parameters']);
+
+% boolean variables
+TRUE=1;FALSE=0;
+
+triggers=[]; % this is for sending alarms
+
+% add paths
+path(path,[ICEWEB,'/REAL_TIME_CODE']);
+path(path,[ICEWEB,'/ICEWEB_UTILITIES']);
+
+% data window in epoch time
+num_mins=pfget_num(parameterspf,'minutes_to_get');
+end_time = str2epoch('now') - 60;
+start_time = end_time - num_mins * 60;
+
+% data window in datenum format
+enum=epoch2dnum(end_time);
+snum=epoch2dnum(start_time);
+%epoch2str(start_time,'%D %H:%M:%S %Z')
+%epoch2str(end_time, '%D %H:%M:%S %Z')
+
+% read list of iceweb volcanoes from parameter file
+volcanoes=read_iceweb_volcanoes;
+num_volcanoes=length(volcanoes);
+
+% MAIN PROGRAM
+% loop over all volcanoes
+for volcano_num=1:num_volcanoes
+	% which volcano?
+	volcano=volcanoes{volcano_num};
+	disp(' ');
+	disp(['****** ',volcano,' *****']);
+	% get IceWeb stations
+	[stations,pss,NO_PARAMETER_FILE]=read_iceweb_stations(volcano);
+	if NO_PARAMETER_FILE==FALSE % volcano parameter file found
+		% get iceworm data
+		disp('Fetching data from Iceworm');
+		[data,samp_freqs,DATA_FOUND]=get_iceworm_data(stations,start_time,end_time);
+%data, samp_freqs, DATA_FOUND
+		% check to see if any data was obtained - if not, go on to next volcano
+		if sum(DATA_FOUND)>0 % if data had been found for 0 stations, sum would be 0
+			% archive mean-square data in 20-s windows for all stations
+			mean_square(stations,data,samp_freqs,DATA_FOUND,enum);
+			% calculate reduced displacement for all stations
+			[volcano_trigger]=reduced_displacement(volcano,stations,data,samp_freqs,DATA_FOUND,enum);
+			triggers=[triggers volcano_trigger];
+			% calculate spectrograms for all stations
+			spectrograms(volcano,stations,data,samp_freqs,DATA_FOUND,enum);
+			% make_dr_plots
+			make_dr_plots(volcano,stations);
+		else
+			send_IceWeb_error(['No Iceworm data for ',volcano]);
+		end
+	end
+end
+
+% send alarm if only 1 volcano triggered (else probably earthquake/telemetry problem)
+if sum(triggers) == 1
+	i=find(triggers);
+	volcano=volcanoes{i};
+	send_alarm_message(volcano);
+end
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [data,samp_freqs,DATA_FOUND]=get_iceworm_data(stations,start_time,end_time);
+
+global FALSE;
+
+numstations=length(stations);
+data=cell(numstations,1);
+
+for station_num=1:numstations
+	station=stations{station_num};
+	channel='SHZ';
+	[d,s,f]=get_iceworm_data_for_station(station,channel,start_time,end_time);
+
+	data{station_num}=d;
+	samp_freqs(station_num)=s;
+	DATA_FOUND(station_num)=f;
+	if f==FALSE % send warning
+		send_IceWeb_error([station,' ',channel,' : No data']);
+	%else
+	%	eval(['save /home/iceweb/DATA/RAW/',station,'.mat d']);
+	end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [data,samprate,DATA_FOUND]=get_iceworm_data_for_station(station,channel,start_time,end_time);
+
+global db aeicpf parameterspf PFS TRUE FALSE;
+data = []; samprate = []; DATA_FOUND = FALSE; % initialise - no data yet
+
+aeicpf = dbpf('aeic_rtsys');
+
+% find out which system is the primary data acquisition system at the moment...
+primary = pfget(aeicpf,'primary_system');
+
+% find name of waveform archive database for this system
+dbname = pfresolve(aeicpf,['processing_systems{' primary '}{archive_database}']);
+dbname = epoch2str(start_time,dbname)
+
+% open database in 'read-only' mode
+db = dbopen( dbname, 'r' );
+
+% look at the waveform table - this lists filenames of where waveform data is
+db = dblookup_table( db, 'wfdisc');
+
+% subset with station & channel
+db = dbsubset( db, ['sta == "',station,'"']);
+db = dbsubset( db, ['chan == "',channel,'"']);
+
+% sort data by time
+db = dbsort(db,'time');
+
+%	dbquery(db,'dbRECORD_COUNT')
+
+% load waveform data into trace object
+tr = trload_cssgrp(db,start_time,end_time);
+
+% if trace object not defined, it means no records matched the request - i.e. no data
+if exist('tr','var')  % GOT DATA!
+	DATA_FOUND = TRUE;
+	disp([station,' ',channel,': Data found on "',primary,'"']);
+	nrecs = dbquery(tr,'dbRECORD_COUNT');
+	tr.record = 0;	
+
+	% load all data that matched into array 'data' - should take care of split data
+	for trace_num = 1:nrecs 
+		tr.record = trace_num-1;
+		data = [data;trextract_data(tr)];
+	end
+
+	% get sample rate
+	samp_rates = dbgetv(db,'samprate'); 
+	samprate = samp_rates(length(samp_rates)); % most recent value
+end
+
+dbclose( db );
+
+if DATA_FOUND == FALSE
+	data = NaN; samprate = NaN;	
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function mean_square(stations,data,samp_freqs,DATA_FOUND,enum)
+
+global ICEWEB parameterspf TRUE;
+
+disp('Archiving mean square data');
+
+MS_DATA=[ICEWEB,'/DATA/MS'];
+num_mins=pfget_num(parameterspf,'minutes_to_get');
+bin_mins=pfget_num(parameterspf,'bin_size_in_seconds')/60;
+num_bins=floor(num_mins/bin_mins);
+secs_per_day=60*60*24;
+
+% make current day directory if it doesn't exist
+[yr,mn,dy]=yyyymmdd(enum);
+date_str=[yr,mn,dy];
+dir_name=[MS_DATA,'/',date_str];
+e=exist(dir_name,'dir');
+if e==0
+	eval(['!mkdir ',dir_name]);
+end
+
+% loop over stations, save mean square data averaged over bin_mins
+for station_num=1:length(stations)
+	if DATA_FOUND(station_num)==TRUE
+		station=stations{station_num};
+		y=data{station_num};
+		bin_size=floor(length(y)/num_bins); % bin size in samples
+		fname=[dir_name,'/',station,'.ext'];
+		fad=fopen(fname,'a');
+		for bin_num=1:num_bins
+			first_sample=bin_size*(bin_num-1)+1;
+			last_sample=bin_size*bin_num;
+			samples_from_end=length(y)-last_sample;
+			secs_from_end=samples_from_end/samp_freqs(station_num);
+			t=enum-secs_from_end/secs_per_day;
+			d=y(first_sample:last_sample);
+			mean_square=nanmean(d.*d);
+			fprintf(fad,'%9.0f %14.5f\n',mean_square,t);
+			end
+		fclose(fad);
+	end
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function send_alarm_message(volcano);
+global parameterspf;
+
+% to send alarms to beeper, add 'beeper' to 'alarm_list' in parameters.pf
+alarm_list=pfget_tbl(parameterspf,'alarm_list');
+if length(alarm_list) > 0
+	al_str=alarm_list{1};
+	for al_no=2:length(alarm_list)
+		al_str=[al_str,' ',alarm_list{al_no}];
+	end
+	eval(['!mailx -s "IceWeb Alarm @ ',volcano,'" ',al_str,' < /tmp/alarm_msg']);
+	eval(['!rm /tmp/alarm_msg']);
+end
+

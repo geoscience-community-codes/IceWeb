@@ -1,0 +1,26 @@
+stations &Arr{
+MCIR &Arr{
+chan            EHZ
+threshold	1.0
+use		1
+}
+MSW &Arr{
+chan            EHZ
+threshold	4.0
+use		1
+}
+MTBL &Arr{
+chan            EHZ
+threshold	4.0
+use		1
+}
+MNAT &Arr{
+chan            EHZ
+threshold	2.2
+use		1
+}
+}
+windstation	dhwind
+dr_plots &Tbl{
+3
+}

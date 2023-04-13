@@ -1,0 +1,31 @@
+stations &Arr{
+RDN &Arr{
+chan            SHZ
+threshold	4.6
+use		1
+}
+RDT &Arr{
+chan            SHZ
+threshold	2.6
+use		1
+}
+RED &Arr{
+chan            SHZ
+threshold	4.0
+use		1
+}
+REF &Arr{
+chan            SHZ
+threshold	4.0
+use		1
+}
+RSO &Arr{
+chan            SHZ
+threshold	4.0
+use		1
+}
+}
+windstation	rewind
+dr_plots &Tbl{
+3
+}

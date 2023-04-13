@@ -1,0 +1,31 @@
+stations &Arr{
+SPU &Arr{
+chan		SHZ
+threshold 	10
+use 		1
+}
+CKT &Arr{
+chan		SHZ
+threshold 	8
+use 		1
+}
+CKN &Arr{
+chan		SHZ
+threshold 	25
+use 		0
+}
+CRP &Arr{
+chan		SHZ
+threshold 	5
+use 		0
+}
+BGL &Arr{
+chan		SHZ
+threshold 	5
+use 		1
+}
+}
+windstation 	rewind
+dr_plots &Tbl{
+3
+}

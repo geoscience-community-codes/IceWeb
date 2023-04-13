@@ -1,0 +1,26 @@
+stations &Arr{
+WESS_EHZ &Arr{
+threshold	99
+use		0
+}
+WESE_EHZ &Arr{
+threshold	99
+use		0
+}
+WESN_EHZ &Arr{
+threshold	3.9
+use		1
+}
+WFAR_EHZ &Arr{
+threshold	5.1
+use		1
+}
+WPOG_EHZ &Arr{
+threshold	5.8
+use		1
+}
+}
+windstation	nowind
+dr_plots &Tbl{
+3
+}

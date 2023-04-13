@@ -1,0 +1,36 @@
+stations &Arr{
+GAEA &Arr{
+chan            EHZ
+threshold 	+2
+use 		1
+}
+GAKI &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+GALA &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+GANE &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+GANO &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+GASW &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+}
+windstation 	dhwind
+dr_plots &Tbl{
+3
+}

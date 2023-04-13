@@ -1,0 +1,33 @@
+# who to email in case of problems
+# IceWeb_manager	iceweb 	guy
+IceWeb_manager	iceweb
+
+# grabbing data
+minutes_to_get	10  # must be a factor of 60, choices should be 15, 10 & 5 to make cronjob easy
+	
+# spectrogram parameters
+nfft		1024
+overlap		512
+blue		40
+red		100
+min_freq	0.8
+max_freq	10.0
+panel_width	0.8
+panel_height	0.8
+days_in_spectrogram_archive	5
+
+# reduced displacement parameters
+surface_wave_speed	2000
+allowed_dr_plots &Tbl{
+	1
+	3
+	10
+}
+
+# mean square data parameters
+bin_size_in_seconds	20
+
+# alarms
+alarm_list &Tbl{
+	iceweb
+}

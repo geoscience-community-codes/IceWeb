@@ -1,0 +1,63 @@
+<HTML><HEAD>
+<TITLE> IceWeb Setup for Shishaldin Volcano </TITLE></HEAD>
+<BODY><FORM ACTION="http://www.avo.alaska.edu/cgi-bin/glenn/volcano_setup.pl" METHOD="POST">
+<hr>
+<FONT SIZE=7> <center> IceWeb Setup for Shishaldin Volcano </center></FONT><P>
+<FONT SIZE=5> <center> This volcano is currently on IceWeb: Using current setup </center></FONT><P>
+<hr>
+<h1>Stations / Alarms</H1><p>
+Select up to 6 stations that you want to appear on spectrograms and reduced displacement plots.<br>
+	Then for each station, select a threshold level. An alarm will be sent whenever more than 1 station is 
+	above its threshold level.<p>
+	Alarms will also be sent if the average reduced displacement at <em>selected</em> stations exceeds the average 
+	threshold of those stations.<br> If you wish a station to
+	contribute to this average, please check the 'average' box for that station.<p>
+	To remove a station from the alarm (e.g. because it is noisy) enter a large value
+	for threshold (e.g. 9999) and remove it from the average.<p>
+<TABLE>
+<TR><TD><BR></TD><TH>Stations</TH><TH>Threshold<BR>(cm^2)</TH><TH>Average?</TH></TR>
+<TR><TH>1</TH>
+<TD><INPUT TYPE="text" NAME="station" SIZE="4" VALUE="SSLN"></TD>
+<TD><INPUT TYPE="text" NAME="threshold" SIZE="4" VALUE="1.8"></TD>
+<TD><INPUT TYPE="checkbox" NAME="av" VALUE="1" CHECKED></TD></TR>
+<TR><TH>2</TH>
+<TD><INPUT TYPE="text" NAME="station" SIZE="4" VALUE="SSLW"></TD>
+<TD><INPUT TYPE="text" NAME="threshold" SIZE="4" VALUE="0.5"></TD>
+<TD><INPUT TYPE="checkbox" NAME="av" VALUE="1"></TD></TR>
+<TR><TH>3</TH>
+<TD><INPUT TYPE="text" NAME="station" SIZE="4" VALUE="SSLS"></TD>
+<TD><INPUT TYPE="text" NAME="threshold" SIZE="4" VALUE="5.5"></TD>
+<TD><INPUT TYPE="checkbox" NAME="av" VALUE="1" CHECKED></TD></TR>
+<TR><TH>4</TH>
+<TD><INPUT TYPE="text" NAME="station" SIZE="4" VALUE=""></TD>
+<TD><INPUT TYPE="text" NAME="threshold" SIZE="4" VALUE=" "></TD>
+<TD><INPUT TYPE="checkbox" NAME="av" VALUE="1"></TD></TR>
+<TR><TH>5</TH>
+<TD><INPUT TYPE="text" NAME="station" SIZE="4" VALUE=""></TD>
+<TD><INPUT TYPE="text" NAME="threshold" SIZE="4" VALUE=" "></TD>
+<TD><INPUT TYPE="checkbox" NAME="av" VALUE="1"></TD></TR>
+<TR><TH>6</TH>
+<TD><INPUT TYPE="text" NAME="station" SIZE="4" VALUE=""></TD>
+<TD><INPUT TYPE="text" NAME="threshold" SIZE="4" VALUE=" "></TD>
+<TD><INPUT TYPE="checkbox" NAME="av" VALUE="1"></TD></TR>
+</TABLE>
+<hr>
+<H1>Reduced Displacement Plots</H1><p>
+Which of these dr plots do you wish to be produced for Shishaldin ?<p>
+<INPUT TYPE="checkbox" NAME="drplots" VALUE="1"> Last 1 days
+<INPUT TYPE="checkbox" NAME="drplots" VALUE="3"> Last 3 days
+<INPUT TYPE="checkbox" NAME="drplots" VALUE="10"> Last 10 days
+<p><hr>
+<H1>Wind station</H1><p>
+Select wind data from one weatherstation. <br>These data will be shown on reduced displacement plots.<p>
+<INPUT TYPE="radio" NAME="windstation" VALUE="nowind"> None
+<INPUT TYPE="radio" NAME="windstation" VALUE="cbwind" CHECKED> Cold_Bay
+<INPUT TYPE="radio" NAME="windstation" VALUE="dhwind"> Dutch_Harbour
+<INPUT TYPE="radio" NAME="windstation" VALUE="howind"> Homer
+<INPUT TYPE="radio" NAME="windstation" VALUE="ilwind"> Iliamna
+<INPUT TYPE="radio" NAME="windstation" VALUE="kswind"> King_Salmon
+<hr>
+<INPUT TYPE="submit" VALUE="Submit"><INPUT TYPE="reset" VALUE="Reset"></FORM>
+<hr>
+<ADDRESS>Prototype by Glenn Thompson, 21st September 1999</ADDRESS>
+</body></html>

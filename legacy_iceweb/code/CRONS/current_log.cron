@@ -1,0 +1,30 @@
+# CRONJOB FOR NEW ICEWEB COMPUTER
+#
+# Glenn Thompson, October 1999
+#
+# calculate dr, run alarms, update dr plots & spectrograms on the web every 10 minutes
+#0,10,20,30,40,50 * * * * /home/iceweb/REAL_TIME_CODE/iceweb.csh > /dev/null 2>&1
+0,10,20,30,40,50 * * * * /home/iceweb/REAL_TIME_CODE/iceweb.csh >> /home/iceweb/LOG/iceweb.csh.log 2>&1
+#
+# update current UT day spectrograms every hour
+#55 * * * * /home/iceweb/DAILY_SPECTROGRAMS/today.csh
+55 * * * * /home/iceweb/DAILY_SPECTROGRAMS/today.csh >> /home/iceweb/LOG/today.csh.log 2>&1
+#
+# produce UT day spectrograms for last day at 1635 Alaskan time each day - this is 0035 or 0135 UT
+#35 16 * * * nice /home/iceweb/DAILY_SPECTROGRAMS/yesterday.csh
+35 16 * * * nice /home/iceweb/DAILY_SPECTROGRAMS/yesterday.csh >> /home/iceweb/LOG/yesterday.csh.log 2>&1
+#
+# delete any 10-minute spectrograms older than 7 days - do this at 0005 Alaskan time
+#5 0 * * * nice /home/iceweb/REMOVE_OLD_SPECTROGRAMS/remove_old_spectrograms.csh
+5 0 * * * nice /home/iceweb/REMOVE_OLD_SPECTROGRAMS/remove_old_spectrograms.csh >> /home/iceweb/LOG/remove_old_spectrograms.csh.log 2>&1
+#
+# grab wind data at 45 minutes past each hour - this gives it time to get on ftp server
+#45 * * * * nice /home/iceweb/WIND_CODE/getwind.csh  > /dev/null 2>&1
+45 * * * * nice /home/iceweb/WIND_CODE/getwind.csh  >> /home/iceweb/LOG/getwind.csh.log 2>&1
+#
+# check iceweb is running - ideal this should be on a different machine to rest of cronjob
+#0 * * * * nice /home/iceweb/TESTING/checker.csh
+0 * * * * nice /home/iceweb/TESTING/checker.csh >> /home/iceweb/LOG/checher.csh.log 2>&1
+#
+# check for "zombie" processes and remove them every 5 minutes
+4,9,14,19,24,29,34,39,44,49,54,59 * * * * /usr/bin/tcsh -c /home/iceweb/REAL_TIME_CODE/killzombies.pl >> /home/iceweb/LOG/killzombies.pl.log 2>&1

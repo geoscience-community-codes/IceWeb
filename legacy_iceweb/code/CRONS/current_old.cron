@@ -1,0 +1,20 @@
+# CRONJOB FOR NEW ICEWEB COMPUTER
+#
+# Glenn Thompson, October 1999
+#
+# calculate dr, run alarms, update dr plots & spectrograms on the web every 10 minutes
+0,10,20,30,40,50 * * * * /home/iceweb/REAL_TIME_CODE/iceweb.csh > /dev/null 2>&1
+#
+# update current UT day spectrograms every hour
+55 * * * * /home/iceweb/DAILY_SPECTROGRAMS/today.csh
+# produce UT day spectrograms for last day at 1635 Alaskan time each day - this is 0035 or 0135 UT
+35 16 * * * nice /home/iceweb/DAILY_SPECTROGRAMS/yesterday.csh
+#
+# delete any 10-minute spectrograms older than 7 days - do this at 0005 Alaskan time
+5 0 * * * nice /home/iceweb/REMOVE_OLD_SPECTROGRAMS/remove_old_spectrograms.csh
+#
+# grab wind data at 45 minutes past each hour - this gives it time to get on ftp server
+45 * * * * nice /home/iceweb/WIND_CODE/getwind.csh  > /dev/null 2>&1
+#
+# check iceweb is running - ideal this should be on a different machine to rest of cronjob
+0 * * * * nice /home/iceweb/TESTING/checker.csh

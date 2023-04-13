@@ -1,0 +1,9 @@
+### Install this cronjob on the new IceWeb computer ###
+# This cronjob only runs the 10 minute spectrograms & dr plots, since
+# these are the most important part of IceWeb and shouldn't compete with 
+# by other cronjobs
+#
+# Glenn Thompson, Jan 2000
+########################################################
+# calculate dr, run alarms, update dr plots & spectrograms on the web every 10 minutes
+0,10,20,30,40,50 * * * * /home/iceweb/REAL_TIME_CODE/iceweb.csh > /dev/null 2>&1

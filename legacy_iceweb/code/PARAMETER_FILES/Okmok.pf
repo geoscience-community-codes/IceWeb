@@ -1,0 +1,36 @@
+stations &Arr{
+OKCF &Arr{
+chan            EHZ
+threshold	5.
+use		1
+}
+OKER &Arr{
+chan            EHZ
+threshold	5.
+use		1
+}
+OKRE &Arr{
+chan            EHZ
+threshold	10.
+use		1
+}
+OKTU &Arr{
+chan            EHZ
+threshold	5.
+use		1
+}
+OKWE &Arr{
+chan            EHZ
+threshold	5.
+use		1
+}
+OKWR &Arr{
+chan            EHZ
+threshold	5.
+use		1
+}
+}
+windstation	dhwind
+dr_plots &Tbl{
+3
+}

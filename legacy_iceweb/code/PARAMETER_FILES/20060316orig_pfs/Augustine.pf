@@ -1,0 +1,36 @@
+stations &Arr{
+AUH &Arr{
+chan            SHZ
+threshold	1
+use		0
+}
+AUP &Arr{
+chan            SHZ
+threshold	2
+use		1
+}
+AUW &Arr{
+chan            SHZ
+threshold	9.0
+use		1
+}
+AUI &Arr{
+chan            SHZ
+threshold	1
+use		1
+}
+AUE &Arr{
+chan            SHZ
+threshold	300.
+use		1
+}
+AUSE &Arr{
+chan            SHZ
+threshold	300.
+use		1
+}
+}
+windstation	auwind
+dr_plots &Tbl{
+3
+}

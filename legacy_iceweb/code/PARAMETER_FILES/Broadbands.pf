@@ -1,0 +1,21 @@
+stations &Arr{
+FALS &Arr{
+chan            BHZ
+threshold	0.22
+use		1
+}
+FALS &Arr{
+chan            BHN
+threshold	0.35
+use		1
+}
+FALS &Arr{
+chan            BHE
+threshold	0.25
+use		1
+}
+}
+windstation	ilwind
+dr_plots &Tbl{
+3
+}

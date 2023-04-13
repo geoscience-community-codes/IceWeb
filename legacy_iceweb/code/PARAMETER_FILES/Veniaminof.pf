@@ -1,0 +1,36 @@
+stations &Arr{
+VNWF &Arr{
+chan            EHZ
+threshold 	10.
+use 		0
+}
+VNKR &Arr{
+chan            EHZ
+threshold 	20
+use 		0
+}
+VNSG &Arr{
+chan            EHZ
+threshold 	20
+use 		0
+}
+VNSS &Arr{
+chan            EHZ
+threshold 	20
+use 		0
+}
+VNFG &Arr{
+chan            EHZ
+threshold 	20
+use 		0
+}
+VNNF &Arr{
+chan            EHZ
+threshold 	20
+use 		0
+}
+}
+windstation 	nowind
+dr_plots &Tbl{
+3
+}

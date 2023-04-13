@@ -1,0 +1,27 @@
+stations &Arr {
+ILS &Arr{
+threshold 99
+useinav 1
+}
+IVS &Arr{
+threshold 99
+useinav 1
+}
+IVE &Arr{
+threshold 99
+useinav 1
+}
+INE &Arr{
+threshold 99
+useinav 1
+}
+ILI &Arr{
+threshold 99
+useinav 1
+}
+}
+drplots &Tbl {
+
+3
+}
+windstation ilwind

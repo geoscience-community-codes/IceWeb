@@ -1,0 +1,18 @@
+stations &Arr{
+GSMY_SHZ &Arr{
+threshold	1.3
+use		1
+}
+GSTR_SHZ &Arr{
+threshold	3.4
+use		1
+}
+GSTD_SHZ &Arr{
+threshold	0.8
+use		1
+}
+}
+windstation	nowind
+dr_plots &Tbl{
+3
+}

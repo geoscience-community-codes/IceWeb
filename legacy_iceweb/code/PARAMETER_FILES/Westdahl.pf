@@ -1,0 +1,36 @@
+stations &Arr{
+WESS &Arr{
+chan            EHZ
+threshold	99
+use		0
+}
+WESE &Arr{
+chan            EHZ
+threshold	99
+use		0
+}
+WESN &Arr{
+chan            EHZ
+threshold	3.9
+use		1
+}
+WFAR &Arr{
+chan            EHZ
+threshold	5.1
+use		1
+}
+WPOG &Arr{
+chan            EHZ
+threshold	5.8
+use		1
+}
+WTUG &Arr{
+chan            EHZ
+threshold	5.8
+use		1
+}
+}
+windstation	nowind
+dr_plots &Tbl{
+3
+}

@@ -1,0 +1,22 @@
+stations &Arr{
+MSOM_EHZ &Arr{
+threshold	1.0
+use		1
+}
+MSW_EHZ &Arr{
+threshold	4.0
+use		1
+}
+MGOD_EHZ &Arr{
+threshold	3.1
+use		1
+}
+MNAT_EHZ &Arr{
+threshold	2.2
+use		1
+}
+}
+windstation	dhwind
+dr_plots &Tbl{
+3
+}

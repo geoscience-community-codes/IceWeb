@@ -1,0 +1,18 @@
+stations &Arr{
+KCG_EHZ &Arr{
+threshold	36.3
+use		1
+}
+KVT_EHZ &Arr{
+threshold	0.4
+use		1
+}
+KBM_EHZ &Arr{
+threshold	99
+use		0
+}
+}
+windstation	kswind
+dr_plots &Tbl{
+3
+}

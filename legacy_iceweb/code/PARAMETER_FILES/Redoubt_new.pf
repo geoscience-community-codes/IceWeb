@@ -1,0 +1,22 @@
+stations &Arr{
+DFR_EHZ &Arr{
+threshold	4.6
+use		1
+}
+RDN_EHZ &Arr{
+threshold	2.6
+use		1
+}
+RED_EHZ &Arr{
+threshold	4.0
+use		1
+}
+NCT_EHZ &Arr{
+threshold	4.0
+use		1
+}
+}
+windstation	rewind
+dr_plots &Tbl{
+3
+}

@@ -1,0 +1,26 @@
+stations &Arr{
+WANC &Arr{
+chan            SHZ
+threshold	5.
+use		1
+}
+WACK &Arr{
+chan            SHZ
+threshold	10.
+use		1
+}
+WASW &Arr{
+chan            SHZ
+threshold	7.
+use		1
+}
+WAZA &Arr{
+chan            SHZ
+threshold	5.
+use		1
+}
+}
+windstation	gkwind
+dr_plots &Tbl{
+3
+}

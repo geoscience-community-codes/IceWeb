@@ -1,0 +1,15 @@
+function plot_rms_counts(station,dnum);
+MS=['/home/glenn/ICEWEB/MeanSquare'];
+[yr,mn,dy]=yyyymmdd(dnum);
+dirname=[MS,'/',yr,mn,dy];
+fname=[dirname,'/',station,'.ext'];
+eval(['load ',fname]);
+eval(['data = ',station,';']);
+t=data(:,2);
+y=data(:,1);
+counts=sqrt(y);
+semilogy(t,counts);
+DateTickLabel('x');
+title(station);
+xlabel(['UT on ',datestr(floor(dnum),1)]);
+ylabel('rms counts');

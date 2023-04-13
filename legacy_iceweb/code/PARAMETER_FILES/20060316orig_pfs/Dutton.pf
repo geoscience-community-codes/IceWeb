@@ -1,0 +1,31 @@
+stations &Arr{
+DTN &Arr{
+chan            SHZ
+threshold	22.4
+use		1
+}
+DT1 &Arr{
+chan            SHZ
+threshold	1.0
+use		1
+}
+DRR3 &Arr{
+chan            SHZ
+threshold	1.8
+use		1
+}
+DOL &Arr{
+chan            SHZ
+threshold	2.4
+use		1
+}
+BLDY &Arr{
+chan            SHZ
+threshold	2.4
+use		1
+}
+}
+windstation	cbwind
+dr_plots &Tbl{
+3
+}

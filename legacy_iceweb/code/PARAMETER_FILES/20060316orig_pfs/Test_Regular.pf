@@ -1,0 +1,31 @@
+stations &Arr{
+ADAG &Arr{
+chan		SHZ
+threshold 	99
+use 		0
+}
+KINC &Arr{
+chan		SHZ
+threshold 	99
+use 		0
+}
+TEST &Arr{
+chan		SHZ
+threshold 	99
+use 		0
+}
+GSCK &Arr{
+chan		SHZ
+threshold 	99
+use 		0
+}
+ETKA &Arr{
+chan		SHZ
+threshold 	99
+use 		0
+}
+}
+windstation	nowind
+dr_plots &Tbl{
+3
+}

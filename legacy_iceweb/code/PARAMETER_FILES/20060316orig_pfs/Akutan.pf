@@ -1,0 +1,31 @@
+stations &Arr{
+AKV &Arr{
+chan            SHZ
+threshold	1.7
+use		1
+}
+ZRO &Arr{
+chan            SHZ
+threshold	1.5
+use		1
+}
+HSB &Arr{
+chan            SHZ
+threshold	2.4
+use		1
+}
+AHB &Arr{
+chan            SHZ
+threshold	3.2
+use		1
+}
+LVA &Arr{
+chan            SHZ
+threshold	1.7
+use		1
+}
+}
+windstation	dhwind
+dr_plots &Tbl{
+3
+}

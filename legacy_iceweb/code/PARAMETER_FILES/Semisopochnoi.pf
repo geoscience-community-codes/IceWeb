@@ -1,0 +1,36 @@
+stations &Arr{
+CEAP &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+CEPE &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+CERA &Arr{
+chan            SHZ
+threshold	10
+use		1
+}
+CERB &Arr{
+chan            SHZ
+threshold	30
+use		1
+}
+CESW &Arr{
+chan            SHZ
+threshold	30
+use		1
+}
+CETU &Arr{
+chan            SHZ
+threshold	30
+use		1
+}
+}
+windstation	kswind
+dr_plots &Tbl{
+3
+}

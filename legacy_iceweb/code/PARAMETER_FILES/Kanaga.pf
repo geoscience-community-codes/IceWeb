@@ -1,0 +1,31 @@
+stations &Arr{
+KINC &Arr{
+chan            EHZ
+threshold 	+2
+use 		1
+}
+KIKV &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+KIRH &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+KIWB &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+KIMD &Arr{
+chan            EHZ
+threshold 	+3
+use 		0
+}
+}
+windstation 	dhwind
+dr_plots &Tbl{
+3
+}

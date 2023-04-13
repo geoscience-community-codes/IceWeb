@@ -1,0 +1,36 @@
+stations &Arr{
+ANPB &Arr{
+chan            SHZ
+threshold 	10.
+use 		1
+}
+ANPK &Arr{
+chan            SHZ
+threshold 	20
+use 		1
+}
+ANNW &Arr{
+chan            SHZ
+threshold 	20
+use 		1
+}
+ANNE &Arr{
+chan            SHZ
+threshold 	20
+use 		1
+}
+ANON &Arr{
+chan            SHZ
+threshold 	20
+use 		1
+}
+AZAC &Arr{
+chan            SHZ
+threshold 	20
+use 		1
+}
+}
+windstation 	nowind
+dr_plots &Tbl{
+3
+}

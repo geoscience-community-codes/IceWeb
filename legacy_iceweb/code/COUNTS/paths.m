@@ -1,0 +1,13 @@
+function [ICEWEB,DRHOME,RESPONSE,TEMP,TESTING,WIND,SSAM,DISTANCE,INTERNAL,MEAN_SQUARE]=paths();
+HOME = '/home/glenn/ICEWEB';
+ICEWEB = '/home/glenn/ICEWEB/SYSTEM_1';
+INTERNAL = '/usr/local/Mosaic/AVO/internal';
+DRHOME = [HOME,'/DR'];
+RESPONSE = [HOME,'/RESPONSE'];
+TEMP = '/tmp';
+TESTING = [ICEWEB,'/TESTING'];
+WIND = [HOME,'/WIND'];
+SSAM = [HOME,'/SSAM'];
+DISTANCE = [ICEWEB,'/DISTANCES'];
+MEAN_SQUARE = [HOME,'/MeanSquare'];
+path(path,ICEWEB);

@@ -1,0 +1,26 @@
+function [errorflag]=checkdate(day,mon,yr);
+errorflag = 0;
+switch mon
+	case 1, ndays = 31;
+	case 2, ndays = 28;
+	case 3, ndays = 31;
+	case 4, ndays = 30;
+	case 5, ndays = 31;
+	case 6, ndays = 30;
+	case 7, ndays = 31;
+	case 8, ndays = 31;
+	case 9, ndays = 30;
+	case 10, ndays = 31;
+	case 11, ndays = 30;
+	case 12, ndays = 31;
+	otherwise, errorflag = 1;
+end
+if (mod(yr,4) == 0) & (yr~=2000) & (mon == 2)
+	ndays = 29;
+end
+if (day<1) | (day>ndays)
+	errorflag = 1;
+end
+if (yr<1996) | (yr>year(now))
+	errorflag = 1;
+end

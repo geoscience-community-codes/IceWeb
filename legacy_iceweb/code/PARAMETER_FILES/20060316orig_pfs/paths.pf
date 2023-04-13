@@ -1,0 +1,22 @@
+# PATHS FOR DIFFERENT ICEWEB COMPONENTS
+
+# ICEWEB HOME
+ICEWEB		/home/iceweb
+
+# plots
+DR_GIFS		/usr/local/Mosaic/AVO/internal/ICEWEB/DR_PLOTS
+SPEC_GIFS	/usr/local/Mosaic/AVO/internal/ICEWEB/SPECTROGRAMS
+
+# Common Gateway Interface Directory
+CGI		/usr/local/apache/cgi-bin/iceweb
+
+# INTERNAL PAGE
+INTERNAL	/usr/local/Mosaic/AVO/internal
+
+# Http paths
+CGI_HTTP	http://kiska.giseis.alaska.edu/cgi-bin/iceweb
+INTERNAL_HTTP	http://kiska.giseis.alaska.edu/internal
+SPEC_HTTP	http://kiska.giseis.alaska.edu/internal/ICEWEB/SPECTROGRAMS
+DR_HTTP		http://kiska.giseis.alaska.edu/internal/ICEWEB/DR_PLOTS
+COUNTS_HTTP	http://kiska.giseis.alaska.edu/internal/COUNTS
+ONLINE_DOCS	http://kiska.giseis.alaska.edu/internal/ICEWEB/ONLINE_DOCUMENTATION
